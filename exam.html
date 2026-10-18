@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ข้อสอบข้อเขียนตัวอย่าง</title>
+<style>
+:root{--bg:#ffffff;--text:#1d1f23;--muted:#5d636b;--border:#d9d7cf;--soft:#f3f2ee;--accent:#2f6fd0;--surface2:#f3f2ee;--accent-soft:#e3ecfa;--orange:#c96a12;--orange-soft:#fbeedd;--good:#1f8a4c;--good-soft:#e2f3e8;--bad:#c23b3b;--bad-soft:#f8e3e3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.8 -apple-system,BlinkMacSystemFont,"Sukhumvit Set","Noto Sans Thai","Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px 80px}
+h1{font-size:28px;line-height:1.3;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 28px}
+nav{border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin-bottom:36px}
+nav b{display:block;margin-bottom:4px}
+nav a{color:var(--accent);text-decoration:none}
+nav ol{margin:0;padding-left:22px}
+h2{font-size:24px;line-height:1.35;margin:56px 0 4px;padding-top:12px;border-top:2px solid var(--text)}
+h2 small{display:block;font-size:15px;font-weight:400;color:var(--muted)}
+h3{font-size:19px;line-height:1.4;margin:34px 0 6px}
+p{margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:15.5px;margin:14px 0}
+th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--soft)}
+.tw{overflow-x:auto}
+.tw table{min-width:520px}
+.note{background:var(--soft);border-radius:8px;padding:10px 14px;margin:14px 0}
+code{background:var(--soft);border-radius:4px;padding:1px 5px;font-size:15px}
+pre{background:var(--soft);border-radius:8px;padding:12px 14px;margin:14px 0;overflow-x:auto;font-size:14px;line-height:1.55}
+pre code{background:none;padding:0;font-size:inherit}
+figure{margin:18px 0;overflow-x:auto}
+figure svg{display:block;width:100%;min-width:600px;height:auto}
+figcaption{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.6}
+svg text{font-family:inherit;fill:var(--text);font-size:15px}
+svg .m{fill:var(--muted);font-size:13px}
+svg .b{font-weight:700}
+svg .box{fill:var(--surface2);stroke:var(--border);stroke-width:1.5}
+svg .ba{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+svg .bo{fill:var(--orange-soft);stroke:var(--orange);stroke-width:1.5}
+svg .bg{fill:var(--good-soft);stroke:var(--good);stroke-width:1.5}
+svg .bb{fill:var(--bad-soft);stroke:var(--bad);stroke-width:1.5;stroke-dasharray:6 4}
+svg .frame{fill:none;stroke:var(--border);stroke-width:1.5;stroke-dasharray:5 4}
+svg .ln{stroke:var(--muted);stroke-width:2;fill:none}
+svg .la{stroke:var(--accent);stroke-width:2;fill:none}
+svg .lg{stroke:var(--good);stroke-width:2.5;fill:none}
+svg .lr{stroke:var(--bad);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+svg .ah{fill:var(--muted)} svg .aha{fill:var(--accent)} svg .ahg{fill:var(--good)} svg .ahr{fill:var(--bad)}
+svg .at{fill:var(--accent);font-weight:700}
+svg .gt{fill:var(--good);font-weight:700}
+svg .rt{fill:var(--bad);font-weight:700}
+.top{font-size:15px;margin:0 0 18px}
+.top a,.pager a{color:var(--accent);text-decoration:none}
+.pager{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--border);margin-top:48px;padding-top:16px;font-size:15px}
+.q{margin:26px 0 8px}
+.sub-q{margin:6px 0 10px;padding-left:24px}
+.sub-q li{margin:4px 0}
+details{border:1px solid var(--border);border-radius:8px;padding:2px 16px;margin:10px 0 24px}
+details summary{cursor:pointer;color:var(--accent);font-weight:600;padding:8px 0}
+details[open] summary{border-bottom:1px solid var(--border);margin-bottom:8px}
+.mark{background:var(--good-soft);border-radius:8px;padding:8px 14px;margin:14px 0 12px;font-size:15.5px}
+.case{border:2px solid var(--accent);border-radius:10px;padding:8px 18px;margin:16px 0}
+.case ol{padding-left:22px}
+.tools button{font:inherit;font-size:15px;border:1px solid var(--accent);background:var(--bg);color:var(--accent);border-radius:6px;padding:4px 12px;margin:4px 6px 0 0;cursor:pointer}
+.tip{color:var(--muted);font-size:15.5px}
+.frame-list{padding-left:24px}
+.frame-list li{margin:4px 0}
+.why{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:8px;padding:6px 14px;margin:14px 0}
+.why p{margin:8px 0}
+.why-h{font-weight:700;color:var(--accent)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahg" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahr" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="aha" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs></svg>
+<main>
+<p class="top"><a href="summary.html">กลับไปหน้าสารบัญ</a></p>
+
+<h1>ช่วงที่ 6 ข้อสอบข้อเขียนตัวอย่าง</h1>
+<p class="sub">ข้อสอบฝึกทำ 4 ข้อ ตามแนวข้อสอบที่ได้รับมา สอบในห้องแบบปิดตำรา โจทย์ชุดนี้แต่งขึ้นเอง ไม่ใช่ข้อสอบจริงของวิชา</p>
+
+<div class="note">
+<p><b>ข้อสอบชุดนี้หน้าตาแบบไหน</b></p>
+<p>ข้อ 1 และ 2 เป็นคำถามพื้นฐานสั้น ๆ ข้อละสามข้อย่อย ตอบจากความเข้าใจได้ ไม่ต้องจำรายละเอียดยิบย่อย ส่วนข้อ 3 และ 4 รวมกันเป็นคำถามใหญ่ข้อเดียว ให้ออกแบบระบบในโปรเจกต์ของเราแบบ 2 tier (แบ่งระบบเป็นสองชั้น) ตามที่อาจารย์กำหนด ข้อนี้ไม่มีข้อย่อยช่วยนำทาง เราต้องวางโครงคำตอบเอง จึงเตรียมโครงคำตอบที่ใช้ได้ทุกครั้งไว้ให้ด้วย</p>
+<p>วิธีใช้คือเขียนตอบลงกระดาษก่อน แล้วค่อยกด "ดูแนวคำตอบ" ข้างในมีสองส่วน ส่วนแรกคือแนวคำตอบ ซึ่งยาวพอ ๆ กับที่ควรเขียนจริงในห้องสอบ ส่วนที่สองคือกล่องสีฟ้า "ทำไมตอบแบบนี้" ที่อธิบายแนวคิดและเหตุผลเบื้องหลัง กล่องสีฟ้าไม่ต้องเขียนลงกระดาษคำตอบ แต่ต้องอ่านให้เข้าใจ เพราะถ้าเข้าใจเหตุผลแล้ว ต่อให้โจทย์เปลี่ยนไปก็ยังตอบได้ ส่วนกล่องสีเขียวบอกว่าผู้ตรวจน่าจะดูอะไร</p>
+<p class="tools"><button type="button" id="openAll">เปิดแนวคำตอบทั้งหมด</button> <button type="button" id="closeAll">ปิดทั้งหมด</button></p>
+</div>
+
+<div class="mark">
+<p><b>สิ่งที่ต้องจำเข้าห้องสอบมีไม่มาก</b></p>
+<p>เรื่องแรกคือสูตรจำนวน IP ในหนึ่งวง คือ 2<sup>32 − ตัวเลขหลังขีด</sup> ถ้าเป็น AWS ให้ลบออกอีก 5 เรื่องที่สองคือเลข port ที่ใช้บ่อย ได้แก่ HTTPS (เว็บแบบเข้ารหัส) 443, HTTP 80, SSH (การเข้าไปสั่งงานเครื่องจากระยะไกล) 22 และ port ในโปรเจกต์ คือ API 3000 กับ PostgreSQL 5432 เรื่องที่สามคือ subnet (วงเครือข่ายย่อย) จะเป็น public ก็ต่อเมื่อมี route (เส้นทาง) ไป Internet Gateway ซึ่งเป็นประตูออกอินเทอร์เน็ต เรื่องสุดท้ายคือภาพ architecture (โครงสร้างระบบ) ของโปรเจกต์หนึ่งภาพที่ต้องวาดเองได้ (อยู่ในแนวคำตอบข้อ 3–4) ที่เหลือทั้งหมดอธิบายได้ด้วยเหตุผล ไม่ต้องท่อง</p>
+</div>
+
+<h2 id="q1">ข้อ 1 พื้นฐาน Cloud</h2>
+
+<p class="q"><b>1.1</b> ลักษณะสำคัญของ Cloud ตามนิยามของ NIST มี 5 ข้อ ได้แก่อะไรบ้าง จงอธิบายสั้น ๆ พร้อมตัวอย่างข้อละหนึ่งตัวอย่าง</p>
+<details><summary>ดูแนวคำตอบ</summary>
+<ol class="sub-q">
+<li><b>On-demand self-service</b> ขอใช้ทรัพยากรได้เองทันทีโดยไม่ต้องรอใครอนุมัติ เช่น กดสร้าง VM (เครื่องเสมือน) เองจากหน้าเว็บ</li>
+<li><b>Broad network access</b> เข้าถึงผ่านเครือข่ายได้จากหลายอุปกรณ์ เช่น จัดการเครื่องจากโน้ตบุ๊กหรือมือถือก็ได้</li>
+<li><b>Resource pooling</b> ทรัพยากรเป็นกองกลางที่ลูกค้าหลายรายใช้ร่วมกัน เช่น VM ของหลายบริษัทอยู่บน server จริงเครื่องเดียวกัน</li>
+<li><b>Rapid elasticity</b> เพิ่มหรือลดทรัพยากรได้เร็วตามงาน เช่น ช่วงคนเข้าเยอะเพิ่มเครื่อง หมดช่วงก็ลด</li>
+<li><b>Measured service</b> วัดการใช้และคิดเงินตามจริง เช่น คิดค่า VM ตามชั่วโมงที่เปิด</li>
+</ol>
+<p class="tip">กับดัก: อย่าสลับ resource pooling (ใช้ร่วมกันหลายราย) กับ rapid elasticity (ขยายหดตามงาน)</p>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>NIST (หน่วยงานมาตรฐานของสหรัฐฯ) ใช้ห้าข้อนี้เป็นเกณฑ์ตัดสินว่าอะไรนับเป็น Cloud ถ้าขาดข้อใดข้อหนึ่งก็ยังไม่ใช่ Cloud เช่น ถ้าต้องโทรให้เจ้าหน้าที่เปิดเครื่องให้ ก็เป็นแค่การเช่า server ธรรมดา ข้อสอบจึงมักให้อธิบายห้าข้อนี้ หรือเล่าสถานการณ์มาแล้วให้บอกว่าตรงกับข้อไหน</p><p>วิธีจำแบบไม่ต้องท่องคือไล่ตามการใช้งานจริงหนึ่งรอบ เราสั่งสร้างเครื่องเอง (self-service) ผ่านเน็ตจากอุปกรณ์ไหนก็ได้ (network access) เครื่องนั้นแบ่งมาจากเครื่องใหญ่ที่ใช้ร่วมกับคนอื่น (pooling) พอคนใช้เยอะก็ขยายได้ (elasticity) แล้วเราก็จ่ายเงินตามที่ใช้จริง (measured)</p><p>ตัวอย่างที่ยกต้องเห็นลักษณะของข้อนั้นชัด ๆ จุดที่ต้องระวังคือ pooling กับ elasticity ทั้งคู่พูดถึงทรัพยากรเหมือนกัน แต่ pooling ตอบคำถามว่า "ใช้ร่วมกับใคร" ส่วน elasticity ตอบคำถามว่า "ขยายหดได้ไหม" สองข้อนี้เกิดขึ้นได้เพราะ virtualization คือเทคนิคที่แบ่งเครื่องจริงหนึ่งเครื่องออกเป็นหลาย VM</p></div>
+</details>
+
+<p class="q"><b>1.2</b> IaaS, PaaS และ SaaS ต่างกันอย่างไร จงยกตัวอย่างบริการแต่ละแบบ</p>
+<details><summary>ดูแนวคำตอบ</summary>
+<p>ทั้งสามแบบต่างกันที่ผู้ให้บริการดูแลให้ถึงชั้นไหน</p>
+<div class="tw"><table>
+<tr><th>แบบ</th><th>ผู้ให้บริการดูแล</th><th>เราดูแล</th><th>ตัวอย่าง</th></tr>
+<tr><td>IaaS (Infrastructure as a Service)</td><td>ฮาร์ดแวร์ เครือข่าย ดิสก์</td><td>ตั้งแต่ OS ขึ้นไป รวมทั้งติดตั้งซอฟต์แวร์และลง patch</td><td>เช่า VM (EC2) แบบในโปรเจกต์ที่ติดตั้ง Nginx, Node.js, PostgreSQL เอง</td></tr>
+<tr><td>PaaS (Platform as a Service)</td><td>เครื่อง + OS + runtime</td><td>โค้ดและข้อมูล</td><td>อัปโหลดโค้ดแล้วแพลตฟอร์มรันให้</td></tr>
+<tr><td>SaaS (Software as a Service)</td><td>ทุกชั้นรวมตัวแอป</td><td>แค่ใช้งาน</td><td>Gmail</td></tr>
+</table></div>
+<p>เปรียบง่าย ๆ ว่า IaaS คือเช่าที่ดินเปล่าแล้วสร้างบ้านเอง PaaS คือเช่าห้องที่ต่อน้ำไฟไว้แล้ว SaaS คือเข้าพักโรงแรม</p>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>หัวใจของข้อนี้คือคำถามเดียวว่า "ผู้ให้บริการดูแลให้ถึงชั้นไหน" แอปหนึ่งตัวต้องอาศัยของหลายชั้นซ้อนกัน ชั้นล่างสุดคือฮาร์ดแวร์ ถัดขึ้นมาคือ OS (ระบบปฏิบัติการ) แล้วเป็น runtime (ตัวที่ใช้รันโค้ด เช่น Node.js) บนสุดคือตัวแอปและข้อมูล IaaS, PaaS และ SaaS ต่างกันแค่ว่าผู้ให้บริการรับดูแลไปถึงชั้นไหน คำตอบจึงควรเริ่มจากเรื่องชั้น ไม่ใช่เริ่มจากรายชื่อบริการ ถ้าเข้าใจเรื่องชั้นแล้ว เจอบริการที่ไม่เคยเห็นก็จัดประเภทเองได้ แค่ถามว่าใครเป็นคนติดตั้งซอฟต์แวร์และลง patch (อัปเดตแก้บั๊กและช่องโหว่)</p><p>ตัวอย่างของ IaaS ใช้โปรเจกต์ของเราเอง เพราะทีมติดตั้ง Nginx (โปรแกรม web server), Node.js และ PostgreSQL (ฐานข้อมูล) เอง และต้องอัปเกรด Node.js เอง แปลว่าเราดูแลตั้งแต่ OS ขึ้นไป การยกของที่เราทำเองเป็นตัวอย่าง ทำให้อธิบายได้มั่นใจกว่ายกตัวอย่างที่ท่องมา</p><p>อีกเรื่องที่ช่วยให้เข้าใจคือ แต่ละแบบมีได้มีเสีย ยิ่งผู้ให้บริการดูแลให้มาก เราก็ยิ่งสบาย แต่ปรับแต่งเองได้น้อยลง IaaS ปรับได้ทุกอย่างแต่งานเยอะ ส่วน SaaS ใช้ได้ทันทีแต่ต้องใช้ตามที่เขาให้มา</p></div>
+</details>
+
+<p class="q"><b>1.3</b> Region กับ Availability Zone (AZ) ต่างกันอย่างไร และทำไมระบบที่ไม่อยากให้ล่มควรวางเครื่องไว้มากกว่าหนึ่ง AZ</p>
+<details><summary>ดูแนวคำตอบ</summary>
+<p><b>Region</b> คือพื้นที่ทางภูมิศาสตร์ เช่น Singapore ในหนึ่ง Region มีหลาย <b>AZ</b> แต่ละ AZ คือ data center ที่มีไฟฟ้า ระบบทำความเย็น และเครือข่ายแยกกัน AZ อยู่ห่างกันพอที่ภัยจุดหนึ่งจะไม่ลามไปถึงอีกจุด แต่ใกล้พอที่จะส่งข้อมูลหากันได้เร็ว</p>
+<p>ถ้าวางทุกเครื่องไว้ AZ เดียว เมื่อ AZ นั้นไฟดับหรือเน็ตขาด ระบบล่มทั้งหมด ถ้ามีเครื่องอยู่อีก AZ ด้วย ระบบยังทำงานต่อได้</p>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>หัวใจของ AZ คือแยกของที่พังพร้อมกันได้ออกจากกัน เครื่องที่ใช้ไฟ สายเน็ต หรือระบบทำความเย็นชุดเดียวกัน จะพังพร้อมกันเมื่อของชุดนั้นมีปัญหา AZ แต่ละแห่งมีของพวกนี้เป็นของตัวเอง เครื่องสองเครื่องที่อยู่คนละ AZ จึงไม่พังเพราะเหตุเดียวกัน ส่วน Region แยกกันด้วยระยะทาง เราเลือก Region ให้ใกล้ผู้ใช้ และให้ตรงกับกฎหมายว่าข้อมูลต้องเก็บไว้ที่ไหน</p><p>ในคำตอบต้องเขียนด้วยว่า AZ อยู่ "ใกล้พอที่จะส่งข้อมูลหากันได้เร็ว" เพราะข้อนี้ทำให้ใช้หลาย AZ ได้จริง ฐานข้อมูลสำรองที่อยู่อีก AZ จะรับสำเนาข้อมูลได้ทัน ถ้าอยู่ไกลกันมาก สำเนาจะตามไม่ทัน ส่วนจำนวนขั้นต่ำคือสอง AZ เพราะเป็นจำนวนน้อยที่สุดที่เสียไปหนึ่งแล้วยังเหลือ</p></div>
+</details>
+
+<h2 id="q2">ข้อ 2 Cloud Networking</h2>
+
+<p class="q"><b>2.1</b> Public subnet กับ private subnet ต่างกันอย่างไร และควรวางเครื่องแบบไหนไว้ใน subnet แต่ละแบบ</p>
+<details><summary>ดูแนวคำตอบ</summary>
+<p>ต่างกันที่ <b>route table</b> public subnet มี route <code>0.0.0.0/0</code> ไปที่ Internet Gateway คนข้างนอกจึงเข้าถึงเครื่องที่มี public IP ได้ ส่วน private subnet ไม่มี route ไป Internet Gateway คนข้างนอกเข้าไม่ถึง</p>
+<p>public subnet ใช้วางของที่ต้องหันหน้าออกอินเทอร์เน็ต เช่น web server, load balancer, bastion และ NAT Gateway ส่วน private subnet ใช้วางของสำคัญ เช่น app server และฐานข้อมูล เหตุผลคือของที่สำคัญที่สุดควรอยู่ลึกที่สุด ผู้โจมตีต้องผ่านหลายด่านกว่าจะถึงข้อมูล</p>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>หัวใจของข้อนี้คือ route table เป็นตัวตัดสินว่า subnet เป็น public หรือ private subnet เป็นแค่ช่วงของ IP ตัว subnet เองไม่รู้ว่าตัวเองเป็นแบบไหน คนข้างนอกจะคุยกับเครื่องข้างในได้ก็ต่อเมื่อ packet (ก้อนข้อมูล) มีทางวิ่งไปและกลับ ทางนั้นเขียนไว้ใน route table ซึ่งเป็นตารางที่บอกว่าข้อมูลที่จะไปปลายทางไหนต้องออกทางไหน ถ้าไม่มีทางไป Internet Gateway ต่อให้เครื่องมี public IP (ที่อยู่ที่คนบนอินเทอร์เน็ตมองเห็น) ก็รับส่งข้อมูลกับอินเทอร์เน็ตไม่ได้ ประโยคแรกของคำตอบจึงเป็น "ต่างกันที่ route table"</p><p>ส่วนจะวางอะไรไว้ที่ไหน ใช้หลักเปิดให้น้อยที่สุด ของที่คนข้างนอกต้องเข้าถึงจริง ๆ เท่านั้นที่อยู่ใน public subnet เช่น load balancer (ตัวรับคำขอแล้วแจกงานให้หลายเครื่อง) bastion (เครื่องทางผ่านที่ผู้ดูแลต้องเข้าก่อนจะเข้าเครื่องข้างใน) และ NAT Gateway (ตัวช่วยให้เครื่องข้างในออกเน็ตได้ ดูข้อ 2.3) ที่เหลือ เช่น app server (เครื่องที่รันโค้ดของแอป) และฐานข้อมูล ให้ซ่อนไว้ข้างใน ถ้าผู้โจมตีเจาะเครื่องหน้าบ้านได้ ก็ยังต้องผ่านอีกด่านกว่าจะถึงข้อมูล หลักนี้เรียกว่าการป้องกันหลายชั้น (defense in depth)</p></div>
+</details>
+
+<p class="q"><b>2.2</b> VPC ใช้ช่วง <code>10.0.0.0/16</code> และแบ่ง subnet ขนาด <code>/24</code> จงตอบว่า (ก) VPC มี IP ทั้งหมดกี่ตัว (ข) subnet <code>/24</code> หนึ่งวงมี IP ที่เครื่องบน AWS ใช้ได้กี่ตัว (ค) ยกตัวอย่าง CIDR ของ subnet สองวงที่ไม่ทับกัน</p>
+<details><summary>ดูแนวคำตอบ</summary>
+<p>(ก) 2<sup>32−16</sup> = 2<sup>16</sup> = <b>65,536</b> ตัว</p>
+<p>(ข) 2<sup>32−24</sup> = 256 ตัว AWS จองไว้ 5 ตัวต่อ subnet จึงใช้ได้ 256 − 5 = <b>251</b> ตัว</p>
+<p>(ค) <code>10.0.1.0/24</code> (10.0.1.0 ถึง 10.0.1.255) กับ <code>10.0.2.0/24</code> (10.0.2.0 ถึง 10.0.2.255)</p>
+<p class="tip">ข้อคำนวณให้เขียนสูตรให้เห็นทุกครั้ง และอย่าลืมลบ 5 ของ AWS</p>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>VPC (Virtual Private Cloud) คือเครือข่ายส่วนตัวของเราบน Cloud ช่วง IP ของ VPC และ subnet เขียนแบบ CIDR เช่น <code>10.0.0.0/16</code> หัวใจของ CIDR คือ<b>ขนาด</b> เลขหลังขีดล็อกว่ากลุ่มนี้จุที่อยู่ได้กี่ตัว ไม่ได้ล็อกว่าใครคุยกับใครได้ ตัวอย่างการแบ่ง subnet ให้กลุ่มที่มีขนาดไม่เท่ากันอยู่ใน <a href="summary2.html#s2">ช่วง 2 ข้อ 2</a></p><p>IPv4 หนึ่งตัวยาว 32 บิต เลขหลังขีด เช่น /16 บอกว่าล็อกบิตทางซ้ายไว้กี่บิต บิตที่เหลือเปลี่ยนได้อิสระ บิตที่เปลี่ยนได้เพิ่มขึ้นหนึ่งบิต จำนวนที่อยู่ก็เพิ่มเป็นสองเท่า จำนวน IP จึงเท่ากับ 2 ยกกำลังจำนวนบิตที่เหลือ คือ 2<sup>32 − n</sup> เข้าใจตรงนี้แล้วก็ไม่ต้องท่องตารางขนาด subnet</p><p>ที่ต้องลบ 5 เพราะ AWS เก็บที่อยู่ 5 ตัวของทุก subnet ไว้ใช้เอง ได้แก่ ที่อยู่ของวงเครือข่าย, router, DNS, ตัวที่สำรองไว้ใช้ในอนาคต และ broadcast (ที่อยู่สำหรับส่งถึงทุกเครื่องในวง) ส่วนข้อ (ค) ถามหา subnet ที่ไม่ทับกัน เพราะถ้าสองวงทับกัน router จะไม่รู้ว่าที่อยู่นั้นเป็นของวงไหน สำหรับ /24 วิธีที่ง่ายที่สุดคือเปลี่ยนเลขชุดที่สาม</p></div>
+</details>
+
+<p class="q"><b>2.3</b> Internet Gateway กับ NAT Gateway ต่างกันอย่างไร ทำไมฐานข้อมูลใน private subnet จึงโหลดอัปเดตจากอินเทอร์เน็ตได้ แต่คนข้างนอกเข้ามาไม่ได้</p>
+<details><summary>ดูแนวคำตอบ</summary>
+<p><b>Internet Gateway (IGW)</b> เป็นประตูของ VPC ที่ให้คุยกับอินเทอร์เน็ตได้ทั้งขาเข้าและขาออก ใช้กับ public subnet ส่วน <b>NAT Gateway</b> ให้เครื่องใน private subnet ออกอินเทอร์เน็ตได้อย่างเดียว ตัว NAT วางไว้ใน public subnet และ route table ของ private subnet ชี้ <code>0.0.0.0/0</code> ไปที่ NAT</p>
+<p>NAT จดไว้ว่าการเชื่อมต่อขาออกแต่ละเส้นเป็นของเครื่องไหน คำตอบที่กลับมาจึงส่งต่อให้ถูกเครื่อง แต่ถ้าคนข้างนอกพยายามเชื่อมต่อเข้ามาก่อน NAT จะไม่มีรายการนั้นในตาราง จึงทิ้งไป สรุปคือ<b>เริ่มจากข้างในได้ เริ่มจากข้างนอกไม่ได้</b></p>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>หัวใจของข้อนี้คือ ใครเป็นคนเริ่มการเชื่อมต่อ เรื่องนี้ก็คือ NAT ของ router ที่บ้านในช่วงที่ 1 แค่ย้ายมาอยู่บน Cloud IGW แปลงที่อยู่แบบหนึ่งต่อหนึ่ง คือเครื่องหนึ่งเครื่องคู่กับ public IP หนึ่งตัว ใครรู้ IP นั้นก็ส่งเข้ามาหาได้ จึงเป็นทางสองทิศ ส่วน NAT ให้หลายเครื่องใช้ IP เดียวกัน NAT รู้ว่าต้องส่งคำตอบให้เครื่องไหนจากตารางที่จดไว้ตอนขาออก ถ้าข้างนอกส่งเข้ามาเองโดยไม่มีใครข้างในเริ่มก่อน ก็จะไม่มีรายการในตารางให้ส่งต่อ</p><p>ฐานข้อมูลต้องการแบบนี้พอดี คือต้องออกไปโหลด patch ได้ แต่ไม่ควรมีใครข้างนอกเริ่มคุยเข้ามาได้ ส่วนที่ NAT ต้องวางใน public subnet ก็เพราะตัว NAT เองต้องส่งข้อมูลต่อออกไปทาง IGW และมีแค่ public subnet ที่มี route ไปถึง IGW</p></div>
+</details>
+
+<h2 id="q34">ข้อ 3 และ 4 ออกแบบระบบของโปรเจกต์ (2 tier)</h2>
+<div class="case">
+<p>จงออกแบบระบบที่นักศึกษาทำในโปรเจกต์ให้ทำงานบน Cloud ด้วยสถาปัตยกรรมแบบ 2 tier โดยวาดแผนภาพ architecture กำหนดเครือข่าย (VPC และ subnet) กำหนด instance และการตั้งค่าความปลอดภัย พร้อมอธิบายเหตุผลของการออกแบบ และบอกว่าถ้าระบบมีผู้ใช้มากขึ้นและต้องไม่ล่ม จะปรับแบบอย่างไร</p>
+</div>
+<p>โจทย์แบบนี้ไม่ได้บอกว่าต้องตอบอะไรบ้าง คนที่เสียคะแนนมักวาดแค่ภาพ หรือเล่าฟีเจอร์ของแอปยาวเกินไป ให้ตอบตามโครงหกส่วนข้างล่างทุกครั้ง แต่ละส่วนเขียนสั้น ๆ ได้ แต่ต้องมีครบทั้งหกส่วน</p>
+<ol class="frame-list">
+<li><b>ระบบคืออะไร</b> สองสามบรรทัด และบอกว่าสองชั้นคืออะไร</li>
+<li><b>แผนภาพ</b></li>
+<li><b>เครือข่าย</b> VPC, subnet และ route</li>
+<li><b>Instance</b> (เครื่อง VM บน Cloud) แต่ละเครื่องอยู่ไหน ทำอะไร</li>
+<li><b>ความปลอดภัย</b> กฎของ Security Group (SG ด่านที่กรองว่าใครเข้าเครื่องได้ทาง port ไหน)</li>
+<li><b>เหตุผลและการขยาย</b> ทำไมออกแบบแบบนี้ และถ้าต้องไม่ล่มจะปรับอะไร</li>
+</ol>
+
+<details><summary>ดูแนวคำตอบ</summary>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>โครงหกส่วนนี้ได้มาจากการหั่นโจทย์ออกเป็นชิ้น ๆ โจทย์ขอ "2 tier" (ส่วน 1) "วาดแผนภาพ" (ส่วน 2) "กำหนดเครือข่าย" (ส่วน 3) "กำหนด instance" (ส่วน 4) "การตั้งค่าความปลอดภัย" (ส่วน 5) "อธิบายเหตุผล" และ "ปรับแบบเมื่อผู้ใช้มากขึ้น" (ส่วน 6) ทุกคำในโจทย์จึงมีส่วนที่ตอบรองรับ ไม่หลุดสักข้อ</p><p>ลำดับของโครงยังตรงกับลำดับการตัดสินใจจริงด้วย ต้องรู้ก่อนว่ามีกี่ชั้น จึงจะรู้ว่าต้องแบ่ง subnet แบบไหน ต้องรู้ subnet ก่อน จึงจะบอกได้ว่าเครื่องอยู่ไหน และต้องรู้ว่าเครื่องไหนคุยกับใคร จึงจะเขียนกฎ SG ได้</p></div>
+<p><b>1. ระบบคืออะไร</b></p>
+<p>ระบบ "คันนี้ดีไหม?" เป็นเว็บที่ผู้โดยสารกรอกเลขข้างรถเมล์ เพื่อดูข้อมูลและรีวิวของรถคันนั้น และเขียนรีวิวเองได้ ออกแบบเป็น <b>2 tier</b> tier แรกคือ <b>web + app server</b> (Nginx ส่งหน้าเว็บ และ API ที่เขียนด้วย Node.js อยู่ในเครื่องเดียวกัน) tier ที่สองคือ <b>database server</b> (PostgreSQL) ที่แยกออกมาอีกเครื่อง</p>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>โจทย์กำหนดให้เป็น 2 tier จึงต้องบอกตั้งแต่บรรทัดแรกว่าสองชั้นนั้นคืออะไร สไลด์ Week 3 นิยาม 2 tier ไว้ว่า<b>แยกฐานข้อมูลออกจากเครื่องที่รันเว็บและแอป</b> ชั้นแรกคือ web + app server อยู่ใน public subnet ชั้นที่สองคือ database server อยู่ใน private subnet หน้าเว็บกับ API จึงอยู่ด้วยกันในชั้นแรก ในเครื่องนี้ Nginx ทำหน้าที่ส่งหน้าเว็บ ส่วน API คือโปรแกรมที่รับคำขอจากหน้าเว็บ แล้วไปอ่านหรือเขียนฐานข้อมูลให้</p><p>หัวใจของ 2 tier คือเอาข้อมูลออกไปไว้ในที่ที่ปลอดภัยกว่า ถ้าเว็บถูกเจาะ ผู้โจมตีก็ยังไม่ได้ฐานข้อมูลไปทันที เพราะฐานข้อมูลอยู่อีกเครื่องที่คนข้างนอกเข้าไม่ถึง ส่วนฟีเจอร์ของแอป เช่น ระบบแต้ม ไม่ต้องเขียน เพราะไม่ได้คะแนน วิชานี้ถามเรื่องโครงสร้างพื้นฐาน</p></div>
+<p><b>2. แผนภาพ</b></p>
+<figure>
+<svg viewBox="0 0 720 400" role="img" aria-label="สถาปัตยกรรม 2 tier: public subnet มีเครื่อง web และ app กับ NAT Gateway, private subnet มีเครื่องฐานข้อมูล ผู้ใช้เข้าทาง Internet Gateway">
+<rect class="box" x="10" y="105" width="100" height="60" rx="8"/>
+<text x="60" y="131" text-anchor="middle" class="b">ผู้ใช้</text>
+<text x="60" y="153" text-anchor="middle" class="m">อินเทอร์เน็ต</text>
+<text x="60" y="191" text-anchor="middle" class="at" style="font-size:13px">HTTPS 443</text>
+<rect class="frame" x="170" y="20" width="530" height="370" rx="10"/>
+<text x="185" y="42" class="b">VPC 10.0.0.0/16</text>
+<rect class="ba" x="140" y="105" width="60" height="60" rx="8"/>
+<text x="170" y="140" text-anchor="middle" class="b">IGW</text>
+<line class="la" x1="110" y1="135" x2="138" y2="135" marker-end="url(#arwa)"/>
+<rect class="frame" x="220" y="55" width="460" height="140" rx="8"/>
+<text x="232" y="77" class="m">Public subnet 10.0.1.0/24 · route 0.0.0.0/0 → IGW</text>
+<rect class="ba" x="240" y="90" width="230" height="90" rx="8"/>
+<text x="355" y="114" text-anchor="middle" class="b">Tier 1: Web + App</text>
+<text x="355" y="137" text-anchor="middle" class="m">Nginx → Node.js API (ในเครื่อง)</text>
+<text x="355" y="160" text-anchor="middle" class="m">sg-web · มี public IP</text>
+<line class="la" x1="200" y1="135" x2="238" y2="135" marker-end="url(#arwa)"/>
+<rect class="box" x="500" y="95" width="160" height="80" rx="8"/>
+<text x="580" y="120" text-anchor="middle" class="b">NAT Gateway</text>
+<text x="580" y="142" text-anchor="middle" class="m">ให้ private ออกเน็ต</text>
+<text x="580" y="162" text-anchor="middle" class="m">ขาออกอย่างเดียว</text>
+<rect class="frame" x="220" y="215" width="460" height="160" rx="8"/>
+<rect class="bg" x="240" y="240" width="230" height="90" rx="8"/>
+<text x="355" y="265" text-anchor="middle" class="b">Tier 2: Database</text>
+<text x="355" y="288" text-anchor="middle" class="m">PostgreSQL :5432</text>
+<text x="355" y="311" text-anchor="middle" class="m">sg-db · ไม่มี public IP</text>
+<line class="ln" x1="355" y1="180" x2="355" y2="238" marker-end="url(#arw)"/>
+<text x="363" y="214" class="m">5432</text>
+<path class="la" d="M470,285 L580,285 L580,177" stroke-dasharray="6 4" marker-end="url(#arwa)"/>
+<text x="490" y="277" class="at" style="font-size:13px">patch</text>
+<text x="232" y="362" class="m">Private subnet 10.0.2.0/24 · route 0.0.0.0/0 → NAT</text>
+</svg>
+<figcaption>2 tier ตามสไลด์ Week 3: tier แรกรวมหน้าเว็บกับ API ไว้เครื่องเดียวใน public subnet tier ที่สองคือฐานข้อมูลที่แยกไปอยู่ใน private subnet Nginx ส่งคำขอ <code>/api</code> ต่อให้ API ในเครื่องเดียวกัน จึงไม่ต้องเปิด port 3000 ออกนอกเครื่อง เส้นประคือทางที่ฐานข้อมูลออกไปโหลด patch ผ่าน NAT</figcaption>
+</figure>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>ภาพช่วยให้ผู้ตรวจเห็นได้ในทีเดียวว่าของแต่ละชิ้นอยู่ที่ไหน และ traffic (ข้อมูลที่วิ่งในเครือข่าย) วิ่งทางไหน ให้วาดจากนอกเข้าใน เริ่มจากกรอบ VPC แล้วแบ่งกรอบ public กับ private จากนั้นวางเครื่องสองเครื่องลงไป สุดท้ายลากลูกศรและเขียนเลข port กำกับ</p><p>เครื่อง web + app อยู่ใน public subnet เพราะผู้ใช้ต้องเข้าถึงหน้าเว็บ เครื่องฐานข้อมูลอยู่ใน private subnet เพราะคนข้างนอกไม่จำเป็นต้องคุยกับฐานข้อมูลโดยตรง ต้องวาด NAT Gateway ไว้ในภาพด้วย ไม่อย่างนั้นเครื่องฐานข้อมูลจะโหลด patch ไม่ได้ และ NAT ต้องวางใน public subnet เพราะตัว NAT เองต้องออกเน็ตทาง IGW</p></div>
+<p><b>3. เครือข่าย</b></p>
+<div class="tw"><table>
+<tr><th>ส่วน</th><th>CIDR</th><th>Route <code>0.0.0.0/0</code> ไปที่</th><th>มีอะไร</th></tr>
+<tr><td>VPC</td><td><code>10.0.0.0/16</code></td><td>-</td><td>ทั้งระบบ</td></tr>
+<tr><td>Public subnet</td><td><code>10.0.1.0/24</code></td><td>Internet Gateway</td><td>Web + App server, NAT Gateway</td></tr>
+<tr><td>Private subnet</td><td><code>10.0.2.0/24</code></td><td>NAT Gateway</td><td>Database server</td></tr>
+</table></div>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>VPC ใช้ <code>10.0.0.0/16</code> เพราะเป็นช่วง private IP (ที่อยู่ที่ใช้ได้แค่ในเครือข่ายภายใน) ตามมาตรฐาน มีที่อยู่ 65,536 ตัว เหลือพอให้เพิ่ม subnet ตอนขยายเป็น 3 tier (แยกเป็นสามชั้น ดูส่วนที่ 6) ส่วน subnet ใช้ /24 ได้วงละ 251 ตัว ซึ่งเกินพอ และแค่เปลี่ยนเลขชุดที่สามก็ได้วงใหม่ที่ไม่ทับกัน (จำไว้ว่าหัวใจของ /24 คือขนาด ไม่ได้กันว่าใครคุยกับใคร)</p><p>คอลัมน์ที่สำคัญที่สุดคือ route <code>0.0.0.0/0</code> (ปลายทางทุกที่ที่ไม่ได้อยู่ในวง) เพราะเป็นตัวกำหนดว่า subnet ไหนเป็น public หรือ private ถ้าเขียนแค่ชื่อว่า public หรือ private แต่ไม่เขียน route ผู้ตรวจจะไม่รู้ว่าเราเข้าใจจริงหรือเปล่า</p></div>
+<p><b>4. Instance</b></p>
+<div class="tw"><table>
+<tr><th>เครื่อง</th><th>Subnet</th><th>Public IP</th><th>หน้าที่และขนาด</th></tr>
+<tr><td>Web + App server</td><td>Public</td><td>มี</td><td>Nginx ส่งหน้าเว็บ และส่งคำขอ <code>/api</code> ต่อให้ Node.js API ในเครื่องเดียวกัน ขนาดกลาง เช่น 2 vCPU 4 GB เพราะรันทั้งสองโปรแกรม</td></tr>
+<tr><td>Database server</td><td>Private</td><td>ไม่มี</td><td>PostgreSQL เน้น RAM มากกว่า CPU และใช้ดิสก์แบบ block storage ที่ข้อมูลไม่หายเมื่อปิดเครื่อง</td></tr>
+</table></div>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>จำนวนเครื่องมาจาก 2 tier โดยตรง คือชั้นละหนึ่งเครื่อง และมีแค่เครื่อง web + app ที่ได้ public IP เพราะเป็นเครื่องเดียวที่ผู้ใช้ต้องเข้าถึง</p><p>ขนาดของเครื่องเลือกตามงานที่เครื่องนั้นทำ เครื่องแรกรันทั้ง Nginx และ API จึงต้องใหญ่กว่าเครื่องที่ส่งไฟล์อย่างเดียว ฐานข้อมูลเก็บข้อมูลที่ใช้บ่อยไว้ใน RAM เพื่อให้ค้นได้เร็ว จึงเน้น RAM และต้องใช้ดิสก์แบบ block storage (ดิสก์ที่ต่อกับเครื่องเหมือนฮาร์ดดิสก์) ที่ข้อมูลยังอยู่แม้ปิดเครื่อง ส่วนตัวเลข vCPU (CPU เสมือน) กับ RAM ไม่มีค่าที่ถูกตายตัว ผู้ตรวจดูที่เหตุผล</p></div>
+<p><b>5. ความปลอดภัย (Security Group)</b></p>
+<div class="tw"><table>
+<tr><th>SG</th><th>เปิดขาเข้า</th><th>จาก</th><th>เหตุผล</th></tr>
+<tr><td>sg-web</td><td>443</td><td>ทุกที่ (<code>0.0.0.0/0</code>)</td><td>ผู้ใช้เข้าเว็บผ่าน HTTPS</td></tr>
+<tr><td>sg-web</td><td>80</td><td>ทุกที่</td><td>ส่งต่อไปที่ 443 เท่านั้น</td></tr>
+<tr><td>sg-web</td><td>22</td><td>IP ของทีม</td><td>ผู้ดูแล SSH เข้าไป ห้ามเปิดให้ทั้งโลก</td></tr>
+<tr><td>sg-db</td><td>5432</td><td>sg-web</td><td>มีแค่เครื่อง web + app ที่คุยกับฐานข้อมูลได้</td></tr>
+<tr><td>sg-db</td><td>22</td><td>sg-web</td><td>ผู้ดูแล SSH ต่อจากเครื่อง web เข้ามาดูแลฐานข้อมูล</td></tr>
+</table></div>
+<p>port 3000 ของ API ไม่ต้องเปิดใน SG เลย เพราะ API ฟังแค่ภายในเครื่อง (<code>127.0.0.1</code>) และมีแค่ Nginx ในเครื่องเดียวกันที่ส่งคำขอไปหา SG เป็นแบบ stateful คำตอบขากลับผ่านได้เอง ตารางจึงมีแค่กฎขาเข้า</p>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>หัวใจของตารางนี้คือ<b>แต่ละชั้นรับเฉพาะจากชั้นที่อยู่ติดกัน</b> ผู้ใช้เข้าเครื่อง web ได้ แต่ฐานข้อมูลรับเฉพาะเครื่องที่อยู่ใน sg-web ต่อให้มีคนรู้ IP ของฐานข้อมูลแล้วพยายามต่อตรง ก็เข้าไม่ได้ หลักนี้เรียกว่าให้สิทธิ์เท่าที่จำเป็น (least privilege) คือเปิดเฉพาะ port ที่ใช้จริง และเปิดให้เฉพาะแหล่งที่ต้องใช้จริง</p><p>ใน 2 tier ไม่มี sg-app เพราะ API อยู่เครื่องเดียวกับ Nginx คำขอจาก Nginx ไป API วิ่งอยู่ภายในเครื่อง ไม่ผ่านเครือข่าย SG จึงไม่ต้องเข้ามาเกี่ยว และการที่ไม่ต้องเปิด port 3000 ก็ทำให้ทางเข้าเครื่องน้อยลงไปอีกหนึ่งทาง</p><p>กฎของ sg-db อ้างชื่อ SG แทน IP เพราะ IP ของเครื่องเปลี่ยนได้ เช่น ตอนสร้างเครื่องใหม่ ส่วน port 80 ที่เปิดไว้ ก็เพราะผู้ใช้บางคนพิมพ์ที่อยู่เว็บโดยไม่ใส่ https จึงต้องรับไว้แล้วส่งต่อไปที่ 443 และ SSH จำกัดไว้แค่ IP ของทีม เพราะถ้าเปิดให้ทั้งโลก จะมีโปรแกรมอัตโนมัติสุ่มเดารหัสผ่านเข้ามาตลอดเวลา</p><p>ส่วนคำว่า stateful แปลว่า SG จำได้ว่าการเชื่อมต่อไหนได้รับอนุญาตแล้ว และปล่อยคำตอบของการเชื่อมต่อนั้นกลับไปเอง จึงไม่ต้องเขียนกฎขากลับ</p></div>
+<p><b>6. เหตุผลและการขยาย</b></p>
+<p>เลือก 2 tier เพราะ (1) ฐานข้อมูลซึ่งสำคัญที่สุดแยกออกมาอยู่ใน private subnet คนข้างนอกเข้าไม่ถึงโดยตรง (2) เปิดสู่อินเทอร์เน็ตแค่เครื่องเดียวและ port เดียว (443) (3) NAT ทำให้ฐานข้อมูลโหลด patch ได้แต่ไม่มีใครเริ่มเชื่อมต่อเข้ามาได้ (4) หน้าเว็บกับ API อยู่โดเมนเดียวกันผ่าน Nginx จึงไม่ต้องตั้ง CORS (5) ระบบยังเล็ก 2 tier จึงพอดี ราคาถูกและดูแลง่าย สไลด์ก็บอกว่า 2 tier เหมาะกับแอปขนาดเล็กหรือ MVP (ระบบรุ่นแรกที่มีแค่ฟีเจอร์หลัก)</p>
+<p>ข้อจำกัดของ 2 tier ตามสไลด์มีสามข้อ คือ web กับ app ยังอยู่เครื่องเดียวกัน เครื่อง web เป็น single point of failure และไม่มี load balancer ถ้าผู้ใช้มากขึ้นและต้องไม่ล่ม จึงขยับไปเป็น <b>3 tier</b> ดังนี้ (1) แยก app server ออกจากเครื่อง web ไปไว้ใน private subnet (2) วาง load balancer ด้านหน้า และมี server หลายเครื่องใน Auto Scaling (3) กระจายทุกชั้นไปสอง AZ (4) ให้ฐานข้อมูลมีตัวสำรองอีก AZ และใช้ NAT Gateway หนึ่งตัวต่อ AZ</p>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>เหตุผลแต่ละข้อโยงกับหลักการในวิชา ข้อแรกคือ defense in depth (ของสำคัญอยู่ลึกที่สุด) ข้อสองคือ least privilege และการเปิดให้น้อยที่สุด ข้อสามคือหลักของ NAT ข้อสี่มาจากเรื่อง CORS ในแล็บ WebApp และข้อห้ามาจากตารางเลือกจำนวน tier ในสไลด์ เมื่อเหตุผลโยงกับหลักการ ผู้ตรวจจะเห็นว่าเราเข้าใจจริง ไม่ได้แค่จำภาพมาวาด</p><p>CORS (Cross-Origin Resource Sharing) คือกติกาของเบราว์เซอร์ ที่ไม่ยอมให้ JavaScript ของเว็บหนึ่งอ่านคำตอบจากต่าง origin (โปรโตคอล โดเมน หรือ port ต่างกัน) ถ้าปลายทางไม่อนุญาต ในแล็บ WebApp หน้าเว็บกับ API อยู่คนละ port จึงต้องตั้ง CORS แต่ในแบบนี้หน้าเว็บเรียก <code>/api</code> ผ่าน Nginx บนโดเมนเดียวกัน เบราว์เซอร์จึงมองว่าเป็นที่เดียวกัน</p><p>ส่วนการขยาย ให้คิดด้วยคำถามเดียวว่า "ถ้ากล่องนี้พัง ระบบล่มไหม" กล่องที่พังแล้วทั้งระบบล่มเรียกว่า single point of failure ใน 2 tier มีอย่างละหนึ่งเครื่อง ทุกเครื่องจึงเป็นจุดแบบนี้ และเครื่องแรกยังแบกทั้งเว็บและแอปไว้ด้วยกัน วิธีแก้คือแยกแอปออกมาเป็นชั้นของตัวเอง (กลายเป็น 3 tier) แล้วให้มีหลายเครื่องอยู่คนละ AZ พอมีหลายเครื่อง ผู้ใช้ก็ยังต้องมีทางเข้าทางเดียว จึงต้องมี load balancer คอยรับคำขอแล้วแจกงานให้แต่ละเครื่อง ส่วน Auto Scaling คือระบบที่เพิ่มหรือลดจำนวนเครื่องให้เองตามปริมาณงาน</p><p>app server เพิ่มเครื่องได้ง่าย เพราะไม่ได้เก็บข้อมูลไว้ในตัว งานไปตกที่เครื่องไหนก็ได้ แต่ฐานข้อมูลจะเพิ่มเครื่องเฉย ๆ ไม่ได้ เพราะข้อมูลทุกเครื่องต้องตรงกัน จึงใช้ตัวหลักหนึ่งตัวที่ทำสำเนาไปให้ตัวสำรองตลอดเวลา</p></div>
+<div class="mark"><b>ผู้ตรวจน่าจะให้คะแนนจาก</b> (1) บอกได้ว่าสองชั้นคืออะไร (2) ภาพแยก public กับ private subnet ชัดเจน และมี IGW กับ NAT (3) ฐานข้อมูลอยู่ใน private subnet และไม่มี public IP (4) ช่วง IP ถูกต้องและไม่ทับกัน (5) SG เปิดเท่าที่จำเป็น และฐานข้อมูลรับเฉพาะจาก sg-web (6) เหตุผลโยงกับหลักการในวิชา (7) บอกได้ว่าจะขยายเป็น 3 tier เมื่อระบบโตขึ้น คำตอบที่มีแต่ภาพแต่ไม่มีเหตุผล จะได้คะแนนไม่ถึงครึ่ง</div>
+</details>
+
+<p class="q"><b>คำถามต่อยอดที่อาจเจอในข้อนี้</b> ผู้ตรวจอาจถามเจาะจุดใดจุดหนึ่งของแบบ ลองตอบปากเปล่าให้ได้ในสองสามประโยค</p>
+<details><summary>ดูแนวคำตอบสั้น</summary>
+<p><b>2 tier ต่างจาก 3 tier อย่างไร</b> 2 tier แยกแค่ฐานข้อมูลออกจากเครื่องที่รันเว็บและแอป ส่วน 3 tier แยกเป็นสามชั้น คือหน้าเว็บ แอป และฐานข้อมูล แต่ละชั้นขยายแยกกันได้ และชั้นแอปย้ายเข้าไปอยู่ใน private subnet ได้ 2 tier ถูกและง่ายกว่า เหมาะกับระบบเล็ก ส่วน 3 tier เหมาะกับระบบที่ใช้งานจริงและต้องรับคนจำนวนมาก</p>
+<p><b>ทำไมฐานข้อมูลไม่มี public IP</b> เพราะไม่มีใครข้างนอกต้องคุยกับฐานข้อมูลโดยตรง ถ้ามี public IP ก็เพิ่มทางเข้าให้ผู้โจมตีโดยไม่จำเป็น</p>
+<p><b>ทำไมไม่ต้องเปิด port 3000 ของ API</b> เพราะ API อยู่เครื่องเดียวกับ Nginx และฟังแค่ภายในเครื่อง คนข้างนอกคุยกับ Nginx ที่ 443 เท่านั้น แล้ว Nginx ส่งต่อให้ API เอง</p>
+<p><b>ทำไม NAT Gateway อยู่ใน public subnet</b> เพราะตัว NAT เองต้องส่งข้อมูลออกไปทาง Internet Gateway ซึ่งมีแค่ public subnet ที่มี route ไปถึง</p>
+<p><b>ผู้ดูแลจะเข้าเครื่องฐานข้อมูลได้อย่างไร</b> SSH เข้าเครื่อง web ก่อน แล้วค่อยต่อเข้าไปที่ฐานข้อมูล เครื่องที่เป็นทางผ่านแบบนี้เรียกว่า bastion เหมือนในแล็บ GetStart ระบบใหญ่ควรแยก bastion เป็นเครื่องของตัวเอง</p>
+<p><b>ของจริงที่ deploy ต่างจากแบบอย่างไร</b> ผู้ให้บริการที่ทีมใช้จริงไม่มี VPC ให้ตั้งเอง ทีมจึงทำให้ได้ผลเดียวกันด้วยวิธีอื่น คือใช้ load balancer ของผู้ให้บริการเป็นทางเข้าทางเดียว เครื่องไม่มี public IP ฐานข้อมูลรับได้แค่จากในเครื่องตัวเอง และใช้ iptables (firewall ที่มากับ Linux) กั้น port แนวคิดเหมือนเดิม แค่เครื่องมือต่างกัน</p>
+<div class="why"><p class="why-h">ทำไมตอบแบบนี้</p><p>คำถามต่อยอดทั้งหมดตอบได้ด้วยแนวคิดแค่สี่ข้อ ข้อแรกคือเปิดให้น้อยที่สุด ข้อสองคือ route เป็นตัวตัดสินว่าใครไปถึงใครได้ ข้อสามคือ NAT ยอมให้เริ่มการเชื่อมต่อจากข้างในเท่านั้น ข้อสี่คือยิ่งมี tier มาก ระบบยิ่งทนและขยายได้ดี แต่ก็แพงและดูแลยากขึ้น ถ้าเจอคำถามที่ไม่เคยเห็น ให้ถามตัวเองว่าคำถามนั้นเกี่ยวกับแนวคิดข้อไหน แล้วตอบจากแนวคิดนั้น</p></div>
+</details>
+
+<h3 id="review">ทวนวิธีเก็บคะแนน</h3>
+<p>ข้อ 1–2 ตอบสั้น ๆ แต่ให้ครบสามอย่าง คือสิ่งนั้นคืออะไร ทำไมต้องมี และตัวอย่าง ข้อที่ต้องคำนวณให้เขียนสูตรให้เห็น ข้อ 3–4 ให้ฝึกวาดภาพ 2 tier ของโปรเจกต์จากความจำให้เสร็จในห้านาที แล้วเขียนตามโครงหกส่วน ถ้าจำโครงกับภาพนี้ได้ ก็ตอบโจทย์ออกแบบได้แทบทุกแบบ เพราะโจทย์อื่นก็ใช้แบบเดียวกัน แค่เพิ่มหรือลดชิ้นส่วน</p>
+<p>ถ้าอยากอ่านเหตุผลของแต่ละการตัดสินใจแบบละเอียด ไปที่ <a href="summary5.html#s4">ช่วงที่ 5 หัวข้อ 4–8</a></p>
+
+<nav class="pager"><a href="summary5.html">ก่อนหน้า: ช่วงที่ 5 แนวข้อสอบและการออกแบบ</a><a href="mock.html">ถัดไป: ช่วงที่ 7 ข้อสอบจำลองแบบปรนัย</a></nav>
+
+</main>
+<script>
+document.getElementById('openAll').onclick=()=>document.querySelectorAll('details').forEach(d=>d.open=true);
+document.getElementById('closeAll').onclick=()=>document.querySelectorAll('details').forEach(d=>d.open=false);
+</script>
+</body>
+</html>

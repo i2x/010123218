@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>สรุปช่วงที่ 5 แนวข้อสอบและการออกแบบ Architecture</title>
+<style>
+:root{--bg:#ffffff;--text:#1d1f23;--muted:#5d636b;--border:#d9d7cf;--soft:#f3f2ee;--accent:#2f6fd0;--surface2:#f3f2ee;--accent-soft:#e3ecfa;--orange:#c96a12;--orange-soft:#fbeedd;--good:#1f8a4c;--good-soft:#e2f3e8;--bad:#c23b3b;--bad-soft:#f8e3e3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.8 -apple-system,BlinkMacSystemFont,"Sukhumvit Set","Noto Sans Thai","Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px 80px}
+h1{font-size:28px;line-height:1.3;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 28px}
+nav{border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin-bottom:36px}
+nav b{display:block;margin-bottom:4px}
+nav a{color:var(--accent);text-decoration:none}
+nav ol{margin:0;padding-left:22px}
+h2{font-size:24px;line-height:1.35;margin:56px 0 4px;padding-top:12px;border-top:2px solid var(--text)}
+h2 small{display:block;font-size:15px;font-weight:400;color:var(--muted)}
+h3{font-size:19px;line-height:1.4;margin:34px 0 6px}
+p{margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:15.5px;margin:14px 0}
+th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--soft)}
+.tw{overflow-x:auto}
+.tw table{min-width:520px}
+.note{background:var(--soft);border-radius:8px;padding:10px 14px;margin:14px 0}
+code{background:var(--soft);border-radius:4px;padding:1px 5px;font-size:15px}
+pre{background:var(--soft);border-radius:8px;padding:12px 14px;margin:14px 0;overflow-x:auto;font-size:14px;line-height:1.55}
+pre code{background:none;padding:0;font-size:inherit}
+figure{margin:18px 0;overflow-x:auto}
+figure svg{display:block;width:100%;min-width:600px;height:auto}
+figcaption{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.6}
+svg text{font-family:inherit;fill:var(--text);font-size:15px}
+svg .m{fill:var(--muted);font-size:13px}
+svg .b{font-weight:700}
+svg .box{fill:var(--surface2);stroke:var(--border);stroke-width:1.5}
+svg .ba{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+svg .bo{fill:var(--orange-soft);stroke:var(--orange);stroke-width:1.5}
+svg .bg{fill:var(--good-soft);stroke:var(--good);stroke-width:1.5}
+svg .bb{fill:var(--bad-soft);stroke:var(--bad);stroke-width:1.5;stroke-dasharray:6 4}
+svg .frame{fill:none;stroke:var(--border);stroke-width:1.5;stroke-dasharray:5 4}
+svg .ln{stroke:var(--muted);stroke-width:2;fill:none}
+svg .la{stroke:var(--accent);stroke-width:2;fill:none}
+svg .lg{stroke:var(--good);stroke-width:2.5;fill:none}
+svg .lr{stroke:var(--bad);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+svg .ah{fill:var(--muted)} svg .aha{fill:var(--accent)} svg .ahg{fill:var(--good)} svg .ahr{fill:var(--bad)}
+svg .at{fill:var(--accent);font-weight:700}
+svg .gt{fill:var(--good);font-weight:700}
+svg .rt{fill:var(--bad);font-weight:700}
+.top{font-size:15px;margin:0 0 18px}
+.top a,.pager a{color:var(--accent);text-decoration:none}
+.pager{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--border);margin-top:48px;padding-top:16px;font-size:15px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahg" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahr" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="aha" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs></svg>
+<main>
+
+<p class="top"><a href="summary.html">กลับไปหน้าสารบัญ</a></p>
+
+<h1>ช่วงที่ 5 แนวข้อสอบและการออกแบบ Architecture</h1>
+<p class="sub">สรุปจากแนวข้อสอบที่ได้รับมา และใช้โปรเจกต์ "คันนี้ดีไหม?" (github.com/i2x/bus) ที่ทีมเคยออกแบบและ deploy จริง เป็นตัวอย่างฝึกตอบโจทย์ออกแบบ</p>
+
+<div class="note">
+<p><b>ช่วงนี้ต้องเข้าใจอะไร</b></p>
+<p>ข้อสอบมี 4 ข้อใหญ่ ข้อ 1 กับ 2 ถามความรู้พื้นฐานจากสไลด์ช่วงต้นถึงกลางเทอม ส่วนข้อ 3 กับ 4 รวมกันเป็นคำถามใหญ่ข้อเดียว ให้ออกแบบระบบของโปรเจกต์แบบ 2 tier (แบ่งระบบเป็นสองชั้น) ตามที่อาจารย์กำหนด แล้วกำหนด instance (เครื่องเสมือนหรือ VM หนึ่งเครื่องบน Cloud) และตั้งค่า Cloud</p><p>ช่วงนี้จึงมีสองหน้าที่ หน้าที่แรกคือบอกว่าข้อ 1–2 ต้องกลับไปอ่านหัวข้อไหน หน้าที่ที่สองคือฝึกข้อ 3–4 เราจะไล่ดูว่าโปรเจกต์ของเราตัดสินใจอะไรไปบ้างและเพราะอะไร แล้วขยายแบบนั้นให้ทนต่อการล่มได้ในระดับที่โจทย์ข้อสอบมักขอ สิ่งที่อยากให้ติดตัวออกไปคือลำดับการคิดที่ใช้ได้กับทุกโจทย์ ไม่ใช่จำแบบของโปรเจกต์นี้ไปแบบเดียว</p>
+</div>
+
+<h3 id="s1">1. ข้อสอบมีหน้าตาแบบไหน</h3>
+<p>ข้อสอบจริงเป็นข้อเขียน ไม่ใช่ปรนัยแบบใน <a href="mock.html">ข้อสอบจำลอง</a> ข้อสอบจำลองยังใช้เช็กได้ดีว่าเข้าใจเนื้อหาหรือยัง แต่ตอนสอบจริงเราต้องเขียนอธิบายเอง หัวใจของการเขียนให้ได้คะแนนคือตอบสามขั้นในทุกข้อย่อย ขั้นแรกบอกว่าสิ่งนั้นคืออะไร ขั้นที่สองบอกว่าทำไมต้องมี หรือทำงานอย่างไร ขั้นสุดท้ายยกตัวอย่างหนึ่งอย่าง ถ้าโจทย์ให้เปรียบเทียบ ให้ตั้งเกณฑ์ก่อน แล้วเทียบทีละเกณฑ์ เช่น เทียบ public subnet กับ private subnet (วงเครือข่ายย่อยที่หันออกอินเทอร์เน็ต กับวงที่ซ่อนไว้ข้างใน) ด้วยสามเกณฑ์ คือมี route ไป Internet Gateway (ประตูออกอินเทอร์เน็ต) ไหม เครื่องมี public IP ไหม และวางอะไรไว้ข้างใน</p>
+<p><b>ข้อ 1 และ 2</b> ถามความรู้พื้นฐาน ตัวอย่างโจทย์ที่ได้รับมาคือคุณสมบัติของ Cloud และ public/private subnet ทั้งสองเรื่องมาจากสไลด์ช่วงต้นถึงกลางเทอม ตรงกับช่วงที่ 1 และช่วงที่ 2 ของสรุปนี้ หัวข้อที่ควรอ่านให้แม่นที่สุดมีดังนี้</p>
+<div class="tw"><table>
+<tr><th>เรื่อง</th><th>อ่านที่</th><th>ต้องตอบได้</th></tr>
+<tr><td>นิยาม Cloud และลักษณะ 5 ข้อตาม NIST</td><td><a href="summary1.html#s5">ช่วง 1 ข้อ 5</a>, <a href="summary1.html#s6">ข้อ 6</a></td><td>บอกครบทั้ง 5 ข้อพร้อมตัวอย่างของแต่ละข้อ</td></tr>
+<tr><td>IaaS, PaaS, SaaS และแบบ public/private/hybrid cloud</td><td><a href="summary1.html#s7">ช่วง 1 ข้อ 7</a>, <a href="summary1.html#s8">ข้อ 8</a></td><td>ใครดูแลชั้นไหน และยกตัวอย่างบริการของแต่ละแบบ</td></tr>
+<tr><td>Region และ Availability Zone</td><td><a href="summary1.html#s9">ช่วง 1 ข้อ 9</a></td><td>ทำไมต้องกระจายเครื่องไว้หลาย AZ</td></tr>
+<tr><td>Private IP, public IP และ NAT</td><td><a href="summary1.html#s4">ช่วง 1 ข้อ 4</a></td><td>ทำไมเครื่องที่มีแต่ private IP ยังออกเน็ตได้</td></tr>
+<tr><td>Virtualization, hypervisor, container</td><td><a href="summary1.html#s10">ช่วง 1 ข้อ 10</a>, <a href="summary1.html#s17">ข้อ 17</a></td><td>Type 1 กับ Type 2 และ VM กับ container ต่างกันยังไง</td></tr>
+<tr><td>VPC, CIDR และ public/private subnet</td><td><a href="summary2.html#s1">ช่วง 2 ข้อ 1</a> ถึง <a href="summary2.html#s4">ข้อ 4</a></td><td>คำนวณจำนวน IP และบอกว่าอะไรทำให้ subnet เป็น public</td></tr>
+<tr><td>Route table, Internet Gateway, NAT Gateway</td><td><a href="summary2.html#s5">ช่วง 2 ข้อ 5</a>, <a href="summary2.html#s6">ข้อ 6</a></td><td>เขียน route table ของทั้งสอง subnet ได้</td></tr>
+<tr><td>สถาปัตยกรรมแบบ tier</td><td><a href="summary2.html#s9">ช่วง 2 ข้อ 9</a></td><td>แต่ละ tier วางไว้ที่ไหน และขยายแบบไหน</td></tr>
+</table></div>
+<p>ถ้าเวลาเหลือ ให้อ่านช่วงที่ 3 ต่อ เรื่อง <a href="summary3.html#s2">Security Group กับ NACL</a> (ด่านกรอง traffic ระดับเครื่องและระดับ subnet) และ <a href="summary3.html#s3">IAM</a> (การกำหนดสิทธิ์ว่าใครทำอะไรได้) เพราะข้อ 3–4 ต้องใช้แน่นอน</p>
+<p><b>ข้อ 3 และ 4</b> ใช้โจทย์เดียวกัน โจทย์จะเล่าความต้องการของระบบหนึ่งระบบ แล้วให้ออกแบบ architecture (โครงสร้างของระบบ) กำหนด instance และตั้งค่า Cloud ตอนนี้ยังไม่รู้แน่ว่าสองข้อนี้แบ่งเนื้อหากันอย่างไร แต่น่าจะเป็นข้อหนึ่งให้วาดและอธิบายโครงสร้าง อีกข้อให้ลงรายละเอียด instance และการตั้งค่า จึงควรเตรียมทั้งสองส่วน หัวข้อที่เหลือของช่วงนี้จะใช้โปรเจกต์ของเราเป็นตัวอย่างฝึกโจทย์แบบนี้</p>
+
+<h3 id="s2">2. โจทย์ออกแบบต้องตอบอะไรบ้าง</h3>
+<p>หัวใจของโจทย์ออกแบบคือเหตุผล โจทย์แบบนี้ไม่มีคำตอบเดียวที่ถูก ผู้ตรวจดูว่าเราเลือกแต่ละอย่างด้วยเหตุผลที่ตรงกับความต้องการในโจทย์หรือเปล่า จึงควรตอบตามลำดับเดียวกันทุกครั้ง ลำดับนี้เรียงให้การตัดสินใจขั้นหลังต่อยอดจากขั้นก่อนหน้า</p>
+<p>ขั้นแรกคือ<b>อ่านโจทย์หาความต้องการ</b> ให้ขีดเส้นใต้สี่เรื่อง เรื่องแรกคือผู้ใช้มากน้อยแค่ไหน และเข้ามาเป็นช่วง ๆ หรือเปล่า เรื่องที่สองคือระบบล่มได้ไหม เรื่องที่สามคือข้อมูลอ่อนไหวแค่ไหน เรื่องสุดท้ายคือมีข้อจำกัดเรื่องงบ หรือมีเครือข่ายเดิมของบริษัทที่ต้องต่อด้วยไหม แต่ละเรื่องจะไปกำหนดการตัดสินใจในขั้นหลัง เช่น "ห้ามล่ม" แปลว่าต้องใช้อย่างน้อยสอง AZ (Availability Zone) AZ คือกลุ่ม data center ใน Region เดียวกันที่แยกไฟและเครือข่ายออกจากกัน ส่วน "คนเข้าพร้อมกันเป็นช่วง" แปลว่าต้องมี Auto Scaling คือระบบที่เพิ่มหรือลดจำนวนเครื่องให้เองตามปริมาณงาน</p>
+<p>ขั้นที่สองคือ<b>แบ่งระบบเป็น tier</b> ระบบเว็บเกือบทุกระบบแบ่งได้เป็นสามชั้น คือชั้นหน้าบ้าน (presentation) ชั้นตรรกะของแอป (application) และชั้นข้อมูล (data)</p><p>ขั้นที่สามคือ<b>วางเครือข่าย</b> เริ่มจากเลือกช่วง IP ของ VPC (Virtual Private Cloud) ซึ่งคือเครือข่ายส่วนตัวที่เราแบ่งไว้บน Cloud ช่วง IP นี้เขียนแบบ CIDR คือเลขที่อยู่ตามด้วยจำนวนบิตที่ล็อกไว้ เช่น <code>10.0.0.0/16</code> หัวใจของ CIDR คือขนาด เลขหลังขีดบอกว่าวงนี้จุที่อยู่ได้กี่ตัว จากนั้นแบ่ง subnet (วงย่อยใน VPC) ตาม tier และตาม AZ แล้วเขียน route table (ตารางเส้นทาง) ว่า subnet ไหนออกเน็ตทางไหน</p>
+<p>ขั้นที่สี่คือ<b>กำหนด instance</b> (VM หนึ่งเครื่องบน Cloud) ว่าแต่ละ tier ใช้กี่เครื่อง ขนาดเท่าไร อยู่ subnet ไหน และมี public IP หรือไม่ ขั้นที่ห้าคือ<b>ตั้งค่าความปลอดภัย</b> ซึ่งมีเครื่องมือสามอย่าง Security Group (SG) เป็นด่านกรอง traffic ระดับเครื่อง NACL (Network Access Control List) เป็นด่านกรองระดับ subnet และ IAM (Identity and Access Management) เป็นระบบกำหนดว่าใครทำอะไรกับทรัพยากรไหนได้ ขั้นสุดท้ายคือ<b>ทำให้ระบบทนและดูแลได้</b> ได้แก่ การกระจายเครื่องไปหลาย AZ การขยายจำนวนเครื่อง การ backup และช่องทางที่ผู้ดูแลใช้เข้าไปจัดการเครื่อง</p>
+<p>คำตอบที่ดีมีทั้งภาพและตาราง ภาพบอกว่าของแต่ละชิ้นอยู่ตรงไหน และ traffic (ข้อมูลที่วิ่งในเครือข่าย) วิ่งทางไหน ตารางบอกค่าที่ตั้ง ควรมีอย่างน้อยสามตาราง คือตาราง subnet ตาราง instance และตารางกฎ SG ทุกตารางควรมีคอลัมน์ "เหตุผล" เพราะเป็นส่วนที่ผู้ตรวจให้คะแนน</p>
+
+<h3 id="s3">3. โปรเจกต์ "คันนี้ดีไหม?" ทำอะไร</h3>
+<p>โปรเจกต์ของทีมเป็นเว็บสำหรับค้นหาและรีวิวรถเมล์ ขสมก. ทีละคัน ผู้ใช้กรอกหมายเลขข้างรถ เช่น <code>7-3077</code> แล้วจะเห็นรุ่นรถ เขตการเดินรถ ค่าโดยสาร และคะแนนจากผู้โดยสารสามด้าน คือการขับ การจอดป้าย และสภาพรถ คนที่เขียนรีวิวจะได้แต้มไปแลกสติกเกอร์ ถ้ารีวิวไหนถูกรายงานครบสามคน รีวิวนั้นจะถูกซ่อน แล้วให้ผู้ใช้ห้าคนที่สุ่มมาโหวตตัดสิน</p>
+<p>แต่ข้อสอบไม่ได้ถามเรื่องฟีเจอร์ สิ่งที่ต้องดูคือระบบนี้มีโปรแกรมสามตัว ตัวแรกคือหน้าเว็บ เป็นไฟล์ HTML, CSS และ JavaScript ที่ไม่เปลี่ยนไปตามผู้ใช้ เรียกว่า static ไฟล์พวกนี้ส่งให้ผู้ใช้ด้วย Nginx ซึ่งเป็นโปรแกรม web server ตัวที่สองคือ REST API คือช่องทางที่หน้าเว็บใช้ขอข้อมูลผ่าน HTTP โดยระบุ URL และ method เช่น <code>GET /api/buses/7-3077</code> ตัวนี้เขียนด้วย Node.js รันที่ port 3000 และเป็นที่เก็บกฎทั้งหมดของระบบ เช่น การคิดแต้มและการตรวจสิทธิ์ ตัวที่สามคือฐานข้อมูล PostgreSQL ที่ port 5432 ใช้เก็บข้อมูลผู้ใช้ รีวิว และประวัติแต้ม</p>
+<p>อาจารย์กำหนดให้โปรเจกต์ใช้สถาปัตยกรรม<b>แบบ 2 tier</b> โปรแกรมสามตัวจึงต้องจัดลงในสองชั้น นิยามในสไลด์ Week 3 คือแยกฐานข้อมูลออกจากเครื่องที่รันเว็บและแอป ชั้นแรกจึงเป็น web + app server ที่มี Nginx กับ API อยู่เครื่องเดียวกัน ส่วนชั้นที่สองเป็น database server สามโปรแกรมนี้ยังตรงกับสามแล็บที่เคยทำ หน้าเว็บกับ Nginx ตรงกับแล็บ GetStart การแยกหน้าเว็บ API และฐานข้อมูลออกจากกันตรงกับแล็บ WebApp และการกั้นว่าใครคุยกับใครได้ตรงกับแล็บ Build VPC</p>
+
+<h3 id="s4">4. แบบ 2 tier ที่ใช้ตอบข้อสอบ</h3>
+<p>หัวใจของ 2 tier คือ<b>เอาฐานข้อมูลออกไปไว้ในที่ที่คนข้างนอกเข้าไม่ถึง</b> ส่วนเว็บกับแอปยังอยู่ด้วยกัน ถ้าวางบน AWS (Amazon Web Services) แบบนี้ใช้ VPC <code>10.0.0.0/16</code> หนึ่งวง subnet สองวง และ EC2 (Elastic Compute Cloud บริการเช่า VM ของ AWS) สองเครื่อง แบบนี้เป็นคำตอบของโจทย์ออกแบบขนาดเล็กที่มีองค์ประกอบครบ ควรจำให้ได้เป็นภาพ</p>
+<figure>
+<svg viewBox="0 0 720 400" role="img" aria-label="สถาปัตยกรรม 2 tier: public subnet มีเครื่อง web และ app กับ NAT Gateway, private subnet มีเครื่องฐานข้อมูล ผู้ใช้เข้าทาง Internet Gateway">
+<rect class="box" x="10" y="105" width="100" height="60" rx="8"/>
+<text x="60" y="131" text-anchor="middle" class="b">ผู้ใช้</text>
+<text x="60" y="153" text-anchor="middle" class="m">อินเทอร์เน็ต</text>
+<text x="60" y="191" text-anchor="middle" class="at" style="font-size:13px">HTTPS 443</text>
+<rect class="frame" x="170" y="20" width="530" height="370" rx="10"/>
+<text x="185" y="42" class="b">VPC 10.0.0.0/16</text>
+<rect class="ba" x="140" y="105" width="60" height="60" rx="8"/>
+<text x="170" y="140" text-anchor="middle" class="b">IGW</text>
+<line class="la" x1="110" y1="135" x2="138" y2="135" marker-end="url(#arwa)"/>
+<rect class="frame" x="220" y="55" width="460" height="140" rx="8"/>
+<text x="232" y="77" class="m">Public subnet 10.0.1.0/24 · route 0.0.0.0/0 → IGW</text>
+<rect class="ba" x="240" y="90" width="230" height="90" rx="8"/>
+<text x="355" y="114" text-anchor="middle" class="b">Tier 1: Web + App</text>
+<text x="355" y="137" text-anchor="middle" class="m">Nginx → Node.js API (ในเครื่อง)</text>
+<text x="355" y="160" text-anchor="middle" class="m">sg-web · มี public IP</text>
+<line class="la" x1="200" y1="135" x2="238" y2="135" marker-end="url(#arwa)"/>
+<rect class="box" x="500" y="95" width="160" height="80" rx="8"/>
+<text x="580" y="120" text-anchor="middle" class="b">NAT Gateway</text>
+<text x="580" y="142" text-anchor="middle" class="m">ให้ private ออกเน็ต</text>
+<text x="580" y="162" text-anchor="middle" class="m">ขาออกอย่างเดียว</text>
+<rect class="frame" x="220" y="215" width="460" height="160" rx="8"/>
+<rect class="bg" x="240" y="240" width="230" height="90" rx="8"/>
+<text x="355" y="265" text-anchor="middle" class="b">Tier 2: Database</text>
+<text x="355" y="288" text-anchor="middle" class="m">PostgreSQL :5432</text>
+<text x="355" y="311" text-anchor="middle" class="m">sg-db · ไม่มี public IP</text>
+<line class="ln" x1="355" y1="180" x2="355" y2="238" marker-end="url(#arw)"/>
+<text x="363" y="214" class="m">5432</text>
+<path class="la" d="M470,285 L580,285 L580,177" stroke-dasharray="6 4" marker-end="url(#arwa)"/>
+<text x="490" y="277" class="at" style="font-size:13px">patch</text>
+<text x="232" y="362" class="m">Private subnet 10.0.2.0/24 · route 0.0.0.0/0 → NAT</text>
+</svg>
+<figcaption>2 tier ตามสไลด์ Week 3: tier แรกรวมหน้าเว็บกับ API ไว้เครื่องเดียวใน public subnet tier ที่สองคือฐานข้อมูลที่แยกไปอยู่ใน private subnet Nginx ส่งคำขอ <code>/api</code> ต่อให้ API ในเครื่องเดียวกัน จึงไม่ต้องเปิด port 3000 ออกนอกเครื่อง เส้นประคือทางที่ฐานข้อมูลออกไปโหลด patch ผ่าน NAT</figcaption>
+</figure>
+<p><b>Public subnet</b> <code>10.0.1.0/24</code> มี route ที่ส่ง traffic ปลายทาง <code>0.0.0.0/0</code> (ทุกที่ที่ไม่ได้อยู่ในวง) ไปที่ IGW (Internet Gateway) ซึ่งเป็นประตูเชื่อม VPC กับอินเทอร์เน็ต ใน subnet นี้มีเครื่อง <b>tier 1: web + app</b> ที่มี public IP บนเครื่องนี้ Nginx ทำสองงาน งานแรกคือส่งไฟล์หน้าเว็บให้ผู้ใช้ งานที่สองคือเป็น <b>reverse proxy</b> หรือตัวรับคำขอแทนโปรแกรมที่อยู่ข้างหลัง Nginx รับคำขอที่ขึ้นต้นด้วย <code>/api</code> แล้วส่งต่อให้ API ที่รันอยู่ในเครื่องเดียวกันที่ <code>127.0.0.1:3000</code> (<code>127.0.0.1</code> หมายถึงเครื่องตัวเอง) ผู้ใช้จึงคุยกับ Nginx ที่ port 443 อย่างเดียว และไม่เคยคุยกับ API ตรง ๆ</p>
+<p><b>Private subnet</b> <code>10.0.2.0/24</code> ไม่มี route ที่ให้อินเทอร์เน็ตเข้ามาได้ ข้างในมีเครื่อง <b>tier 2: database</b> ซึ่งรับการเชื่อมต่อจากเครื่อง tier 1 เท่านั้น แต่ฐานข้อมูลยังต้องออกไปโหลด patch (อัปเดตแก้บั๊กและช่องโหว่) ได้ จึงต้องมี NAT Gateway ซึ่งเป็นตัวแปลง private IP เป็น public IP สำหรับ traffic ขาออก NAT Gateway วางอยู่ใน public subnet และ route table ของ private subnet ส่ง <code>0.0.0.0/0</code> ไปที่ NAT Gateway หัวใจของ NAT คือดูว่าใครเริ่มก่อน ถ้าเครื่องข้างในเป็นคนเริ่มขอ คำตอบจะกลับเข้ามาได้ แต่ถ้าคนข้างนอกพยายามเริ่มคุยเข้ามาก่อน NAT จะไม่ยอม</p>
+<p>ภาพนี้ใช้ได้ทั้งข้อ 1–2 และข้อ 3–4 เพราะตอบคำถาม "อะไรทำให้ subnet เป็น public" ได้ในตัว คำตอบคือ route ไป IGW ไม่ใช่ชื่อของ subnet และไม่ใช่การที่เครื่องมี public IP</p>
+<p class="note">แบบร่างแรกของทีม (Sprint 0 คือรอบวางแผนแรกของโปรเจกต์) จัดสองชั้นอีกแบบ คือวาง web ไว้ใน public และวาง API ไว้กับฐานข้อมูลใน private แบบนั้นก็เป็นสองชั้นเหมือนกัน แต่ไม่ตรงกับนิยาม 2 tier ในสไลด์ ในข้อสอบให้ใช้แบบของสไลด์ที่แยกฐานข้อมูลออกมา เพราะผู้ตรวจจะเทียบกับนิยามนั้น</p>
+
+<h3 id="s5">5. ทำไมวางแบบนี้</h3>
+<p>หลักข้อแรกคือ<b>ของที่สำคัญที่สุดอยู่ลึกที่สุด</b> ฐานข้อมูลเก็บข้อมูลผู้ใช้ทั้งหมด จึงอยู่ใน private subnet และรับการเชื่อมต่อจากเครื่อง tier 1 ทางเดียว คนข้างนอกที่อยากได้ข้อมูลต้องผ่าน Nginx ก่อน แล้วต้องผ่าน API ซึ่งตรวจสิทธิ์และตรวจข้อมูลที่ส่งเข้ามาทุกครั้ง ถ้าเว็บถูกเจาะ ผู้โจมตีก็ยังไม่ได้ฐานข้อมูลไปทันที หลักนี้คือ <a href="summary3.html#s5">defense in depth</a> (ป้องกันหลายชั้น) ในช่วงที่ 3</p>
+<p>หลักข้อที่สองคือ<b>เปิดสู่อินเทอร์เน็ตให้น้อยที่สุด</b> ทั้งระบบมีเครื่องเดียวที่มี public IP และเครื่องนั้นเปิดรับแค่ HTTPS (port 443) port 80 เปิดไว้แค่ส่งผู้ใช้ต่อไปที่ 443 ส่วน port 3000 ของ API ไม่ต้องเปิดเลย เพราะ API ฟังแค่ภายในเครื่อง ตอนส่งงาน ทีมใช้ nmap (โปรแกรมสแกนว่าเครื่องเปิด port อะไรบ้าง) สแกนจากข้างนอก เพื่อยืนยันว่าเข้า port ของ API และฐานข้อมูลไม่ได้จริง</p>
+<p>หลักข้อที่สามเป็นผลพลอยได้จาก reverse proxy คือ<b>ไม่ต้องตั้ง CORS</b> CORS (Cross-Origin Resource Sharing) คือกติกาของเบราว์เซอร์ ที่ไม่ยอมให้ JavaScript ของเว็บหนึ่งอ่านคำตอบจากต่าง origin ถ้าปลายทางไม่อนุญาต origin คือโปรโตคอล โดเมน และ port รวมกัน ต่างกันแม้แต่อย่างเดียวก็นับเป็นคนละ origin ในแล็บ WebApp หน้าเว็บกับ API อยู่คนละ port จึงต้องเปิด CORS แต่ในโปรเจกต์นี้หน้าเว็บเรียก <code>/api</code> บนโดเมนเดียวกัน เบราว์เซอร์จึงมองว่าเป็น origin เดียวกัน (อ่านทวนที่ <a href="summary2.html#s12">ช่วง 2 ข้อ 12</a>)</p>
+<p>หลักข้อที่สี่คือ<b>เลือกจำนวน tier ให้พอดีกับขนาดระบบ</b> สไลด์ Week 3 บอกว่า 2 tier เหมาะกับแอปขนาดเล็ก MVP (ระบบรุ่นแรกที่มีแค่ฟีเจอร์หลัก) และเครื่องมือที่ใช้กันภายใน เพราะราคาถูกและดูแลง่าย การแยกฐานข้อมูลออกมายังให้ข้อดีสามข้อ คือฐานข้อมูลไม่ถูกเปิดสู่อินเทอร์เน็ต ขยายฐานข้อมูลแยกได้ และปลอดภัยกว่าการรวมทุกอย่างไว้เครื่องเดียว แต่ก็ยังมีจุดอ่อนสามข้อ ข้อแรก เว็บกับแอปยังอยู่เครื่องเดียวกัน ข้อสอง เครื่องนั้นเป็น single point of failure คือจุดเดียวที่ถ้าพังแล้วทั้งระบบพังตาม ข้อสาม ยังไม่มี load balancer (ตัวรับคำขอแล้วแจกงานให้หลายเครื่อง) จุดอ่อนเหล่านี้จะแก้ในหัวข้อ 9</p>
+
+<h3 id="s6">6. Security Group ที่ต่อกันเป็นชั้น</h3>
+<p>ในโจทย์ตั้งค่า ส่วนที่ได้คะแนนมากที่สุดคือตารางกฎ SG แบบ 2 tier มี SG สองกลุ่ม คือ tier ละหนึ่งกลุ่ม หัวใจของตารางนี้คือให้ฐานข้อมูลรับ traffic จากชั้นที่อยู่ติดกันเท่านั้น</p>
+<div class="tw"><table>
+<tr><th>Security Group</th><th>ขาเข้า (port)</th><th>รับจาก</th><th>เหตุผล</th></tr>
+<tr><td>sg-web</td><td>443/tcp</td><td><code>0.0.0.0/0</code></td><td>ผู้ใช้ทั่วโลกเข้าเว็บผ่าน HTTPS</td></tr>
+<tr><td>sg-web</td><td>80/tcp</td><td><code>0.0.0.0/0</code></td><td>ใช้แค่ส่งผู้ใช้ต่อไปที่ 443</td></tr>
+<tr><td>sg-web</td><td>22/tcp</td><td>IP ของทีม</td><td>ให้ผู้ดูแล SSH เข้าไปจัดการ ห้ามเปิดให้ทั้งโลก</td></tr>
+<tr><td>sg-db</td><td>5432/tcp</td><td>sg-web</td><td>มีแค่เครื่อง tier 1 ที่คุยกับฐานข้อมูลได้</td></tr>
+<tr><td>sg-db</td><td>22/tcp</td><td>sg-web</td><td>ผู้ดูแล SSH ต่อจากเครื่อง tier 1 เข้ามาดูแลฐานข้อมูล</td></tr>
+</table></div>
+<p>สังเกตว่าช่อง "รับจาก" ของ sg-db เขียนเป็นชื่อ SG ไม่ใช่เลข IP การอ้างชื่อ SG แปลว่า "เครื่องไหนก็ได้ที่อยู่ในกลุ่มนั้น" ถ้าวันหลังเพิ่มเครื่อง tier 1 อีกเครื่อง หรือเครื่องเดิมเปลี่ยน IP กฎนี้ก็ยังใช้ได้โดยไม่ต้องแก้ ข้อนี้สำคัญมากเมื่อใช้ Auto Scaling เพราะเครื่องถูกสร้างและลบอยู่ตลอด ส่วนที่ตารางนี้ไม่มี sg-app ก็เพราะ API อยู่เครื่องเดียวกับ Nginx คำขอระหว่างสองโปรแกรมนี้วิ่งอยู่ภายในเครื่อง ไม่ผ่านเครือข่าย</p>
+<p>ตารางนี้มีแต่กฎขาเข้า ไม่ต้องเขียนกฎขากลับ เพราะ SG เป็นแบบ <b>stateful</b> คือจำได้ว่าการเชื่อมต่อไหนได้รับอนุญาตแล้ว แล้วปล่อยคำตอบของการเชื่อมต่อนั้นกลับไปเอง แต่ถ้าโจทย์ให้ตั้ง NACL ด้วย ต้องระวัง เพราะ NACL เป็นแบบ <b>stateless</b> คือไม่จำการเชื่อมต่อ จึงต้องเปิดขาออกให้ ephemeral port ด้วย ephemeral port คือ port เลขสูงที่ฝั่งผู้เรียกสุ่มขึ้นมารอรับคำตอบ ถ้าไม่เปิด คำตอบจะออกไปไม่ได้ (อ่านทวนที่ <a href="summary3.html#s2">ช่วง 3 ข้อ 2</a>)</p>
+<p>เรื่อง SSH (การเข้าไปสั่งงานเครื่องจากระยะไกล) ยังมีแบบที่ดีกว่าการใช้เครื่อง tier 1 เป็นทางผ่าน คือแยก bastion ออกมาเป็นเครื่องของตัวเอง bastion คือเครื่องตัวกลางเครื่องเดียวที่ต้อง SSH ผ่านก่อนจะเข้าเครื่องอื่น อีกทางหนึ่งคือใช้บริการของ Cloud ที่เข้าเครื่องได้โดยไม่ต้องเปิด port 22 เลย</p>
+
+<h3 id="s7">7. กำหนด Instance</h3>
+<p>เมื่อโจทย์ให้ "กำหนด instance" ต้องบอกหกอย่างของทุกเครื่อง คือทำหน้าที่อะไร อยู่ subnet ไหน มี public IP หรือไม่ ใช้ SG อะไร ขนาดเท่าไร และใช้ที่เก็บข้อมูลแบบไหน ไม่ต้องจำชื่อรุ่นเครื่องของผู้ให้บริการ เขียนเป็นจำนวน vCPU (CPU เสมือนที่ได้รับแบ่งมา) กับขนาด RAM ก็ได้ แต่ต้องบอกเหตุผลว่าทำไมเลือกขนาดนั้น</p>
+<div class="tw"><table>
+<tr><th>เครื่อง</th><th>Subnet</th><th>Public IP</th><th>SG</th><th>ขนาดและเหตุผล</th></tr>
+<tr><td>Tier 1: Web + App (Nginx, Node.js)</td><td>Public</td><td>มี</td><td>sg-web</td><td>ขนาดกลาง เช่น 2 vCPU 4 GB เพราะรันทั้งหน้าเว็บและ API</td></tr>
+<tr><td>Tier 2: Database (PostgreSQL)</td><td>Private</td><td>ไม่มี</td><td>sg-db</td><td>เน้น RAM ไว้ cache ข้อมูล และต้องมีดิสก์แบบ block storage ที่ข้อมูลไม่หายเมื่อปิดเครื่อง</td></tr>
+</table></div>
+<p>จำนวนเครื่องมาจาก 2 tier โดยตรง คือชั้นละหนึ่งเครื่อง ถ้าโจทย์บอกว่าข้อมูลสำคัญมาก จะใช้ฐานข้อมูลแบบ managed แทนการติดตั้งเองก็ได้ เช่น RDS (Relational Database Service) ซึ่งเป็นฐานข้อมูลที่ผู้ให้บริการดูแลการติดตั้ง แพตช์ และ backup ให้ ส่วนการเลือกที่เก็บข้อมูลใช้หลักเดียวกับ <a href="summary1.html#s19">ช่วง 1 ข้อ 19</a> ดิสก์ของฐานข้อมูลใช้ block storage ไฟล์ที่ผู้ใช้อัปโหลดใช้ object storage และโฟลเดอร์ที่หลายเครื่องต้องใช้ร่วมกันใช้ file storage</p>
+
+<h3 id="s8">8. ของจริงที่ deploy ต่างจากแบบยังไง</h3>
+<p>ตอนลงมือจริง ทีม deploy (นำระบบขึ้นไปรันจริง) บน ruk-com ซึ่งเป็นผู้ให้บริการ Cloud ในไทย ruk-com ไม่มี VPC กับ subnet ให้ตั้งเองแบบ AWS ทีมจึงต้องใช้กลไกอื่นให้ได้ผลแบบเดียวกัน หัวข้อนี้เป็นตัวอย่างที่ดีว่าเครื่องมือเปลี่ยนได้ แต่แนวคิดยังเหมือนเดิม และนี่คือสิ่งที่ข้อสอบอยากให้เข้าใจ</p>
+<p>ของจริงแยกเป็นสองเครื่องเหมือนกัน แต่จัดของคนละแบบกับหัวข้อ 4 เครื่องแรกมีแค่ Nginx ส่วน API ย้ายไปอยู่กับฐานข้อมูลในเครื่องที่สอง แบบนี้ก็ยังเป็นสองชั้น และฐานข้อมูลก็ยังถูกซ่อนเหมือนเดิม ตารางข้างล่างเทียบเฉพาะกลไกที่ใช้</p>
+<div class="tw"><table>
+<tr><th>สิ่งที่แบบต้องการ</th><th>แบบบน AWS</th><th>ที่ทำจริงบน ruk-com</th></tr>
+<tr><td>ผู้ใช้เข้าได้ทางเดียว</td><td>web server มี public IP อยู่ใน public subnet</td><td>ทุกเครื่องไม่มี public IP ผู้ใช้เข้าผ่าน load balancer (ตัวรับคำขอแล้วส่งต่อให้เครื่องข้างใน) ของผู้ให้บริการ</td></tr>
+<tr><td>เข้ารหัสด้วย HTTPS</td><td>ติดตั้ง certificate บน Nginx เอง</td><td>load balancer ถอดรหัส TLS (Transport Layer Security ชั้นเข้ารหัสของ HTTPS) ให้ แล้วส่งต่อเป็น HTTP ภายในเครือข่ายส่วนตัว</td></tr>
+<tr><td>ฐานข้อมูลไม่ให้ข้างนอกเห็น</td><td>ฐานข้อมูลอยู่ใน private subnet ที่ไม่มี route จากเน็ต</td><td>แยกเป็นสองเครื่องที่คุยกันด้วย private IP ฐานข้อมูลฟังแค่ <code>127.0.0.1</code> จึงรับได้แค่จากในเครื่องตัวเอง</td></tr>
+<tr><td>เครื่องหลังบ้านรับจากเครื่อง web เท่านั้น</td><td>sg-db รับจาก sg-web</td><td>iptables (firewall ที่มากับ Linux แบบในแล็บ Build VPC) บนเครื่องหลังบ้านรับ port 3000 จาก IP ของเครื่อง web เท่านั้น และตัว API ตรวจ IP ซ้ำอีกชั้น</td></tr>
+<tr><td>ผู้ดูแลเข้าเครื่องได้ทางเดียว</td><td>SSH จาก IP ของทีม หรือผ่าน bastion</td><td>SSH ผ่าน gate ของผู้ให้บริการด้วย key เท่านั้น ซึ่งทำหน้าที่เหมือน bastion</td></tr>
+</table></div>
+<p>นอกจากเรื่องเครือข่าย ทีมยังใช้หลัก Least Privilege (ให้สิทธิ์เท่าที่จำเป็นเท่านั้น) ในระดับเครื่องด้วย มีสามเรื่อง เรื่องแรก API รันในชื่อผู้ใช้ที่ไม่ใช่ root (ผู้ใช้ที่มีสิทธิ์สูงสุดของ Linux) และเขียนไฟล์ระบบไม่ได้ ถ้าโปรแกรมถูกเจาะ คนร้ายก็ได้สิทธิ์แค่เท่านั้น เรื่องที่สอง ฐานข้อมูลยืนยันตัวตนจากชื่อผู้ใช้ของระบบปฏิบัติการ จึงไม่มีรหัสผ่านฐานข้อมูลให้หลุด เรื่องที่สาม ค่าลับ (secret) เช่น กุญแจที่ใช้เซ็น token (บัตรผ่านที่บอกว่าผู้ใช้ล็อกอินแล้ว) เก็บอยู่ในไฟล์บนเครื่อง API ที่อ่านได้เฉพาะ root กับผู้ใช้ของ API และไม่ได้อยู่ใน Git</p>
+<p>เรื่อง backup ทีมสั่ง dump ฐานข้อมูล (ส่งออกข้อมูลทั้งหมดเป็นไฟล์) ทุกวันตอนตีสาม และเก็บย้อนหลังเจ็ดวัน ทีมทดสอบกู้คืนแล้ว และเช็กว่าจำนวนแถวตรงกับของจริง ที่ต้องทดสอบก็เพราะ backup ที่ไม่เคยลองกู้คืน ก็ยังไม่รู้ว่าใช้ได้จริงหรือเปล่า แต่รายงานของทีมก็ยอมรับข้อจำกัดไว้เองสองข้อ ข้อแรก backup ยังอยู่บนเครื่องเดียวกับฐานข้อมูล ถ้ายังไม่ได้ดึงออกไปเก็บที่อื่นแล้วเครื่องเสีย backup ก็หายไปด้วย ข้อที่สอง ทั้งระบบมีอย่างละหนึ่งเครื่อง เครื่องไหนล่ม ระบบก็ล่ม ข้อจำกัดสองข้อนี้คือสิ่งที่หัวข้อถัดไปจะแก้</p>
+
+<h3 id="s9">9. ขยายแบบให้ทนเมื่อ AZ หนึ่งล่ม</h3>
+<p class="note">หัวข้อ 9 และ 10 เป็นส่วนเสริมสำหรับคนที่อยากรู้มากกว่าที่ข้อสอบถาม ถ้าเวลาน้อย ให้ฝึกวาดภาพในหัวข้อ 4 และเขียนตารางในหัวข้อ 6–7 จากความจำให้ได้ก่อน แล้วไปฝึกทำข้อสอบที่ <a href="exam.html">ช่วงที่ 6</a> จากหัวข้อ 9 ขอให้จำแค่ประโยคเดียว คือ ถ้าไม่อยากให้ระบบล่ม ให้กระจายทุกชั้นไปสอง AZ วาง load balancer ไว้หน้า app server หลายเครื่อง และให้ฐานข้อมูลมีตัวสำรอง</p>
+<p>ถ้าโจทย์มีคำว่า "ห้ามล่ม" "high availability" (ระบบที่ใช้งานได้ตลอด ไม่ล่ม) หรือ "รองรับผู้ใช้จำนวนมาก" แบบ 2 tier สองเครื่องในหัวข้อ 4 จะไม่พอ ต้องขยับไปเป็น 3 tier เพราะทุกชั้นยังเป็น <b>single point of failure</b> (จุดเดียวที่ถ้าเสียแล้วทั้งระบบเสีย) วิธีแก้คือให้ทุกชั้นมีอย่างน้อยสองชุด และวางไว้คนละ AZ ตามหลักการวาง subnet ในสไลด์ Week 3</p>
+<figure>
+<svg viewBox="0 0 720 416" role="img" aria-label="VPC กระจายสอง AZ แต่ละ AZ มี public subnet ที่มี NAT, app subnet ที่มี app server และ db subnet ที่มีฐานข้อมูลหลักหรือสำรอง ALB อยู่คร่อมทั้งสอง public subnet">
+<rect class="box" x="300" y="6" width="120" height="28" rx="6"/>
+<text x="360" y="26" text-anchor="middle" class="b">อินเทอร์เน็ต</text>
+<line class="la" x1="360" y1="34" x2="360" y2="46" marker-end="url(#arwa)"/>
+<rect class="frame" x="20" y="60" width="680" height="344" rx="10"/>
+<text x="32" y="82" class="b">VPC 10.0.0.0/16</text>
+<rect class="ba" x="325" y="48" width="70" height="26" rx="6"/>
+<text x="360" y="66" text-anchor="middle" class="b">IGW</text>
+<rect class="frame" x="40" y="90" width="310" height="304" rx="8"/>
+<rect class="frame" x="370" y="90" width="310" height="304" rx="8"/>
+<text x="50" y="106" class="b">AZ-a</text>
+<text x="670" y="106" text-anchor="end" class="b">AZ-b</text>
+<rect class="frame" x="50" y="114" width="290" height="72" rx="6"/>
+<rect class="frame" x="380" y="114" width="290" height="72" rx="6"/>
+<text x="58" y="130" class="m">public 10.0.1.0/24</text>
+<text x="662" y="130" text-anchor="end" class="m">public 10.0.2.0/24</text>
+<rect class="box" x="60" y="138" width="110" height="40" rx="6"/>
+<text x="115" y="163" text-anchor="middle">NAT-a</text>
+<rect class="box" x="550" y="138" width="110" height="40" rx="6"/>
+<text x="605" y="163" text-anchor="middle">NAT-b</text>
+<rect class="ba" x="200" y="138" width="320" height="40" rx="6"/>
+<text x="360" y="163" text-anchor="middle" class="b">ALB (กระจายคำขอทั้งสอง AZ)</text>
+<line class="la" x1="360" y1="74" x2="360" y2="136" marker-end="url(#arwa)"/>
+<rect class="frame" x="50" y="196" width="290" height="90" rx="6"/>
+<rect class="frame" x="380" y="196" width="290" height="90" rx="6"/>
+<text x="58" y="283" class="m">app 10.0.11.0/24</text>
+<text x="662" y="283" text-anchor="end" class="m">app 10.0.12.0/24</text>
+<rect class="bo" x="100" y="222" width="180" height="50" rx="6"/>
+<text x="190" y="252" text-anchor="middle" class="b">App server (ASG)</text>
+<rect class="bo" x="440" y="222" width="180" height="50" rx="6"/>
+<text x="530" y="252" text-anchor="middle" class="b">App server (ASG)</text>
+<line class="ln" x1="300" y1="178" x2="210" y2="220" marker-end="url(#arw)"/>
+<line class="ln" x1="420" y1="178" x2="510" y2="220" marker-end="url(#arw)"/>
+<line class="la" x1="115" y1="222" x2="115" y2="180" stroke-dasharray="6 4" marker-end="url(#arwa)"/>
+<line class="la" x1="605" y1="222" x2="605" y2="180" stroke-dasharray="6 4" marker-end="url(#arwa)"/>
+<rect class="frame" x="50" y="296" width="290" height="90" rx="6"/>
+<rect class="frame" x="380" y="296" width="290" height="90" rx="6"/>
+<text x="58" y="312" class="m">db 10.0.21.0/24</text>
+<text x="662" y="312" text-anchor="end" class="m">db 10.0.22.0/24</text>
+<rect class="bg" x="100" y="322" width="180" height="50" rx="6"/>
+<text x="190" y="352" text-anchor="middle" class="b">DB หลัก</text>
+<rect class="bg" x="440" y="322" width="180" height="50" rx="6"/>
+<text x="530" y="352" text-anchor="middle" class="b">DB สำรอง</text>
+<line class="ln" x1="190" y1="272" x2="190" y2="320" marker-end="url(#arw)"/>
+<line class="ln" x1="470" y1="272" x2="272" y2="322" marker-end="url(#arw)"/>
+<line class="lg" x1="280" y1="347" x2="438" y2="347" marker-end="url(#arwg)"/>
+<text x="360" y="340" text-anchor="middle" class="gt" style="font-size:13px">ทำสำเนา</text>
+</svg>
+<figcaption>แบบที่ทนเมื่อ AZ หนึ่งล่ม: ALB รับคำขอแล้วกระจายให้ app server ทั้งสอง AZ app server ทุกเครื่องเขียนลง DB หลัก ซึ่งทำสำเนาไปที่ DB สำรองตลอดเวลา เส้นประคือ traffic ขาออกผ่าน NAT ของ AZ ตัวเอง</figcaption>
+</figure>
+<p>ชั้นหน้าบ้านเปลี่ยนจาก web server เครื่องเดียวที่มี public IP มาเป็น <b>ALB</b> (Application Load Balancer) ซึ่งเป็นตัวรับคำขอ HTTP/HTTPS แล้วกระจายไปให้หลายเครื่อง ALB วางคร่อม public subnet ของทั้งสอง AZ และคอยตรวจสุขภาพ (health check) ของเครื่องข้างหลังเป็นระยะ ถ้าเครื่องไหนไม่ตอบ ALB ก็หยุดส่งงานให้เครื่องนั้น เมื่อผู้ใช้เข้ามาทาง ALB แล้ว app server ก็ไม่ต้องมี public IP อีกต่อไป และย้ายเข้าไปอยู่ใน private subnet ได้ทั้งหมด</p>
+<p>ชั้นแอปใช้ <b>Auto Scaling group</b> (ASG) คือกลุ่มเครื่องที่ระบบเพิ่มหรือลดจำนวนให้เอง ตั้งจำนวนขั้นต่ำไว้สองเครื่อง AZ ละหนึ่งเครื่อง เพื่อให้ AZ หนึ่งล่มแล้วยังเหลืออีกเครื่อง และตั้งจำนวนสูงสุดไว้รับช่วงที่คนเข้าเยอะ เครื่องในกลุ่มนี้ต้องเป็นแบบ stateless คือไม่เก็บข้อมูลของผู้ใช้ไว้ในตัวเอง เพราะคำขอถัดไปของผู้ใช้คนเดิมอาจไปตกที่เครื่องอื่น หรือเครื่องอาจถูกลบทิ้งตอนลดจำนวน ข้อมูลทั้งหมดจึงต้องเก็บไว้ในฐานข้อมูล</p>
+<p>ชั้นข้อมูลมีฐานข้อมูลหลักอยู่ใน AZ หนึ่ง และฐานข้อมูลสำรองอยู่อีก AZ ตัวสำรองรับสำเนาข้อมูลจากตัวหลักตลอดเวลา ถ้าตัวหลักล่ม ระบบจะสลับไปใช้ตัวสำรองแทน subnet ของฐานข้อมูลไม่มี route ออกอินเทอร์เน็ตเลย ทั้งขาเข้าและขาออก เพราะฐานข้อมูลไม่ต้องคุยกับใครนอกจาก app server</p><p>ส่วน NAT Gateway ใช้ AZ ละหนึ่งตัว และ route table ของ app subnet ในแต่ละ AZ ชี้ไปที่ NAT ของ AZ ตัวเอง ถ้าใช้ NAT ตัวเดียว เมื่อ AZ ที่มี NAT ล่ม เครื่องใน AZ ที่เหลือก็จะออกเน็ตไม่ได้ไปด้วย</p>
+<p>การแบ่ง CIDR ใช้หลักจากสไลด์ คือ public subnet เล็กได้ เพราะของที่หันออกเน็ตมีไม่กี่ตัว ส่วน private subnet ควรใหญ่กว่า เพราะเครื่องส่วนใหญ่อยู่ที่นั่น แต่ภาพนี้ใช้ <code>/24</code> ทุก subnet เพื่อให้อ่านง่าย และตั้งเลขชุดที่สามให้บอก tier ได้ทันที (1–2 เป็น public, 11–12 เป็น app, 21–22 เป็น db) แต่ละ <code>/24</code> มี 2<sup>32−24</sup> = 256 ที่อยู่ AWS จองไว้ 5 ตัวต่อ subnet จึงเหลือให้เครื่องใช้ 251 ตัว ส่วน VPC <code>/16</code> มี 65,536 ที่อยู่ จึงยังเหลือที่ให้เพิ่ม subnet ได้อีกมาก</p>
+<div class="tw"><table>
+<tr><th>Route table</th><th>ใช้กับ</th><th>Destination → Target</th></tr>
+<tr><td>public-rt</td><td>public ทั้งสอง AZ</td><td><code>10.0.0.0/16</code> → local, <code>0.0.0.0/0</code> → IGW</td></tr>
+<tr><td>app-rt-a</td><td>app ใน AZ-a</td><td><code>10.0.0.0/16</code> → local, <code>0.0.0.0/0</code> → NAT-a</td></tr>
+<tr><td>app-rt-b</td><td>app ใน AZ-b</td><td><code>10.0.0.0/16</code> → local, <code>0.0.0.0/0</code> → NAT-b</td></tr>
+<tr><td>db-rt</td><td>db ทั้งสอง AZ</td><td><code>10.0.0.0/16</code> → local เท่านั้น</td></tr>
+</table></div>
+<p>route <code>local</code> คือ route ที่ทำให้ทุก subnet ใน VPC คุยกันได้ Cloud ใส่ route นี้ให้เองเสมอ ถ้าจะห้ามไม่ให้ subnet หนึ่งคุยกับใคร จึงต้องทำที่ SG และ NACL ไม่ใช่ที่ route table</p>
+
+<h3 id="s10">10. ฝึกตอบโจทย์หนึ่งข้อ</h3>
+<p><b>โจทย์ตัวอย่าง:</b> มหาวิทยาลัยต้องการย้ายระบบลงทะเบียนเรียนขึ้น Cloud ช่วงเปิดลงทะเบียนมีนักศึกษาเข้าพร้อมกันหลายหมื่นคน แต่ช่วงอื่นใช้น้อยมาก ระบบห้ามล่มระหว่างเปิดลงทะเบียน ข้อมูลนักศึกษาห้ามรั่ว และผู้ดูแลระบบต้องเข้าไปจัดการเครื่องได้ ให้ออกแบบ architecture กำหนด instance และการตั้งค่าที่สำคัญ</p>
+<p><b>อ่านความต้องการก่อน</b> "เข้าพร้อมกันเป็นช่วง" แปลว่าต้องใช้ Auto Scaling แทนการซื้อเครื่องใหญ่ไว้ทั้งปี ข้อนี้ตรงกับลักษณะ rapid elasticity ของ Cloud (ขยายและหดได้เร็วตามความต้องการ) "ห้ามล่ม" แปลว่าทุกชั้นต้องอยู่สอง AZ "ข้อมูลห้ามรั่ว" แปลว่าฐานข้อมูลต้องอยู่ใน private subnet ที่ไม่มี route ออกเน็ต และต้องเข้ารหัสข้อมูล ส่วน "ผู้ดูแลต้องเข้าได้" แปลว่าต้องมีทางเข้าทางเดียวที่ควบคุมได้ ซึ่งก็คือ bastion</p>
+<p><b>โครงสร้าง</b> ใช้แบบของหัวข้อ 9 ทั้งหมด คือ VPC <code>10.0.0.0/16</code> กระจายสอง AZ แต่ละ AZ มี public, app และ db subnet มี ALB คร่อม public subnet มี NAT Gateway AZ ละหนึ่งตัว และเพิ่ม bastion หนึ่งเครื่องใน public subnet ถ้าโจทย์บอกว่ามหาวิทยาลัยมีเครือข่ายเดิมที่ต้องเชื่อมเข้ามา ก็เพิ่ม Site-to-Site VPN (อุโมงค์เข้ารหัสที่วิ่งผ่านอินเทอร์เน็ต) หรือ Direct Connect (สายเชื่อมตรงที่ไม่ผ่านอินเทอร์เน็ต) ตาม <a href="summary3.html#s4">ช่วง 3 ข้อ 4</a></p>
+<div class="tw"><table>
+<tr><th>Instance</th><th>Subnet</th><th>Public IP</th><th>จำนวน</th><th>ขนาดและเหตุผล</th></tr>
+<tr><td>App server</td><td>app ทั้งสอง AZ</td><td>ไม่มี</td><td>ASG ขั้นต่ำ 2 สูงสุดราว 10</td><td>ขนาดกลาง เช่น 2 vCPU 4 GB เพิ่มทีละเครื่องเมื่อ CPU เฉลี่ยเกินค่าที่ตั้ง ขยายแนวนอนถูกกว่าซื้อเครื่องใหญ่ที่ว่างเกือบทั้งปี</td></tr>
+<tr><td>Database</td><td>db ทั้งสอง AZ</td><td>ไม่มี</td><td>2 (หลัก + สำรอง)</td><td>เน้น RAM และดิสก์เร็ว ขยายแนวตั้ง ใช้ฐานข้อมูลแบบ managed เพื่อให้ผู้ให้บริการดูแล backup และการสลับไปตัวสำรอง</td></tr>
+<tr><td>Bastion</td><td>public AZ-a</td><td>มี</td><td>1</td><td>เล็กที่สุด ใช้แค่เป็นทางผ่าน SSH ถ้าล่มก็ไม่กระทบผู้ใช้</td></tr>
+</table></div>
+<div class="tw"><table>
+<tr><th>Security Group</th><th>ขาเข้า</th><th>รับจาก</th><th>เหตุผล</th></tr>
+<tr><td>sg-alb</td><td>443</td><td><code>0.0.0.0/0</code></td><td>นักศึกษาเข้าเว็บผ่าน HTTPS</td></tr>
+<tr><td>sg-bastion</td><td>22</td><td>IP ของมหาวิทยาลัย</td><td>ผู้ดูแลเข้าได้จากในมหาวิทยาลัยเท่านั้น</td></tr>
+<tr><td>sg-app</td><td>port ของแอป</td><td>sg-alb</td><td>รับคำขอที่ผ่าน ALB เท่านั้น</td></tr>
+<tr><td>sg-app</td><td>22</td><td>sg-bastion</td><td>ผู้ดูแลต้อง SSH ผ่าน bastion</td></tr>
+<tr><td>sg-db</td><td>port ของฐานข้อมูล</td><td>sg-app</td><td>มีแค่แอปที่คุยกับฐานข้อมูลได้</td></tr>
+</table></div>
+<p><b>การตั้งค่าอื่นที่ควรเขียนต่อท้าย</b> มีสี่เรื่อง เรื่องแรกคือ NACL ของ db subnet ให้รับเฉพาะจากช่วง IP ของ app subnet เป็นด่านที่สองซ้อนกับ SG เรื่องที่สองคือ IAM Role (ชุดสิทธิ์ที่ผูกกับเครื่อง ใช้แทนการเก็บ access key ไว้ในเครื่อง) ให้ app server เขียน log ได้แต่ลบไม่ได้ ตามหลัก least privilege เรื่องที่สามคือเข้ารหัสข้อมูลทั้งตอนเก็บและตอนส่ง (HTTPS) เรื่องที่สี่คือ backup อัตโนมัติที่เก็บแยกจากตัวฐานข้อมูล และทดสอบกู้คืนเป็นระยะ สุดท้ายให้ปิดคำตอบด้วยการไล่เส้นทาง traffic หนึ่งรอบ เช่น นักศึกษา → IGW → ALB → app server → DB หลัก เพื่อแสดงว่าทุกจุดมีกฎรองรับ</p>
+<p>สังเกตว่าคำตอบนี้ก็คือแบบของโปรเจกต์ "คันนี้ดีไหม?" ที่ขยายใหญ่ขึ้น สิ่งที่เปลี่ยนคือขยับจาก 2 tier เป็น 3 tier โดยแยก app server ออกจากเครื่อง web เปลี่ยนเครื่องหน้าบ้านเครื่องเดียวเป็น ALB คู่กับ ASG ให้ฐานข้อมูลมีตัวสำรอง และย้าย backup ออกจากเครื่องฐานข้อมูล ทุกอย่างที่เปลี่ยนคือการแก้ข้อจำกัดที่รายงานของทีมยอมรับไว้เอง ถ้าเจอโจทย์อื่น ก็ให้เริ่มจากแบบ 2 tier ของโปรเจกต์ แล้วเพิ่มชิ้นส่วนตามคำในโจทย์ทีละอย่าง</p>
+<p>ถ้าอยากลองทำข้อสอบครบทั้ง 4 ข้อแบบข้อเขียน มีชุดตัวอย่างพร้อมแนวคำตอบอยู่ใน <a href="exam.html">ช่วงที่ 6</a></p>
+
+<h3 id="review">ทวนก่อนสอบ</h3>
+<p>ข้อ 1–2 ให้ตอบสามขั้น คือนิยาม เหตุผล และตัวอย่าง เรื่องที่ต้องแม่นที่สุดคือลักษณะ 5 ข้อของ Cloud, IaaS/PaaS/SaaS, Region กับ AZ, การคำนวณ CIDR (อย่าลืมลบ 5 สำหรับ AWS) และความต่างของ public กับ private subnet ซึ่งต่างกันที่ route ไป IGW เพียงอย่างเดียว</p>
+<p>ข้อ 3–4 อาจารย์กำหนดให้โปรเจกต์เป็น 2 tier คือ web + app อยู่ใน public subnet และฐานข้อมูลแยกไปอยู่ใน private subnet ให้ตอบตามลำดับนี้ ความต้องการ → tier → VPC และ subnet → route table → instance → SG และ NACL → IAM, backup และการเข้าดูแลเครื่อง แล้วปิดด้วยการไล่เส้นทาง traffic ทุกตารางต้องมีคอลัมน์เหตุผล และทุกการตัดสินใจต้องโยงกลับไปหาคำในโจทย์ได้</p>
+<p>กับดักในโจทย์ออกแบบที่ควรระวังมีแปดข้อ (1) เครื่องที่มี public IP ไม่ได้ทำให้ subnet เป็น public ถ้าไม่มี route ไป IGW (2) NAT Gateway ต้องอยู่ใน public subnet ไม่ใช่ private (3) ฐานข้อมูลไม่ควรมี public IP และต้องอยู่ใน private subnet (4) ห้ามเปิด port 22 ให้ <code>0.0.0.0/0</code> (5) กฎ SG ระหว่าง tier ควรอ้างชื่อ SG ไม่ใช่ IP (6) SG ไม่ต้องเขียนกฎขากลับ แต่ NACL ต้องเปิด ephemeral port (7) "ห้ามล่ม" ต้องใช้อย่างน้อยสอง AZ ทั้งชั้นแอปและชั้นข้อมูล (8) NAT ตัวเดียวก็เป็น single point of failure ได้</p>
+
+<nav class="pager"><a href="summary4.html">ก่อนหน้า: ช่วงที่ 4 AI Services</a><a href="exam.html">ถัดไป: ช่วงที่ 6 ข้อสอบข้อเขียนตัวอย่าง</a></nav>
+
+</main>
+</body>
+</html>

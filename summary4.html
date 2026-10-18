@@ -441,7 +441,7 @@ Authorization: Bearer $API_KEY
 <p>โจทย์คำนวณของช่วงนี้มีไม่กี่แบบ ค่าใช้จ่ายคือ token × ราคาต่อล้าน ÷ ล้าน แยกขาเข้ากับขาออกแล้วรวมกัน โดย thinking token คิดราคาขาออกเสมอ หน่วยความจำคือ parameter × byte ต่อ parameter (FP16 = 2, INT8 = 1, INT4 = 0.5) และ training ใช้หลายเท่าของนั้น MCP เปลี่ยนจำนวนตัวเชื่อมจาก M × N เป็น M + N ส่วน cosine similarity ดูแค่มุมระหว่าง vector ถ้าเทียบ NVLink กับ InfiniBand ให้แปลง Gb/s เป็น GB/s ก่อน (หารด้วย 8) และจุดคุ้มทุนของ self-host ให้ตอบตามตัวเลขที่โจทย์ใช้</p>
 <p>โจทย์แนวคิดให้จำว่าโมเดลไม่จำอะไรข้ามคำขอ และไม่ได้เรียก API เอง แอปเป็นคนเรียก RAG ลด hallucination ได้โดยไม่ต้อง train ใหม่ แต่ทั้งสองช่วงของ RAG ต้องใช้ embedding model ตัวเดียวกัน prompt cache ได้ผลเมื่อวางส่วนที่ไม่เปลี่ยนไว้ต้นข้อความ และ self-host คุ้มเมื่อปริมาณสูงเพราะต้นทุนเกือบคงที่ ส่วน API คุ้มเมื่อปริมาณน้อยเพราะจ่ายตามที่ใช้</p>
 
-<nav class="pager"><a href="summary3.html">ก่อนหน้า: ช่วงที่ 3 Cloud Security</a><a href="summary.html">กลับหน้าสารบัญ</a></nav>
+<nav class="pager"><a href="summary3.html">ก่อนหน้า: ช่วงที่ 3 Cloud Security</a><a href="summary5.html">ถัดไป: ช่วงที่ 5 แนวข้อสอบและการออกแบบ Architecture</a></nav>
 
 </main>
 </body>

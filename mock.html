@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cloud ข้อสอบจำลอง</title>
+<style>
+:root{
+  --bg:#f6f5f1; --surface:#ffffff; --surface2:#efeee9; --text:#1d1f23; --muted:#5d636b; --border:#d9d7cf;
+  --accent:#2f6fd0; --accent-soft:#e3ecfa; --orange:#c96a12; --orange-soft:#fbeedd;
+  --good:#1f8a4c; --good-soft:#e2f3e8; --bad:#c23b3b; --bad-soft:#f8e3e3; --warn-soft:#fff5d6;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.75 -apple-system,BlinkMacSystemFont,"Sukhumvit Set","Noto Sans Thai","Segoe UI",sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding:24px 16px 80px}
+.top{font-size:15px;margin:0 0 6px}
+.top a,a{color:var(--accent);text-decoration:none}
+header h1{font-size:30px;line-height:1.3;margin:8px 0 4px}
+header p{color:var(--muted);margin:0 0 12px}
+section.part{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 20px 24px;margin-top:20px}
+h2{font-size:24px;line-height:1.35;margin:0 0 6px}
+h3{font-size:19px;margin:24px 0 6px}
+p{margin:10px 0}
+.lead{font-size:18px}
+.tw{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:15.5px;min-width:520px}
+th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface2)}
+code{background:var(--surface2);border-radius:5px;padding:1px 5px;font-size:15px;overflow-wrap:anywhere}
+pre{background:var(--surface2);border-radius:10px;padding:10px 14px;margin:10px 0;overflow-x:auto;font-size:14px;line-height:1.6}
+.choice{display:grid;gap:8px;margin:14px 0}
+.choice label{display:flex;gap:10px;align-items:flex-start;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:8px 12px;cursor:pointer}
+.choice input{margin-top:7px;flex:none}
+.choice small{display:block;color:var(--muted);font-size:14.5px;line-height:1.6}
+.btn{font:inherit;font-size:16px;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:9px 18px;cursor:pointer}
+.btn.ghost{background:var(--surface);color:var(--accent);border:1px solid var(--accent)}
+.btn.small{font-size:14px;padding:5px 12px}
+.trap{background:var(--warn-soft);border-radius:10px;padding:10px 14px;margin:12px 0}
+.hide{display:none!important}
+
+/* แถบด้านบนระหว่างทำข้อสอบ */
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--border);margin:16px -16px 0;padding:8px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:15px}
+.bar .clock{font-weight:700;font-variant-numeric:tabular-nums}
+.bar .clock.low{color:var(--orange)}
+.bar .sp{flex:1}
+.bar .btn{font-size:15px;padding:5px 14px}
+
+/* การ์ดคำถาม */
+.qc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-top:14px;scroll-margin-top:64px}
+.qc .qh{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline;margin-bottom:4px}
+.qc .no{font-weight:700;color:var(--accent)}
+.qc .tag{font-size:13.5px;color:var(--muted);background:var(--surface2);border-radius:99px;padding:1px 10px}
+.qc .qt{font-weight:600;margin:0 0 8px}
+.opts{display:grid;gap:6px}
+.opts button{font:inherit;font-size:15.5px;text-align:left;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:9px;padding:7px 12px;cursor:pointer;display:flex;gap:8px}
+.opts button .k{flex:none;font-weight:700;color:var(--muted)}
+.opts button:hover:not(:disabled){border-color:var(--accent)}
+.opts button.sel{background:var(--accent-soft);border-color:var(--accent)}
+.opts button.sel .k{color:var(--accent)}
+.opts button.right{background:var(--good-soft);border-color:var(--good)}
+.opts button.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.opts button:disabled{cursor:default;color:var(--text)}
+.exp{font-size:15.5px;margin-top:10px;background:var(--surface2);border-radius:10px;padding:10px 14px}
+.exp .v{font-weight:700}
+.exp .v.ok{color:var(--good)} .exp .v.no{color:var(--bad)}
+.qc.isok{border-left:5px solid var(--good)}
+.qc.isno{border-left:5px solid var(--bad)}
+.foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:20px}
+.warn{color:var(--bad);font-size:15px}
+
+/* ผลสอบ */
+.big{font-size:44px;font-weight:700;line-height:1.1;margin:6px 0}
+.big small{font-size:20px;color:var(--muted);font-weight:500}
+.meter{height:10px;background:var(--surface2);border-radius:99px;overflow:hidden;min-width:80px}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.meter i.lo{background:var(--bad)} .meter i.mid{background:var(--orange)} .meter i.hi{background:var(--good)}
+table.score{min-width:0}
+table.score td:nth-child(2){white-space:nowrap}
+.review{padding-left:22px;margin:6px 0}
+.review li{margin:4px 0}
+.filter{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.filter .btn.on{background:var(--accent);color:#fff}
+@media (max-width:600px){body{font-size:16px} section.part{padding:16px} h2{font-size:21px} header h1{font-size:25px} .qc{padding:14px} .big{font-size:38px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="top"><a href="summary.html">← กลับไปหน้าสารบัญ</a></p>
+<header>
+<h1>ช่วงที่ 7 ข้อสอบจำลอง Cloud Network and Computing</h1>
+<p>วิชา 010123218 · ข้อสอบปรนัย 60 ข้อ ผสมเนื้อหาจากทั้งสี่ช่วง · ส่งแล้วจะเห็นคะแนนแยกตามช่วงและเฉลยพร้อมคำอธิบายทุกข้อ</p>
+</header>
+
+<!-- ================= หน้าเริ่ม ================= -->
+<section class="part" id="intro">
+<h2>ก่อนเริ่ม อ่านตรงนี้นิดหนึ่ง</h2>
+<p class="lead">ชุดนี้ทำไว้ซ้อมก่อนสอบจริง ข้อสอบเรียงปนกันทุกช่วงเหมือนข้อสอบจริง ไม่ได้เรียงตามบท จึงต้องนึกเองว่าโจทย์กำลังถามเรื่องอะไร ซึ่งเป็นทักษะที่ quiz ท้ายแต่ละส่วนไม่ได้ฝึก โจทย์ทุกข้อเขียนใหม่ ไม่ได้ลอกจาก quiz ท้ายส่วน และมีข้อคำนวณ (มีเครื่องหมาย 🧮) อยู่ราวหนึ่งในสาม เช่น คำนวณ CIDR, ไล่กฎ NACL, ตัดสินสิทธิ์ IAM, คิดค่า token และคิด VRAM ของ GPU</p>
+<p>ระหว่างทำจะยังไม่เฉลย กดเลือกคำตอบแล้วเปลี่ยนใจได้จนกว่าจะกดส่ง พอส่งแล้วหน้าจะบอกคะแนนรวม คะแนนแยกตามช่วง และรายชื่อส่วนที่ควรกลับไปทวน เช่น 7B หรือ 8E พร้อมลิงก์ไปยังส่วนนั้นในบทเรียน ทุกข้อมีคำอธิบายว่าทำไมคำตอบนี้ถูก และตัวเลือกที่ชวนให้ตอบผิดนั้นผิดตรงไหน คำตอบที่เลือกไว้จะถูกบันทึกไว้ในเบราว์เซอร์นี้ ปิดหน้าไปแล้วเปิดกลับมาก็ยังทำต่อได้</p>
+
+<div class="tw"><table>
+<tr><th>ช่วง</th><th>จำนวนข้อ</th><th>เรื่องที่ออก</th></tr>
+<tr><td>1 พื้นฐาน Network, Cloud และ Virtualization</td><td>15</td><td>เส้นทางของข้อมูล, TCP กับ UDP, NAT, ลักษณะของ Cloud ตาม NIST, IaaS/PaaS/SaaS, Region กับ AZ, hypervisor, เทคนิค virtualization, container, storage</td></tr>
+<tr><td>2 Cloud Networking และแล็บ</td><td>17</td><td>CIDR, RFC 1918, route table, Internet Gateway กับ NAT Gateway, SDN, NFV, สถาปัตยกรรมแบบ tier, Azure เทียบ AWS และแล็บ GetStart, WebApp, Build VPC</td></tr>
+<tr><td>3 Cloud Security</td><td>13</td><td>shared responsibility, Security Group กับ NACL, IAM, VPN กับ Direct Connect, defense in depth และหลักการออกแบบ</td></tr>
+<tr><td>4 AI Services และโครงสร้างพื้นฐาน</td><td>15</td><td>ค่า token, reasoning, multimodal, การเรียก API, prompt cache, function calling, MCP, embedding, RAG, GPU, VRAM, self-host</td></tr>
+</table></div>
+
+<h3>เลือกรูปแบบ</h3>
+<div class="choice">
+<label><input type="radio" name="mode" id="mTimed" checked><span><b>จับเวลา 90 นาที</b><small>เฉลี่ยข้อละนาทีครึ่ง พอหมดเวลาระบบจะส่งคำตอบให้เอง ข้อที่ยังไม่ได้ตอบนับเป็นผิด</small></span></label>
+<label><input type="radio" name="mode" id="mFree"><span><b>ไม่จับเวลา</b><small>ทำไปเรื่อย ๆ ด้านบนจะนับเวลาที่ใช้ไปให้ดูเฉย ๆ</small></span></label>
+<label><input type="checkbox" id="mShuffle" checked><span><b>สลับลำดับข้อและตัวเลือก</b><small>ทำซ้ำรอบที่สองแล้วจะได้ไม่จำตำแหน่งคำตอบ</small></span></label>
+</div>
+<p><button class="btn" id="startBtn">เริ่มทำข้อสอบ</button></p>
+</section>
+
+<!-- ================= ผลสอบ ================= -->
+<section class="part hide" id="result"></section>
+
+<!-- ================= ข้อสอบ ================= -->
+<div id="exam" class="hide">
+<div class="bar" id="bar">
+<span class="clock" id="clock"></span>
+<span id="count"></span>
+<span class="sp"></span>
+<button class="btn ghost small" id="jumpBtn">ไปข้อที่ยังไม่ตอบ</button>
+<button class="btn" id="submitTop">ส่งคำตอบ</button>
+</div>
+<div class="filter hide" id="filter">
+<button class="btn ghost small on" data-f="all">ดูทุกข้อ</button>
+<button class="btn ghost small" data-f="wrong">ดูเฉพาะข้อที่ผิด</button>
+</div>
+<div id="qs"></div>
+<div class="foot" id="foot">
+<button class="btn" id="submitBtn">ส่งคำตอบ</button>
+<span class="warn" id="warn"></span>
+<span class="sp" style="flex:1"></span>
+<button class="btn ghost small" id="quitBtn">ยกเลิกชุดนี้แล้วกลับไปหน้าเริ่ม</button>
+</div>
+</div>
+
+</div>
+
+<script>
+/* ส่วนของบทเรียน: [ช่วง, ไฟล์, anchor, ชื่อส่วน] */
+const SEC = {
+  "1A":[1,"summary1.html","s1","ข้อมูลเดินทางไปถึง Cloud ยังไง"],
+  "1B":[1,"summary1.html","s5","Cloud คืออะไร และตั้งอยู่ที่ไหน"],
+  "2A":[1,"summary1.html","s10","Virtualization และ Hypervisor"],
+  "2B":[1,"summary1.html","s12","เทคนิค virtualize CPU หน่วยความจำ และ I/O"],
+  "2C":[1,"summary1.html","s16","Xen, Container และบริการบน Cloud"],
+  "3A":[2,"summary2.html","s1","VPC และการวางแผน IP"],
+  "3B":[2,"summary2.html","s5","Route Table, Internet Gateway และ NAT Gateway"],
+  "3C":[2,"summary2.html","s7","SDN และ NFV"],
+  "3D":[2,"summary2.html","s9","สถาปัตยกรรมแบบ Tier และ Azure เทียบ AWS"],
+  "L1":[2,"summary2.html","s11","แล็บ GetStart: Bastion และ Port mapping"],
+  "L2":[2,"summary2.html","s12","แล็บ WebApp: แอปสามชั้น, REST API และ CORS"],
+  "L3":[2,"summary2.html","s13","แล็บ Build VPC: iptables"],
+  "7A":[3,"summary3.html","s1","Shared Responsibility"],
+  "7B":[3,"summary3.html","s2","Security Group กับ Network ACL"],
+  "7C":[3,"summary3.html","s3","IAM"],
+  "7D":[3,"summary3.html","s4","VPN กับ Direct Connect"],
+  "7E":[3,"summary3.html","s5","Defense in Depth และหลักการออกแบบ"],
+  "8A":[4,"summary4.html","s1","LLM ทำงานยังไง: token และ context"],
+  "8B":[4,"summary4.html","s5","Reasoning Model และ Multimodal"],
+  "8C":[4,"summary4.html","s7","เรียก LLM ผ่าน API และราคา"],
+  "8D":[4,"summary4.html","s8","Function Calling, MCP และ Agent"],
+  "8E":[4,"summary4.html","s9","Embedding, Vector Database และ RAG"],
+  "8F":[4,"summary4.html","s10","GPU, VRAM, Training กับ Inference"],
+  "8G":[4,"summary4.html","s12","Self-host หรือ API และ Managed AI"]
+};
+const PH = {1:"พื้นฐาน Network, Cloud และ Virtualization",2:"Cloud Networking และแล็บ",3:"Cloud Security",4:"AI Services และโครงสร้างพื้นฐาน"};
+
+/* ข้อสอบ: s = ส่วน, c = ข้อคำนวณ, a = index ของคำตอบที่ถูกใน o */
+const Q = [
+/* ---------- ช่วงที่ 1 ---------- */
+{id:"q01",s:"1A",q:`นักศึกษาพิมพ์ www.kmutnb.ac.th ลงใน browser เป็นครั้งแรก เครื่องยังไม่เคยรู้จักเว็บนี้มาก่อน ข้อใดเรียงลำดับเหตุการณ์ได้ถูกต้อง?`,
+ o:[`ถาม DNS ว่าชื่อนี้คือ IP อะไร → เปิดการเชื่อมต่อ TCP กับ server → packet วิ่งผ่าน router และ ISP → server ส่งหน้าเว็บกลับ`,
+    `เปิดการเชื่อมต่อ TCP กับ server → ถาม DNS ว่าชื่อนี้คือ IP อะไร → packet วิ่งผ่าน router และ ISP → server ส่งหน้าเว็บกลับ`,
+    `ส่ง packet ไปที่ ISP ก่อน แล้วให้ ISP เปิดการเชื่อมต่อแทน → ถาม DNS → server ส่งหน้าเว็บกลับ`,
+    `ถาม DNS ว่าชื่อนี้คือ IP อะไร → ส่งหน้าเว็บด้วย UDP ทันทีโดยไม่ต้องเปิดการเชื่อมต่อ → server ส่งหน้าเว็บกลับ`],a:0,
+ e:`เครื่องยังไม่รู้ว่าเว็บนี้อยู่ที่ IP (Internet Protocol address เลขประจำเครื่องบนเครือข่าย) อะไร จึงต้องถาม DNS (Domain Name System ระบบที่แปลงชื่อเว็บเป็น IP) ก่อนเป็นอย่างแรก เหมือนต้องรู้เบอร์ก่อนถึงจะโทรออกได้ พอได้ IP แล้วจึงเปิดการเชื่อมต่อแบบ TCP (Transmission Control Protocol) จากนั้น packet ถึงจะวิ่งผ่าน router และ ISP (Internet Service Provider ผู้ให้บริการอินเทอร์เน็ต) ไปจนถึง server ตัวเลือกที่ใช้ UDP ผิดเพราะหน้าเว็บขาดไปแม้แต่ชิ้นเดียวก็แสดงไม่ได้ จึงต้องใช้ TCP ที่ดูแลให้ข้อมูลมาครบ`},
+{id:"q02",s:"1A",q:`ข้อใดจับคู่งานกับ protocol ชั้น Transport ได้เหมาะที่สุด?<br>(1) โหลดไฟล์อัปเดตเกมขนาด 2 GB &nbsp;(2) ถ่ายทอดสดเสียงพากย์ฟุตบอล`,
+ o:[`(1) TCP และ (2) UDP`,`(1) UDP เพราะไฟล์ใหญ่ต้องเร็ว และ (2) TCP`,`ทั้งสองงานใช้ UDP`,`ทั้งสองงานใช้ ICMP`],a:0,
+ e:`ให้ถามตัวเองว่าข้อมูลหายได้ไหม ไฟล์อัปเดตขาดไปแค่ไม่กี่ byte ก็เปิดใช้ไม่ได้ จึงต้องใช้ TCP (Transmission Control Protocol) ที่ใส่หมายเลขลำดับและส่งชิ้นที่หายซ้ำให้ ส่วนเสียงพากย์สด ถ้าชิ้นไหนหายแล้วส่งซ้ำมาทีหลัง ก็เลยจังหวะที่ต้องเล่นไปแล้ว ข้ามไปเล่นชิ้นล่าสุดดีกว่า จึงเหมาะกับ UDP (User Datagram Protocol) ที่ส่งทันทีไม่รอ ส่วน ICMP (Internet Control Message Protocol) เป็นของคำสั่ง ping และอยู่ชั้น Internet ไม่ได้ใช้ส่งข้อมูลของแอป`},
+{id:"q03",s:"1A",q:`เพื่อนส่งคำขอจากอินเทอร์เน็ตมาที่ public IP ของ router บ้านเรา โดยที่ยังไม่มีเครื่องไหนในบ้านเริ่มคุยกับเพื่อนก่อน และไม่ได้ตั้งค่าอะไรไว้เป็นพิเศษ router จะทำอย่างไร?`,
+ o:[`ส่งต่อให้ทุกเครื่องในบ้านพร้อมกัน`,`ส่งต่อให้เครื่องแรกที่ต่อ Wi-Fi`,`ทิ้ง packet นั้น เพราะในตาราง NAT ไม่มีรายการว่าการเชื่อมต่อนี้เป็นของเครื่องไหน`,`ส่งกลับไปถาม DNS ว่าควรส่งให้ใคร`],a:2,
+ e:`NAT (Network Address Translation การแปลงที่อยู่ในเครือข่าย) จะจดการเชื่อมต่อลงตารางก็ต่อเมื่อเครื่องในบ้านเป็นฝ่ายเริ่มคุยออกไปก่อน พอคำตอบกลับมา router จึงเปิดตารางแล้วรู้ว่าต้องส่งให้เครื่องไหน กรณีนี้ไม่มีใครเริ่มก่อน ตารางจึงไม่มีรายการ router ไม่รู้จะส่งให้ใคร packet จึงถูกทิ้ง หลักเดียวกันนี้คือเหตุผลที่ NAT Gateway ในช่วงที่ 2 ปล่อยให้เครื่องใน private subnet ออกเน็ตได้ แต่คนข้างนอกเปิดการเชื่อมต่อเข้ามาเองไม่ได้`},
+{id:"q04",s:"1B",q:`บริษัทหนึ่งเช่าเครื่องจากผู้ให้บริการรายเล็ก ทุกครั้งที่ต้องการเครื่องเพิ่ม ต้องส่งอีเมลไปขอแล้วรอเจ้าหน้าที่อนุมัติประมาณ 3 วัน ระบบนี้ขาดลักษณะของ Cloud ตาม NIST ข้อใดชัดเจนที่สุด?`,
+ o:[`Broad network access`,`Resource pooling`,`Measured service`,`On-demand self-service`],a:3,
+ e:`NIST (National Institute of Standards and Technology สถาบันมาตรฐานและเทคโนโลยีของสหรัฐฯ) บอกว่า Cloud ต้องให้ลูกค้าขอทรัพยากรได้เองทันทีโดยไม่ต้องรอคนอนุมัติ ข้อนี้เรียกว่า On-demand self-service การต้องส่งอีเมลแล้วรอสามวันจึงขัดกับข้อนี้ตรง ๆ ส่วน Broad network access คือเข้าถึงได้จากทุกอุปกรณ์ Resource pooling คือหลายลูกค้าใช้เครื่องจริงชุดเดียวกัน และ Measured service คือวัดการใช้งานแล้วคิดเงินตามจริง ซึ่งโจทย์ไม่ได้พูดถึงเลย`},
+{id:"q05",s:"1B",q:`ทีมพัฒนาอยากอัปโหลดโค้ด Python ขึ้นไปแล้วให้รันได้เลย ไม่อยากดูแล OS และไม่อยากลง patch เอง ควรเลือกบริการแบบใด?`,
+ o:[`IaaS เช่น Amazon EC2`,`PaaS เช่น AWS Elastic Beanstalk หรือ Azure App Service`,`SaaS เช่น Gmail`,`IaaS เช่น Azure App Service`],a:1,
+ e:`PaaS (Platform as a Service) ให้เครื่อง OS (Operating System ระบบปฏิบัติการ) และ runtime (ซอฟต์แวร์ที่โค้ดต้องใช้ตอนรัน เช่น Python) มาพร้อม เราดูแลแค่โค้ดกับข้อมูล ตรงกับที่ทีมต้องการ ถ้าเลือก IaaS (Infrastructure as a Service) อย่าง EC2 (Elastic Compute Cloud บริการเช่า VM ของ AWS) จะได้เครื่องเปล่าและต้องลง patch ของ OS เอง ส่วน SaaS (Software as a Service) อย่าง Gmail เป็นซอฟต์แวร์สำเร็จรูป เอาโค้ดของเราไปรันไม่ได้ ตัวเลือกที่เรียก Azure App Service ว่า IaaS ก็ผิด เพราะบริการนี้เป็น PaaS`},
+{id:"q06",s:"1B",q:`โรงพยาบาลรันระบบนัดหมายไว้ใน private cloud ของตัวเอง ช่วงเปิดจองวัคซีนมีคนเข้ามาพร้อมกันมากจนเครื่องไม่พอ จึงส่งงานส่วนที่ล้นไปรันบน public cloud ชั่วคราว พอคนน้อยลงก็ดึงกลับ การทำแบบนี้เรียกว่าอะไร?`,
+ o:[`Data sovereignty`,`Live migration`,`Cloud bursting`,`Server consolidation`],a:2,
+ e:`Cloud bursting คือการส่งงานส่วนที่ล้นจาก private cloud ไปทำบน public cloud ชั่วคราวในช่วงที่คนใช้เยอะ เหมือนร้านอาหารที่ปกติใช้ครัวตัวเอง แต่ช่วงเทศกาลจ้างครัวข้างนอกมาช่วย เป็นรูปแบบหนึ่งของ hybrid cloud ส่วน data sovereignty คือการคุมว่าข้อมูลถูกเก็บอยู่ในประเทศไหน live migration คือการย้าย VM ที่กำลังทำงานไปเครื่องจริงอีกเครื่อง และ server consolidation คือการรวมหลาย VM ไว้บนเครื่องจริงเครื่องเดียว`},
+{id:"q07",s:"1B",q:`ร้านค้าออนไลน์มีลูกค้าส่วนใหญ่อยู่ในไทย ต้องการให้เว็บตอบเร็ว และต้องการให้เว็บยังทำงานต่อได้ถ้า data center แห่งหนึ่งไฟดับ ข้อใดเหมาะที่สุด?`,
+ o:[`เลือก Region ที่อยู่ใกล้ไทย แล้ววางเครื่องกระจายไว้หลาย AZ ใน Region นั้น`,`เลือก Region ที่ค่าเช่าถูกที่สุดในโลก แล้ววางทุกเครื่องไว้ใน AZ เดียว`,`วางเครื่องหลายเครื่องไว้ใน AZ เดียวกันของ Region ที่ใกล้ไทย`,`เช่า VM ขนาดใหญ่ที่สุดเพียงเครื่องเดียว จะได้ไม่มีปัญหาเรื่องเครื่องไม่พอ`],a:0,
+ e:`ความเร็วขึ้นกับระยะทาง ยิ่ง Region อยู่ใกล้ผู้ใช้ latency (เวลาที่ข้อมูลใช้เดินทาง) ยิ่งต่ำ ส่วนการทนไฟดับต้องอาศัย AZ (Availability Zone) ซึ่งแต่ละ AZ คือ data center ที่แยกไฟฟ้า ระบบทำความเย็น และเครือข่ายออกจากกันจริง ถ้าวางเครื่องไว้หลาย AZ แล้ว AZ หนึ่งล่ม อีก AZ ก็ยังรับงานต่อได้ การวางหลายเครื่องใน AZ เดียวไม่ช่วยเลย เพราะไฟดับทีเดียวก็ดับหมดทุกเครื่อง และ VM เครื่องเดียวก็คือ single point of failure (จุดที่พังแล้วพาทั้งระบบพังตาม)`},
+{id:"q08",s:"2A",q:`ข้อใดถูกต้องเกี่ยวกับ hypervisor สองแบบ?`,
+ o:[`Hyper-V และ VirtualBox เป็น Type 2 ทั้งคู่`,`Type 2 ปลอดภัยกว่า Type 1 เพราะมี host OS ป้องกันอีกชั้น`,`ผู้ให้บริการ Cloud นิยม Type 2 เพราะติดตั้งง่าย`,`Type 1 ติดตั้งลงบนฮาร์ดแวร์โดยตรง จึงเร็วกว่า Type 2 ที่ต้องทำงานผ่าน host OS อีกชั้น`],a:3,
+ e:`Type 1 หรือ bare-metal ติดตั้งลงบนฮาร์ดแวร์โดยตรง ไม่มี OS อื่นคั่น จึงเร็วและปลอดภัยที่สุด ผู้ให้บริการ Cloud ทุกเจ้าใช้แบบนี้ ตัวอย่างคือ VMware ESXi, Xen, KVM และ Hyper-V ส่วน Type 2 หรือ hosted เป็นโปรแกรมที่ติดตั้งบน OS (Operating System) ที่มีอยู่แล้ว ทุกอย่างต้องผ่าน host OS อีกชั้นจึงช้ากว่า เหมาะกับใช้ทดลองบนโน้ตบุ๊ก เช่น VirtualBox การมี host OS เพิ่มมาไม่ได้ทำให้ปลอดภัยขึ้น กลับเพิ่มโค้ดที่อาจมีช่องโหว่ด้วยซ้ำ และ Hyper-V เป็น Type 1 ไม่ใช่ Type 2`},
+{id:"q09",s:"2A",q:`สมมติ CPU รุ่นหนึ่งมีคำสั่ง X ที่อ่านสถานะสำคัญของเครื่อง (เป็น sensitive instruction) แต่เมื่อรันนอก Ring 0 กลับไม่ trap ถ้าใช้วิธี trap-and-emulate แบบดั้งเดิม จะเกิดอะไรขึ้น?`,
+ o:[`ทำงานถูกต้องทุกอย่าง แค่ช้าลงเล็กน้อย`,`CPU จะหยุด guest OS ทันทีพร้อมแจ้ง error`,`hypervisor จะไม่รู้ว่า guest เรียกคำสั่ง X คำสั่งจึงทำงานผิดไปเงียบ ๆ เหมือนปัญหาของ x86 ก่อนปี 2005`,`ไม่มีปัญหา เพราะ Popek และ Goldberg กำหนดให้ privileged instruction ทุกตัวต้องเป็น sensitive`],a:2,
+ e:`trap-and-emulate ใช้ได้ก็ต่อเมื่อคำสั่งอันตรายทุกตัวเด้งไปหา hypervisor (trap) เสมอ Popek และ Goldberg จึงตั้งเงื่อนไขว่า sensitive instruction ทุกตัวต้องเป็น privileged instruction ด้วย คำสั่ง X ไม่ trap จึงไม่ผ่านเงื่อนไขนี้ hypervisor ไม่มีโอกาสเข้าไปจัดการ คำสั่งจึงรันไปตามปกติแต่ได้ผลไม่ตรงกับที่ guest OS ตั้งใจ และไม่มี error ใด ๆ ให้เห็น ตัวเลือกที่อ้าง Popek และ Goldberg เขียนเงื่อนไขกลับด้าน ที่ถูกคือ sensitive ต้องอยู่ใน privileged ไม่ใช่ privileged ต้องอยู่ใน sensitive`},
+{id:"q10",s:"2B",q:`บริษัทต้องรัน Windows Server ซึ่งแก้ kernel เองไม่ได้ บนเครื่องเก่าที่ CPU ไม่มี Intel VT-x หรือ AMD-V วิธี virtualization แบบใดยังใช้ได้?`,
+ o:[`Para-virtualization`,`Full virtualization ด้วย binary translation`,`Hardware-assisted virtualization`,`ใช้ Docker container รัน Windows Server บน Linux host`],a:1,
+ e:`Full virtualization ไม่ต้องแก้ guest OS เลย เพราะ hypervisor อ่านโค้ดของ guest ล่วงหน้า แล้วเขียนคำสั่งอันตรายที่ไม่ trap ใหม่ให้กลายเป็นการเรียก hypervisor วิธีนี้เรียกว่า binary translation จึงรันได้ทุก OS บนทุก CPU Para-virtualization ใช้ไม่ได้เพราะต้องแก้ kernel ให้เรียก hypercall ซึ่ง Windows ทำไม่ได้ Hardware-assisted ใช้ไม่ได้เพราะต้องมี VT-x หรือ AMD-V ใน CPU ส่วน container ใช้ kernel ร่วมกับเครื่องหลัก บน Linux host จึงรัน kernel ของ Windows ไม่ได้`},
+{id:"q11",s:"2B",c:1,q:`server มี RAM จริง 128 GB ผู้ให้บริการขาย VM ขนาด 4 GB ไป 64 เครื่อง อัตรา overcommit เป็นเท่าไร และอยู่ในช่วงที่สไลด์บอกว่าทำกันได้หรือไม่?`,
+ o:[`0.5 : 1 ยังไม่ได้ overcommit เลย`,`2 : 1 อยู่ในช่วงที่ทำกันได้`,`4 : 1 อยู่ในช่วงที่ทำกันได้`,`2 : 1 แต่เกินกว่าที่ทำได้ ต้องลดจำนวน VM`],a:1,
+ e:`RAM ที่ขายไปคือ 4 × 64 = 256 GB แต่เครื่องมีจริง 128 GB อัตราจึงเป็น 256 ÷ 128 = 2 : 1 สไลด์บอกว่า overcommit (การขาย RAM มากกว่าที่เครื่องมีจริง) ทำได้ราว 2 : 1 ถึง 5 : 1 เพราะ VM ส่วนใหญ่ไม่ได้ใช้ RAM เต็มที่ขอไว้ตลอดเวลา และยังมีเทคนิคอย่าง memory ballooning กับ KSM (Kernel Same-page Merging) คอยดึง RAM คืนมาใช้ ตัวเลือก 0.5 : 1 ได้มาจากการหารกลับด้าน`},
+{id:"q12",s:"2B",q:`hypervisor อยากได้ RAM คืนจาก VM ที่ใช้ไม่เต็ม โดยให้ guest OS เป็นคนเลือกเองว่าจะย้ายข้อมูลส่วนไหนไปพักไว้บนดิสก์ ใช้เทคนิคใด?`,
+ o:[`KSM`,`Memory ballooning`,`EPT`,`SR-IOV`],a:1,
+ e:`Memory ballooning ลง driver (โปรแกรมที่ OS ใช้คุยกับอุปกรณ์) ตัวเล็กไว้ใน guest พอ hypervisor อยากได้ RAM คืน ก็สั่ง driver ให้ "พองลูกโป่ง" คือขอจอง RAM จาก guest OS เพิ่ม guest OS จึงต้องเลือกเองว่าจะย้ายข้อมูลที่ไม่ค่อยได้ใช้ไปพักบนดิสก์ แล้ว hypervisor ก็เอา RAM ส่วนนั้นไปให้ VM อื่น KSM (Kernel Same-page Merging) ใช้วิธีรวมหน้าหน่วยความจำที่เหมือนกันให้เหลือชุดเดียว EPT (Extended Page Tables) ใช้แปลงที่อยู่หน่วยความจำสองขั้นด้วย CPU และ SR-IOV (Single Root I/O Virtualization) เป็นเรื่องของการ์ดเครือข่าย ไม่เกี่ยวกับการดึง RAM คืน`},
+{id:"q13",s:"2C",q:`ใน Xen เมื่อ VM ของลูกค้า (DomU) เขียนไฟล์ลงดิสก์ ข้อมูลเดินทางอย่างไร?`,
+ o:[`DomU เขียนลงดิสก์จริงโดยตรง เพราะทุก VM แตะฮาร์ดแวร์ได้`,`ตัว hypervisor ของ Xen คัดลอกข้อมูลทุก byte ไปลงดิสก์เอง`,`ส่งผ่านการ์ดย่อยของ SR-IOV ที่ยกให้ DomU ใช้ตรง ๆ`,`driver ครึ่งหน้าใน DomU วางข้อมูลไว้ในหน่วยความจำที่ใช้ร่วมกัน แล้ว driver ครึ่งหลังใน Dom0 หยิบไปส่งให้ดิสก์จริง`],a:3,
+ e:`Xen ตั้งใจให้ตัว hypervisor เล็กที่สุด จึงทำแค่จัดเวลาการใช้ CPU กับจัดการหน่วยความจำ ส่วน driver ของอุปกรณ์ย้ายไปอยู่ใน Dom0 (Domain 0) ซึ่งเป็น VM ตัวเดียวที่แตะฮาร์ดแวร์จริงได้ VM ของลูกค้าที่เรียกว่า DomU (U มาจาก unprivileged) จึงใช้ split driver คือ driver ที่ผ่าเป็นสองครึ่ง ครึ่งหน้า (frontend) ใน DomU วางข้อมูลลง ring buffer ในหน่วยความจำร่วม แล้วครึ่งหลัง (backend) ใน Dom0 มาหยิบไปส่งต่อ ตัว hypervisor จึงไม่ต้องอยู่บนเส้นทางของข้อมูลเลย`},
+{id:"q14",s:"2C",q:`ทีม security ไม่ยอมให้ลูกค้าสองบริษัทรัน container อยู่บนเครื่องหลักตัวเดียวกันโดยไม่มี VM คั่น เหตุผลข้อใดถูกต้องที่สุด?`,
+ o:[`container ทุกตัวใช้ kernel ของเครื่องหลักร่วมกัน ถ้า kernel มีช่องโหว่ ผู้โจมตีอาจข้ามจาก container หนึ่งไปอีกตัวได้`,`container เปิดเครื่องช้ากว่า VM หลายนาที`,`container ไม่มีวิธีจำกัด CPU และ RAM ของแต่ละตัว`,`container เป็นเทคโนโลยีเก่ากว่า VM จึงมีช่องโหว่มากกว่า`],a:0,
+ e:`container แยกกันด้วย namespace (ทำให้แต่ละตัวเห็นแค่ process เครือข่าย และไฟล์ของตัวเอง) กับ cgroups (control groups ใช้จำกัด CPU และ RAM) แต่ทุกตัวยังใช้ kernel ตัวเดียวกัน ถ้า kernel มีช่องโหว่ กำแพงทั้งหมดก็พังพร้อมกัน ส่วน VM แยก kernel กันจริง ระบบจริงจึงใช้ VM แยกลูกค้าหรือทีมออกจากกัน แล้วรัน container หลายตัวในแต่ละ VM ตัวเลือกอื่นผิดหมด container เปิดได้ในระดับมิลลิวินาที จำกัดทรัพยากรได้ด้วย cgroups และความปลอดภัยไม่ได้ขึ้นกับว่าเทคโนโลยีเก่าหรือใหม่`},
+{id:"q15",s:"2C",q:`ร้านค้าออนไลน์บน AWS ต้องเก็บของสามอย่าง คือ (1) ดิสก์ของฐานข้อมูล PostgreSQL บน VM เครื่องเดียว (2) รูปสินค้าที่หน้าเว็บโหลดผ่าน URL (3) โฟลเดอร์ที่ web server สามเครื่องต้องเปิดใช้พร้อมกัน ข้อใดจับคู่ถูก?`,
+ o:[`(1) EBS (2) S3 (3) EFS`,`(1) S3 (2) EBS (3) EFS`,`(1) EFS (2) S3 (3) EBS`,`(1) EBS (2) EFS (3) S3`],a:0,
+ e:`ให้ถามว่าใครใช้ข้อมูลและใช้ยังไง ดิสก์ของฐานข้อมูลต่อกับเครื่องเดียวและต้องเร็ว จึงเป็น block storage ซึ่งบน AWS คือ EBS (Elastic Block Store) รูปสินค้าเขียนครั้งเดียวแล้วถูกอ่านบ่อยผ่าน URL จากทุกที่ จึงเป็น object storage คือ S3 (Simple Storage Service) ส่วนโฟลเดอร์ที่หลายเครื่องเปิดพร้อมกันเป็น file storage คือ EFS (Elastic File System) กับดักที่เจอบ่อยคือเอา EBS ไปใช้กับงานที่หลายเครื่องต้องใช้โฟลเดอร์เดียวกัน ซึ่งไม่เหมาะ เพราะ block storage ออกแบบมาให้ต่อกับเครื่องทีละเครื่อง`},
+
+/* ---------- ช่วงที่ 2 ---------- */
+{id:"q16",s:"3A",c:1,q:`ต้องวางเครื่อง 250 เครื่องไว้ใน subnet เดียวบน AWS subnet ขนาดใดเล็กที่สุดที่ยังพอ?`,
+ o:[`/23`,`/24`,`/25`,`/26`],a:1,
+ e:`บน AWS จำนวน IP ที่ใช้ได้จริงคือ 2<sup>(32 − prefix)</sup> − 5 เพราะ AWS กันไว้ใช้เองห้าตัว คือ .0, .1 (router ของ VPC), .2 (DNS), .3 (สำรอง) และตัวสุดท้าย (broadcast) ลองไล่ดู /24 ได้ 256 − 5 = 251 ซึ่งพอสำหรับ 250 เครื่องพอดี ส่วน /25 ได้แค่ 128 − 5 = 123 ไม่พอ /23 ได้ 507 ใช้ได้ก็จริงแต่ใหญ่เกินจำเป็น ระวังอย่าหักแค่ 2 ตัวแบบเครือข่ายทั่วไป ข้อนี้ยังได้ /24 เหมือนกันก็จริง แต่ถ้าโจทย์ขอ 252 เครื่อง คนที่หัก 2 ตัวจะตอบ /24 ซึ่งผิด เพราะ /24 บน AWS ใช้ได้แค่ 251`},
+{id:"q17",s:"3A",c:1,q:`แบ่ง VPC 10.0.0.0/16 ออกเป็น subnet ขนาด /20 เท่า ๆ กัน จะได้กี่ subnet และแต่ละ subnet แจกให้เครื่องได้จริงบน AWS กี่ IP?`,
+ o:[`16 subnet, subnet ละ 4,091 IP`,`16 subnet, subnet ละ 4,096 IP`,`4 subnet, subnet ละ 16,379 IP`,`20 subnet, subnet ละ 4,091 IP`],a:0,
+ e:`prefix เพิ่มจาก /16 เป็น /20 คือล็อกบิตเพิ่มอีก 4 บิต จำนวน subnet จึงเป็น 2<sup>4</sup> = 16 ก้อน แต่ละก้อนเหลือบิตให้แจก 32 − 20 = 12 บิต ได้ 2<sup>12</sup> = 4,096 IP แล้วหัก 5 ตัวที่ AWS กันไว้ เหลือ 4,091 ตัวเลือก 4,096 ลืมหักห้าตัว ตัวเลือก 20 subnet เอาเลข prefix มาตอบตรง ๆ ซึ่งไม่ได้มีความหมายเป็นจำนวน subnet`},
+{id:"q18",s:"3A",c:1,q:`IP ใด <b>ไม่</b> อยู่ใน subnet 10.0.2.64/26?`,
+ o:[`10.0.2.64`,`10.0.2.100`,`10.0.2.127`,`10.0.2.128`],a:3,
+ e:`/26 เหลือบิตให้แจก 32 − 26 = 6 บิต ได้ 2<sup>6</sup> = 64 IP และช่วงย่อยต้องเริ่มที่เลขที่หาร 64 ลงตัว คือ .0, .64, .128, .192 ช่วงนี้จึงเริ่มที่ 10.0.2.64 และจบที่ 64 + 63 = 10.0.2.127 ส่วน 10.0.2.128 เป็นตัวแรกของช่วงถัดไป (10.0.2.128/26) จึงไม่อยู่ในช่วงนี้`},
+{id:"q19",s:"3A",q:`ทีมจะสร้าง VPC ใหม่ ช่วง IP ใดเหมาะที่สุด?`,
+ o:[`172.40.0.0/16`,`8.8.0.0/16`,`172.16.0.0/16`,`192.169.0.0/16`],a:2,
+ e:`VPC (Virtual Private Cloud) ควรใช้ private IP ตาม RFC 1918 ซึ่งมีสามช่วง คือ 10.0.0.0/8, 172.16.0.0/12 และ 192.168.0.0/16 ช่วง 172.16.0.0/12 ครอบคลุมแค่ 172.16 ถึง 172.31 เท่านั้น 172.16.0.0/16 จึงอยู่ในช่วงนี้ ส่วน 172.40 อยู่นอกช่วงแม้จะขึ้นต้นด้วย 172 เหมือนกัน 192.169 ก็ไม่ใช่ 192.168 และ 8.8.0.0/16 เป็น IP จริงบนอินเทอร์เน็ตของ Google ถ้าเอามาใช้ใน VPC เครื่องข้างในจะคุยกับ 8.8.8.8 ตัวจริงไม่ได้ เพราะ route table จะเข้าใจว่าปลายทางนั้นอยู่ใน VPC เอง`},
+{id:"q20",s:"3B",c:1,q:`route table ของ private subnet มีกฎตามด้านล่าง เครื่องในออฟฟิศที่ IP 172.16.8.9 เชื่อมเข้ามาทาง Site-to-Site VPN ถ้า app server ส่ง packet ไปที่ 172.16.8.9 packet จะถูกส่งไปที่ใด?`,
+ pre:`Destination       Target
+10.0.0.0/16       local
+172.16.0.0/16     vgw-01   (Virtual Private Gateway ของ VPN ไปออฟฟิศ)
+0.0.0.0/0         nat-01   (NAT Gateway)`,
+ o:[`nat-01 เพราะ 0.0.0.0/0 ครอบคลุม IP ทุกตัว`,`local เพราะเป็นกฎแรกในตาราง`,`vgw-01 เพราะ 172.16.0.0/16 ตรงกับปลายทางและเจาะจงกว่า 0.0.0.0/0`,`ถูกทิ้ง เพราะ 172.16.x.x เป็น private IP`],a:2,
+ e:`เมื่อ packet ตรงกับหลายกฎ route table จะเลือกกฎที่เจาะจงที่สุด คือกฎที่ตัวเลขหลัง / มากที่สุด เรียกว่า longest prefix match 172.16.8.9 ไม่อยู่ใน 10.0.0.0/16 แต่ตรงทั้ง 172.16.0.0/16 และ 0.0.0.0/0 ระบบจึงเลือก /16 แล้วส่งเข้า VGW (Virtual Private Gateway ปลายอุโมงค์ VPN ฝั่ง VPC ในส่วน 7D) ลำดับบรรทัดในตารางไม่มีผล และ private IP ส่งข้ามกันได้ตามปกติผ่าน VPN เพียงแต่ router บนอินเทอร์เน็ตสาธารณะไม่ส่งต่อให้เท่านั้น ข้อนี้ยังโยงกับ 7D ด้วยว่า route table ต้องมีเส้นทางไป VGW ไม่อย่างนั้น packet จะไม่รู้ว่าต้องเข้าอุโมงค์`},
+{id:"q21",s:"3B",q:`app server ใน private subnet โหลด patch ไม่ได้ ตรวจแล้วพบว่า route table มี 0.0.0.0/0 ชี้ไปที่ NAT Gateway ถูกต้อง แต่ตัว NAT Gateway ถูกสร้างไว้ใน private subnet เดียวกับ app สาเหตุคืออะไร?`,
+ o:[`NAT Gateway ต้องอยู่ใน public subnet เพราะตัว NAT เองต้องส่ง packet ต่อออกทาง Internet Gateway`,`app server ต้องมี public IP ก่อนจึงจะออกผ่าน NAT ได้`,`NAT Gateway ใช้ได้เฉพาะ traffic ขาเข้า`,`VPC ต้องมี Internet Gateway สองตัว ตัวหนึ่งไว้ให้ NAT ใช้`],a:0,
+ e:`NAT Gateway รับ packet จากเครื่องใน private subnet แล้วต้องส่งต่อออกอินเทอร์เน็ตอีกทอด ซึ่งทำได้ก็ต่อเมื่อ subnet ที่ NAT อยู่มีเส้นทางไป Internet Gateway นั่นคือ public subnet ถ้าวาง NAT ไว้ใน private subnet ตัว NAT เองก็ออกไปไหนไม่ได้ เส้นทางที่ถูกจึงเป็น app → NAT Gateway (ใน public subnet) → Internet Gateway → อินเทอร์เน็ต เครื่องข้างในไม่ต้องมี public IP เพราะ NAT ใช้ IP ของตัวเองแทน และ VPC หนึ่งก้อนมี Internet Gateway ได้ตัวเดียว`},
+{id:"q22",s:"3B",q:`ข้อใดถูกต้องเกี่ยวกับ Internet Gateway (IGW) กับ NAT Gateway?`,
+ o:[`IGW คิดเงินรายชั่วโมง ส่วน NAT Gateway ใช้ฟรี`,`IGW จับคู่ public IP กับ private IP ของเครื่องแบบหนึ่งต่อหนึ่ง ส่วน NAT Gateway ให้หลายเครื่องใช้ IP ของ NAT ออกไปได้อย่างเดียว`,`VPC หนึ่งมี IGW ได้หนึ่งตัวต่อหนึ่ง AZ`,`เครื่องที่มี public IP จะเห็น public IP นั้นเมื่อสั่ง ip addr ในเครื่อง`],a:1,
+ e:`IGW ทำ 1:1 NAT คือจับคู่ private IP หนึ่งตัวกับ public IP หนึ่งตัว จึงเปิดได้ทั้งขาเข้าและขาออก ส่วน NAT Gateway ทำงานแบบ router ที่บ้าน คือหลายเครื่องออกไปด้วย IP ของ NAT แต่คนข้างนอกเริ่มคุยเข้ามาเองไม่ได้ เรื่องเงินกลับด้านกัน IGW ไม่คิดเงิน ส่วน NAT Gateway คิดรายชั่วโมงบวกตามปริมาณข้อมูล VPC หนึ่งก้อนมี IGW ได้ตัวเดียวทั้ง VPC (ที่แนะนำให้มีหนึ่งตัวต่อ AZ คือ NAT Gateway) และเพราะ IGW เป็นคนแปลงที่อยู่ให้ ในตัวเครื่องจึงเห็นแค่ private IP`},
+{id:"q23",s:"3C",q:`ข้อใดจับคู่สถานการณ์กับแนวคิดได้ถูกต้อง?<br>(1) ผู้ใช้กดสร้าง route table ในหน้าเว็บของ AWS แล้ว controller กระจายกฎลงไปที่ switch จริงหลายพันตัวให้เอง<br>(2) บริษัทเลิกใช้กล่อง IDS แล้วรัน IDS เป็น VM ต่อท้าย firewall เสมือน`,
+ o:[`(1) NFV และ (2) SDN`,`(1) SDN และ (2) SDN`,`(1) NFV และ (2) NFV`,`(1) SDN และ (2) NFV ร่วมกับ service chaining`],a:3,
+ e:`SDN (Software-Defined Networking) แยกงานคิดเส้นทาง (control plane) ออกมารวมไว้ที่ controller ตัวเดียว แล้วส่งกฎลงไปให้ switch ทำงานส่ง packet (data plane) สถานการณ์แรกจึงเป็น SDN ส่วน NFV (Network Functions Virtualization) คือการเปลี่ยนกล่องอุปกรณ์เครือข่ายอย่าง firewall หรือ IDS (Intrusion Detection System ระบบตรวจจับการบุกรุก) ให้เป็นโปรแกรมที่รันบน VM และการส่ง traffic ให้ผ่านอุปกรณ์เสมือนหลายตัวต่อกันเป็นสายเรียกว่า service chaining หลักจำคือ ถ้าโจทย์พูดถึง controller หรือ OpenFlow ให้ตอบ SDN ถ้าพูดถึงการเปลี่ยนกล่องเป็นโปรแกรม ให้ตอบ NFV`},
+{id:"q24",s:"3C",q:`ใน OpenFlow แต่ละแถวของ flow table ที่ controller ส่งลงมาให้ switch ประกอบด้วยอะไร?`,
+ o:[`Destination กับ Target`,`Principal กับ Policy`,`เงื่อนไข (match) กับสิ่งที่ต้องทำ (action)`,`Source กับ ephemeral port`],a:2,
+ e:`OpenFlow เป็น protocol มาตรฐานที่ SDN controller ใช้สั่ง switch switch เก็บคำสั่งไว้ใน flow table ซึ่งแต่ละแถวมีเงื่อนไข (match) กับสิ่งที่ต้องทำ (action) เช่น ถ้าปลายทางอยู่ใน 10.0.3.0/24 ให้ส่งออกทาง port 5 ของ switch ตัวเลือกอื่นเป็นศัพท์ของเรื่องอื่นที่เอามาหลอก Destination กับ Target เป็นช่องของ route table, Principal กับ Policy เป็นส่วนของ IAM (Identity and Access Management) และ ephemeral port เป็นเรื่องของ NACL ในส่วน 7B`},
+{id:"q25",s:"3D",q:`ร้านค้าออนไลน์อยากให้ลูกค้ากดสั่งซื้อแล้วเห็นหน้ายืนยันทันที ไม่ต้องรอระบบส่งอีเมลยืนยันให้เสร็จก่อน ควรเพิ่มชั้นใดในสถาปัตยกรรมแบบ multi-tier?`,
+ o:[`Message queue เช่น Amazon SQS หรือ Kafka`,`CDN`,`Read replica ของฐานข้อมูล`,`API Gateway`],a:0,
+ e:`message queue คือคิวพักงานที่ไม่ต้องทำทันที แอปแค่โยนงาน "ส่งอีเมล" ใส่คิว แล้วตอบลูกค้าได้เลย ส่วนตัวทำงานอีกตัวค่อยหยิบงานจากคิวไปส่งอีเมลทีหลัง ตัวอย่างคือ SQS (Simple Queue Service) ของ AWS และ Kafka ส่วน CDN (Content Delivery Network) ช่วยให้ไฟล์โหลดเร็วเพราะเก็บสำเนาไว้ใกล้ผู้ใช้ read replica ช่วยรับงานอ่านของฐานข้อมูล และ API Gateway เป็นด่านหน้าที่ตรวจตัวตนและจำกัดจำนวนคำขอ ทั้งสามอย่างไม่ได้ช่วยเรื่องงานที่ช้า`},
+{id:"q26",s:"3D",q:`ทีมย้ายระบบจาก AWS มา Azure สร้าง VNet กับ subnet เสร็จ แล้วพบว่า VM ออกอินเทอร์เน็ตได้ทันที ทั้งที่ยังไม่ได้สร้างอะไรแบบ Internet Gateway เลย ข้อใดอธิบายได้ถูกต้อง?`,
+ o:[`เป็นการตั้งค่าผิด เพราะทุก Cloud ต้องปิดอินเทอร์เน็ตเป็นค่าเริ่มต้น`,`Azure ให้ทุก subnet ออกอินเทอร์เน็ตได้เป็นค่าเริ่มต้น และ subnet ของ Azure ครอบคลุมทั้ง Region ไม่ได้อยู่ใน AZ เดียวแบบ AWS`,`Azure สร้าง NAT Gateway ให้ฟรีเฉพาะ subnet ขนาด /29`,`subnet ของ Azure อยู่ใน AZ เดียวเหมือน AWS แต่ออกเน็ตผ่าน VNet Peering`],a:1,
+ e:`ข้อต่างที่สำคัญที่สุดระหว่างสองเจ้าคือเรื่องการออกอินเทอร์เน็ต AWS เริ่มจากปิด ต้องสร้าง IGW (Internet Gateway) และเพิ่ม route เอง ส่วน Azure เริ่มจากเปิด ให้ทุก subnet ออกได้ทันที ถ้าไม่ต้องการก็ต้องไปปิดเอง ข้อต่างอีกข้อคือ subnet ของ AWS อยู่ใน AZ (Availability Zone) เดียว แต่ subnet ของ Azure ครอบคลุมทั้ง Region ส่วน VNet Peering ใช้เชื่อมสอง VNet เข้าหากัน ไม่ได้ใช้ออกอินเทอร์เน็ต`},
+{id:"q27",s:"L1",q:`ในแล็บ GetStart กลุ่ม 03 เปิด http://45.77.40.35:10301 แล้วเห็นหน้าเว็บของเครื่อง my-web ข้อใดอธิบายได้ถูกต้อง?`,
+ o:[`port 10301 เป็นของ Nginx ใน my-web โดยตรง`,`45.77.40.35 เป็น private IP ของ my-web`,`port 10301 เป็นของเครื่องจริง ซึ่งรับคำขอแล้วส่งต่อไปที่ Nginx ใน my-web ที่ port 80`,`browser เข้า my-web ผ่าน ProxyJump ของ bastion`],a:2,
+ e:`เครื่องจริงของแล็บมี public IP ตัวเดียวคือ 45.77.40.35 ที่ทุกกลุ่มใช้ร่วมกัน จึงต้องแยกกลุ่มด้วยเลข port วิธีนี้เรียกว่า port mapping พอมีคนเปิด port 10301 เครื่องจริงก็รับคำขอแล้วโอนต่อไปที่ Nginx (โปรแกรม web server) ใน my-web ที่ port 80 เหมือนเบอร์โทรหลักของบริษัทที่โอนสายไปเบอร์ภายใน ตัว my-web มีแค่ private IP ส่วน ProxyJump เป็นตัวเลือกของ ssh ที่ใช้เข้าเครื่องผ่าน bastion ไม่เกี่ยวกับการเปิดเว็บ`},
+{id:"q28",s:"L1",q:`นอกจากเหตุผลที่ว่าเครื่องข้างในไม่มี public IP แล้ว ทำไมการบังคับให้ผู้ดูแลเข้าทุกเครื่องผ่าน bastion จึงดีกว่าการเปิด SSH ให้ทุกเครื่องรับจากอินเทอร์เน็ตได้เอง?`,
+ o:[`เพราะ SSH ผ่าน bastion เร็วกว่าการเข้าตรง`,`เพราะเหลือประตูบานเดียวที่ต้องป้องกันให้แน่นหนา และบันทึกได้ว่าใครเข้ามาเมื่อไร`,`เพราะ bastion เข้ารหัสข้อมูลให้ ส่วน SSH ปกติไม่เข้ารหัส`,`เพราะ bastion ทำให้ไม่ต้องใช้รหัสผ่านหรือกุญแจอีกต่อไป`],a:1,
+ e:`ถ้าทุกเครื่องเปิด SSH (Secure Shell โปรแกรมรีโมตเข้าไปสั่งงานเครื่องอื่นแบบเข้ารหัส) ให้คนทั้งโลกเข้ามาลอง เราต้องเฝ้าประตูหลายสิบบาน การมี bastion ทำให้เหลือประตูบานเดียว ซึ่งป้องกันให้แน่นหนาและเก็บบันทึกการเข้าใช้ได้ง่ายกว่ามาก SSH เข้ารหัสอยู่แล้วทั้งสองแบบ การผ่าน bastion ไม่ได้ทำให้เร็วขึ้นเพราะต้องผ่านเพิ่มอีกทอด และยังต้องยืนยันตัวตนตามปกติ แนวคิดนี้ตรงกับหลักลดจุดที่ถูกโจมตีได้ และเป็นเหตุผลเดียวกับที่ bastion ถูกวางไว้ใน public subnet ส่วนเครื่องอื่นอยู่ใน private subnet`},
+{id:"q29",s:"L2",q:`หน้าเว็บที่โหลดมาจาก http://45.77.40.35:10501 เรียก API ที่ http://45.77.40.35:10502/api/products แล้ว console ของ browser แจ้ง CORS error แต่พอสั่ง curl ไปที่ URL เดียวกันกลับได้ข้อมูลปกติ เพราะอะไร?`,
+ o:[`API ปฏิเสธคำขอจาก browser ทุกตัว แต่ยอมให้ curl เพราะ curl มีสิทธิ์สูงกว่า`,`port ต่างกันจึงเป็นคนละ origin browser ไม่ยอมให้ JavaScript อ่านคำตอบจนกว่า API จะส่ง header Access-Control-Allow-Origin มา ส่วน curl ไม่ใช่ browser จึงไม่ได้ทำตามกฎนี้`,`IP เดียวกันถือเป็น origin เดียวกัน error นี้จึงเกิดจากฐานข้อมูลล่ม`,`CORS ทำหน้าที่กัน API จากผู้โจมตี curl จึงควรถูกบล็อกด้วย แสดงว่าตั้ง CORS ผิด`],a:1,
+ e:`origin คือชุดของ scheme, host และ port ถ้าต่างกันแม้อย่างเดียวก็นับเป็นคนละ origin ที่นี่ port 10501 กับ 10502 ต่างกัน browser จึงใช้ same-origin policy คือไม่ยอมให้ JavaScript อ่านข้อมูลจาก origin อื่น เว้นแต่ server ปลายทางจะใส่ header Access-Control-Allow-Origin มาบอกว่าอนุญาต กลไกนี้เรียกว่า CORS (Cross-Origin Resource Sharing) แก้ได้ด้วยบรรทัด CORS(app) ในโค้ด Flask คนที่บังคับใช้กฎคือ browser ไม่ใช่ server curl จึงยิงคำขอได้ตามปกติ และนี่คือเหตุผลที่ CORS ปกป้องผู้ใช้ ไม่ได้ปกป้อง API`},
+{id:"q30",s:"L2",q:`ตามหลัก REST API ถ้าต้องการแก้ราคาของสินค้าหมายเลข 7 ควรส่งคำขอแบบใด?`,
+ o:[`GET /api/updateProduct?id=7`,`POST /api/products`,`DELETE /api/products/7 แล้วตามด้วย POST สินค้าใหม่`,`PUT /api/products/7`],a:3,
+ e:`REST (Representational State Transfer) ใช้ path ใน URL บอกว่ากำลังพูดถึงข้อมูลชิ้นไหน และใช้ HTTP method บอกว่าจะทำอะไรกับมัน GET ใช้อ่าน POST ใช้สร้างใหม่ PUT ใช้แก้ไข และ DELETE ใช้ลบ การแก้ไขสินค้าชิ้นที่ 7 จึงเป็น PUT /api/products/7 ส่วน GET ไม่ควรใช้เปลี่ยนข้อมูล POST /api/products จะสร้างสินค้าชิ้นใหม่ และการลบแล้วสร้างใหม่ทำให้หมายเลขสินค้าเปลี่ยนและมีช่วงที่ข้อมูลหายไป`},
+{id:"q31",s:"L3",c:1,q:`ในแล็บ Build VPC กลุ่ม 05 (bastion .10, app .20, db .30) เครื่อง db ตั้ง iptables ไว้ตามด้านล่าง ถ้าสั่ง <code>nc -zv -w 3 10.0.5.30 3306</code> จาก bastion จะได้ผลอย่างไร?`,
+ pre:`iptables -P INPUT DROP
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -p tcp -s 10.0.5.20 --dport 3306 -j ACCEPT
+iptables -A INPUT -p tcp -s 10.0.5.10 --dport 22 -j ACCEPT`,
+ o:[`เชื่อมต่อสำเร็จ เพราะ bastion อยู่ใน VPC เดียวกัน`,`เชื่อมต่อสำเร็จ เพราะกฎ ESTABLISHED,RELATED`,`ได้ connection refused ทันที`,`ค้างไปราว 3 วินาทีแล้วล้มเหลว เพราะ packet ไม่ตรงกฎไหนเลยและโดน policy DROP ทิ้งเงียบ ๆ`],a:3,
+ e:`ไล่ทีละกฎจากบนลงล่าง packet นี้เป็นการเชื่อมต่อใหม่ จึงไม่ใช่ ESTABLISHED หรือ RELATED กฎที่เปิด 3306 รับเฉพาะต้นทาง 10.0.5.20 ซึ่งคือ app ไม่ใช่ bastion ส่วนกฎที่รับจาก bastion เปิดแค่ port 22 สรุปคือไม่ตรงกฎไหนเลย จึงตกไปใช้ policy ของ chain INPUT ซึ่งเป็น DROP DROP คือการทิ้ง packet โดยไม่ตอบอะไรกลับ ฝั่ง bastion จึงรอจนหมดเวลาที่ตั้งไว้ด้วย -w 3 ถ้าเป็น REJECT ถึงจะได้ connection refused ทันที ผลนี้ตรงกับ connectivity matrix ที่ต้องการ คือ bastion ห้ามต่อ DB ตรง ๆ`},
+{id:"q32",s:"L3",q:`ในแล็บ ฐานข้อมูลสร้าง user 'appuser'@'10.0.X.20' ที่มีสิทธิ์แค่ SELECT, INSERT, UPDATE และ DELETE ถ้าผู้โจมตียึดเครื่อง app ได้แล้วใช้ user นี้ ข้อใดที่ผู้โจมตี<b>ยังทำไม่ได้</b>?`,
+ o:[`อ่านข้อมูลลูกค้าในตาราง`,`แก้ราคาสินค้าในตาราง`,`ลบทั้งตารางด้วยคำสั่ง DROP TABLE`,`ลบแถวข้อมูลคำสั่งซื้อบางแถว`],a:2,
+ e:`สี่สิทธิ์นี้คือการอ่าน (SELECT) เพิ่ม (INSERT) แก้ (UPDATE) และลบแถว (DELETE) ข้อมูลในตาราง แต่ไม่มีสิทธิ์จัดการโครงสร้าง เช่น ลบทั้งตารางหรือสร้าง user ใหม่ นี่คือหลัก least privilege ที่ให้สิทธิ์เท่าที่แอปจำเป็นต้องใช้ ข้อนี้ยังสอนอีกเรื่องหนึ่ง คือ least privilege จำกัดความเสียหายได้แต่ไม่ได้ทำให้ความเสียหายเป็นศูนย์ ผู้โจมตียังอ่านและแก้ข้อมูลได้อยู่ จึงต้องมีด่านอื่นซ้อนอีก เช่น การเข้ารหัสข้อมูลและการเฝ้าดู ตามหลัก defense in depth ในส่วน 7E`},
+
+/* ---------- ช่วงที่ 3 ---------- */
+{id:"q33",s:"7A",q:`บริษัทรันเว็บบน PaaS เช่น AWS Elastic Beanstalk ตามแบบ shared responsibility ข้อใดเป็นหน้าที่ของบริษัท?`,
+ o:[`ลง patch ให้ OS ของเครื่องที่รันแอป`,`ดูแลโค้ดของแอป ข้อมูล และสิทธิ์ของผู้ใช้`,`ดูแล hypervisor`,`ทำลายดิสก์เก่าก่อนทิ้ง`],a:1,
+ e:`ใน PaaS (Platform as a Service) ผู้ให้บริการดูแลเครื่อง OS (Operating System) และ runtime ให้ ลูกค้าดูแลแค่แอปกับข้อมูล รวมถึงการตั้งสิทธิ์ว่าใครเข้าถึงอะไรได้ การลง patch ของ OS เป็นหน้าที่ของลูกค้าเฉพาะใน IaaS (Infrastructure as a Service) ส่วน hypervisor และการทำลายดิสก์เก่าเป็นหน้าที่ของผู้ให้บริการเสมอไม่ว่าจะใช้บริการแบบไหน เพราะเป็นส่วน Security OF the Cloud ที่ลูกค้ามองไม่เห็นและแตะไม่ได้ หลักจำคือใครเป็นคนตั้งค่าสิ่งไหน คนนั้นรับผิดชอบสิ่งนั้น`},
+{id:"q34",s:"7A",q:`ทีมย้ายจาก AWS ไป Azure ต้องหาบริการที่ทำหน้าที่แทน (1) Secrets Manager กับ KMS และ (2) GuardDuty ข้อใดถูก?`,
+ o:[`(1) Entra ID (2) Azure Firewall`,`(1) Key Vault (2) Azure DDoS Protection`,`(1) Key Vault (2) Defender for Cloud`,`(1) NSG (2) Defender for Cloud`],a:2,
+ e:`Secrets Manager เก็บรหัสลับ ส่วน KMS (Key Management Service) ดูแลกุญแจเข้ารหัส บน Azure รวมสองหน้าที่นี้ไว้ใน Key Vault ส่วน GuardDuty ตรวจจับพฤติกรรมน่าสงสัยและภัยคุกคาม ซึ่ง Azure ใช้ Defender for Cloud ตัวเลือกอื่นเป็นบริการที่มีอยู่จริงแต่ทำคนละหน้าที่ Entra ID แทน IAM (Identity and Access Management) Azure Firewall แทน AWS Network Firewall Azure DDoS Protection แทน AWS Shield และ NSG (Network Security Group) แทน Security Group`},
+{id:"q35",s:"7B",c:1,q:`NACL ขาเข้าของ web subnet มีกฎตามด้านล่าง packet ใด<b>ผ่านเข้าไปได้</b>?`,
+ pre:`Rule #  Type    Port  Source           Action
+90      TCP     22    0.0.0.0/0        DENY
+100     TCP     22    10.0.0.0/16      ALLOW
+110     TCP     80    0.0.0.0/0        ALLOW
+120     TCP     80    192.0.2.0/24     DENY
+*       All     All   0.0.0.0/0        DENY`,
+ o:[`SSH (port 22) จาก 10.0.3.5`,`HTTP (port 80) จาก 192.0.2.44`,`HTTPS (port 443) จาก 10.0.1.1`,`SSH (port 22) จาก 192.0.2.44`],a:1,
+ e:`NACL (Network Access Control List) ไล่กฎจากหมายเลขน้อยไปมาก เจอกฎแรกที่ตรงก็ทำตามแล้วหยุดทันที SSH จาก 10.0.3.5 ไปตรงกฎ 90 ก่อน จึงถูกห้าม ทั้งที่กฎ 100 ตั้งใจจะอนุญาต HTTP จาก 192.0.2.44 ไม่ตรงกฎ 90 และ 100 เพราะคนละ port แต่ตรงกฎ 110 จึงผ่าน กฎ 120 ที่ตั้งใจจะบล็อกไม่เคยถูกตรวจเลย HTTPS port 443 ไม่ตรงกฎไหน จึงตกไปที่กฎ * ซึ่งห้ามทุกอย่าง และ SSH จาก 192.0.2.44 ก็โดนกฎ 90 ข้อนี้มีกับดักสองชั้น คือกฎที่เจาะจงต้องได้เลขน้อยกว่ากฎที่กว้าง ไม่อย่างนั้นจะไม่มีผล`},
+{id:"q36",s:"7B",c:1,q:`NACL ของ web subnet ตั้งไว้แค่สองกฎ คือขาเข้า Allow TCP 80 จาก 0.0.0.0/0 และขาออก Allow TCP 80 ไป 0.0.0.0/0 (นอกนั้นห้ามหมด) ผู้ใช้เปิดเว็บจากเครื่องที่สุ่ม port ต้นทางได้ 51234 จะเกิดอะไรขึ้น?`,
+ o:[`ใช้งานได้ปกติ เพราะ NACL จำการเชื่อมต่อขาเข้าไว้แล้ว`,`ใช้งานได้ปกติ เพราะคำตอบวิ่งกลับไปที่ port 80 ของผู้ใช้`,`คำขอเข้าถึง server ได้ แต่คำตอบที่วิ่งกลับไปหา port 51234 ของผู้ใช้ไม่ตรงกฎขาออก จึงถูกทิ้ง หน้าเว็บค้างจนหมดเวลา`,`คำขอถูกทิ้งตั้งแต่ขาเข้า เพราะ port 51234 ไม่ได้เปิด`],a:2,
+ e:`NACL เป็นแบบ stateless คือไม่จำการเชื่อมต่อ มองทุก packet เป็นของใหม่ ขาเข้าผ่านได้เพราะคำขอวิ่งไปที่ port 80 ของ server แต่คำตอบไม่ได้วิ่งกลับไปที่ port 80 มันวิ่งกลับไปที่ port ที่เครื่องผู้ใช้สุ่มไว้ คือ 51234 ซึ่งเรียกว่า ephemeral port (port ชั่วคราว) กฎขาออกเปิดแค่ port 80 คำตอบจึงไปตกที่กฎห้ามทั้งหมด วิธีแก้ตามสไลด์คือเพิ่มกฎขาออก Allow TCP 32768–65535 ถ้าเป็น Security Group จะไม่เจอปัญหานี้ เพราะ SG เป็นแบบ stateful จำได้ว่าคำตอบนี้เป็นของคำขอเดิม`},
+{id:"q37",s:"7B",q:`กฎขาเข้าของ db-sg คือ Allow TCP 3306 จาก source = app-sg ต่อมา Auto Scaling เพิ่มเครื่อง app ใหม่สามเครื่อง ได้ IP ใหม่ทั้งหมด และเครื่องใหม่ถูกใส่ไว้ใน app-sg โดยไม่มีใครแก้กฎของ db-sg เลย เครื่องใหม่ต่อฐานข้อมูลได้ไหม?`,
+ o:[`ได้ เพราะกฎดูว่าเครื่องต้นทางอยู่ใน SG ไหน ไม่ได้ดูว่ามี IP อะไร`,`ไม่ได้ ต้องเพิ่ม IP ของเครื่องใหม่ลงใน db-sg ก่อน`,`ได้ เพราะ Security Group เป็นแบบ stateless`,`ไม่ได้ เพราะ Security Group อ้างถึง SG อื่นไม่ได้ ต้องใช้ NACL แทน`],a:0,
+ e:`จุดเด่นของ SG (Security Group) ที่ NACL (Network Access Control List) ไม่มี คือระบุต้นทางเป็น SG อีกตัวได้ กฎนี้จึงอ่านว่า เครื่องไหนก็ตามที่อยู่ใน app-sg ต่อ port 3306 ได้ เครื่องใหม่ที่ Auto Scaling (ระบบเพิ่มลดจำนวนเครื่องตามปริมาณงาน) สร้างขึ้นจึงใช้ได้ทันทีโดยไม่ต้องแก้กฎ ส่วน NACL ทำแบบนี้ไม่ได้ ระบุต้นทางได้แค่ช่วง IP และ SG เป็น stateful ไม่ใช่ stateless`},
+{id:"q39",s:"7C",c:1,q:`user คนหนึ่งมี policy ตามด้านล่าง ถ้าสั่งลบไฟล์ reports/finance/q3.pdf และ reports/hr/list.csv ผลคืออะไร?`,
+ pre:`{
+  "Version": "2012-10-17",
+  "Statement": [
+    { "Effect": "Allow", "Action": "s3:*",
+      "Resource": ["arn:aws:s3:::reports", "arn:aws:s3:::reports/*"] },
+    { "Effect": "Deny", "Action": "s3:DeleteObject",
+      "Resource": "arn:aws:s3:::reports/finance/*" }
+  ]
+}`,
+ o:[`ลบได้ทั้งสองไฟล์ เพราะ Allow s3:* ครอบคลุมทุกการกระทำ`,`ลบไม่ได้ทั้งสองไฟล์ เพราะมี Deny อยู่ใน policy`,`ลบ finance/q3.pdf ได้ เพราะกฎ Allow เขียนไว้ก่อนกฎ Deny`,`ลบ finance/q3.pdf ไม่ได้ (explicit deny) แต่ลบ hr/list.csv ได้`],a:3,
+ e:`IAM (Identity and Access Management) ตัดสินทุกคำขอด้วยสามขั้น ขั้นแรกถ้ามี Deny ที่ตรงกับคำขอ ห้ามทันที ขั้นที่สองถ้าไม่มี Deny แต่มี Allow ที่ตรง จึงอนุญาต ขั้นที่สามถ้าไม่มีกฎไหนพูดถึงเลยก็ห้าม การลบ finance/q3.pdf ตรงกับกฎ Deny เพราะ Resource คือ reports/finance/* จึงถูกห้ามแบบ explicit deny แม้จะมี Allow s3:* อยู่ด้วย ส่วน hr/list.csv ไม่ตรงกับ Deny แต่ตรงกับ Allow จึงลบได้ ลำดับการเขียนกฎไม่มีผลกับ IAM ซึ่งต่างจาก NACL ที่ไล่ตามหมายเลข และ Deny มีผลเฉพาะ resource ที่ระบุ ไม่ได้ห้ามทั้ง policy`},
+{id:"q40",s:"7C",c:1,q:`user มี policy เพียงข้อเดียวคือ Allow s3:GetObject บน arn:aws:s3:::media/* ถ้าสั่ง <code>aws s3 ls s3://media</code> เพื่อดูรายชื่อไฟล์ใน bucket ผลคืออะไร?`,
+ o:[`ทำได้ เพราะคนที่อ่านไฟล์ได้ก็ต้องดูรายชื่อไฟล์ได้`,`ทำได้ เพราะ Resource media/* ครอบคลุมทั้ง bucket`,`ถูกปฏิเสธแบบ implicit deny เพราะไม่มีกฎ Allow ข้อไหนให้ s3:ListBucket บน arn:aws:s3:::media`,`ถูกปฏิเสธแบบ explicit deny เพราะ policy มีกฎ Deny ซ่อนอยู่`],a:2,
+ e:`การดูรายชื่อไฟล์คือ action s3:ListBucket ซึ่งทำกับตัว bucket จึงต้องใช้ ARN (Amazon Resource Name ชื่อเต็มของทรัพยากร) ของ bucket คือ arn:aws:s3:::media ไม่มี /* ต่อท้าย ส่วน media/* หมายถึงไฟล์ที่อยู่ข้างใน policy นี้ไม่มีทั้ง action และ resource ที่ตรง IAM จึงตกไปที่ขั้นสุดท้าย คือไม่มีกฎไหนพูดถึงก็ห้าม เรียกว่า implicit deny ไม่ใช่ explicit deny เพราะไม่มีใครเขียน Deny ไว้ ถ้าอยากให้ทำได้ทั้งสองอย่าง ต้องเพิ่ม s3:ListBucket และใส่ Resource ทั้งสองตัว เหมือนตัวอย่าง AllowS3ReadOnly ในสไลด์`},
+{id:"q41",s:"7C",q:`บน Azure ผู้ดูแลทำ role assignment ให้ user คนหนึ่งเป็น Reader ที่ระดับ subscription ผลคืออะไร?`,
+ o:[`ดูได้ทุก resource group และทุก resource ที่อยู่ใน subscription นั้น แต่แก้ไขอะไรไม่ได้`,`ดูได้เฉพาะหน้าข้อมูลของ subscription ไม่เห็น resource ข้างใน`,`แก้ไขได้ทุกอย่างยกเว้นการแจกสิทธิ์ให้คนอื่น`,`ไม่มีผลจนกว่าจะให้ Reader ซ้ำในทุก resource group`],a:0,
+ e:`RBAC (Role-Based Access Control การให้สิทธิ์ตามบทบาท) ของ Azure จับคู่สามอย่าง คือใคร ได้ role อะไร ในขอบเขต (scope) ไหน ขอบเขตไล่จากกว้างไปแคบ คือ management group, subscription, resource group และ resource สิทธิ์ที่ให้ในขอบเขตกว้างจะมีผลกับทุกอย่างที่อยู่ข้างใต้ Reader ที่ระดับ subscription จึงดูได้ทุกอย่างในนั้น และเพราะ Reader ดูได้อย่างเดียว จึงแก้อะไรไม่ได้ ตัวเลือกที่แก้ได้ทุกอย่างยกเว้นแจกสิทธิ์คือคำอธิบายของ Contributor`},
+{id:"q42",s:"7C",q:`ข้อใดอธิบายความต่างของคำว่า "role" ระหว่าง AWS กับ Azure ได้ถูกต้อง?`,
+ o:[`ทั้งสองเจ้าใช้ role ในความหมายเดียวกัน คือบัญชีถาวรที่มีรหัสผ่าน`,`role ของ AWS คือชุดสิทธิ์สำเร็จรูปอย่าง Owner และ Reader ส่วน role ของ Azure คือตัวตนที่สวมได้`,`role ของ AWS เป็นตัวตนที่สวมได้ชั่วคราวและได้ key ที่หมดอายุเอง ส่วน role ของ Azure เป็นชุดสิทธิ์ที่เอาไปผูกกับตัวตน`,`role ของ Azure ใช้แทน IAM User ของ AWS ทุกกรณี`],a:2,
+ e:`บน AWS role คือชุดสิทธิ์ที่ "สวม" ได้ชั่วคราว พอสวมแล้วจะได้ key ที่หมดอายุเอง ต่อให้ key หลุดก็ใช้ได้ไม่นาน จึงเหมาะกับเครื่อง EC2 (Elastic Compute Cloud) ที่ต้องเรียกบริการอื่น การเข้าข้ามบัญชี และการ login ผ่านระบบขององค์กร ส่วนบน Azure role เป็นชุดสิทธิ์อย่าง Owner, Contributor และ Reader ที่เอาไปผูกกับตัวตนผ่าน role assignment สิ่งที่ Azure ใช้แทน role ที่ AWS ผูกให้ EC2 คือ Managed Identity ข้อสอบชอบสลับความหมายสองอย่างนี้ ตัวเลือกที่บอกว่า role ของ AWS คือ Owner หรือ Reader จึงเขียนกลับด้านพอดี`},
+{id:"q43",s:"7D",q:`บริษัทต้องเชื่อมเครือข่ายในออฟฟิศเข้ากับ VPC ให้เสร็จภายในวันนี้ ข้อมูลที่วิ่งระหว่างกันต้องเข้ารหัส และงบน้อย ควรเลือกแบบใด?`,
+ o:[`Direct Connect เพราะเร็วที่สุดและเข้ารหัสให้ในตัว`,`Site-to-Site VPN`,`VPC Peering`,`Direct Connect แล้วใช้ VPN เป็นเส้นหลัก`],a:1,
+ e:`Site-to-Site VPN (Virtual Private Network) สร้างอุโมงค์ที่เข้ารหัสด้วย IPsec (มาตรฐานเข้ารหัส packet ในระดับ IP) วิ่งผ่านอินเทอร์เน็ตธรรมดา ตั้งได้ในไม่กี่นาทีและราคาถูก ตรงกับทุกเงื่อนไขของโจทย์ ส่วน Direct Connect ต้องเดินสายไฟเบอร์จริงจึงใช้เวลาหลายสัปดาห์ แพงกว่ามาก และไม่ได้เข้ารหัสให้เอง VPC Peering ใช้เชื่อม VPC สองก้อนเข้าหากัน ไม่ได้ใช้เชื่อมออฟฟิศ`},
+{id:"q44",s:"7D",q:`บริษัทใช้ Direct Connect เป็นเส้นหลักอยู่แล้ว ฝ่ายตรวจสอบบอกว่าข้อมูลที่วิ่งบนสายต้องถูกเข้ารหัส ข้อใดถูกต้อง?`,
+ o:[`ไม่ต้องทำอะไร เพราะ Direct Connect เข้ารหัสด้วย IPsec ให้อัตโนมัติ`,`ไม่ต้องทำอะไร เพราะสายส่วนตัวไม่มีใครดักได้ จึงนับว่าเข้ารหัสแล้ว`,`Direct Connect ไม่ได้เข้ารหัสให้ ถ้าต้องการความลับต้องเข้ารหัสเพิ่มเอง เช่น ใช้ TLS ในระดับแอป`,`ต้องเปลี่ยนไปใช้ ExpressRoute เพราะเข้ารหัสให้`],a:2,
+ e:`Direct Connect คือสายไฟเบอร์ส่วนตัวที่ไม่ผ่านอินเทอร์เน็ต ได้ความเร็วสูงและ latency คงที่ แต่ไม่ได้เข้ารหัสข้อมูลให้ "ส่วนตัว" กับ "เข้ารหัส" เป็นคนละเรื่องกัน ถ้าต้องการความลับต้องเข้ารหัสเพิ่มเอง เช่น ใช้ TLS (Transport Layer Security ตัวเดียวกับที่ทำให้ https ปลอดภัย) ระหว่างแอปสองฝั่ง IPsec เป็นของ Site-to-Site VPN ส่วน ExpressRoute คือชื่อเรียกของบริการแบบเดียวกันบน Azure ซึ่งก็ไม่ได้เข้ารหัสให้เช่นกัน`},
+{id:"q45",s:"7E",q:`ทีมพัฒนาเปลี่ยนโค้ดให้ใช้ parameterized query ทุกจุดเพื่อกัน SQL injection มาตรการนี้อยู่ในชั้นใดของ defense in depth ตามสไลด์?`,
+ o:[`Perimeter`,`Data`,`Application`,`Monitoring`],a:2,
+ e:`parameterized query คือการเขียนคำสั่งฐานข้อมูลโดยแยกข้อมูลที่ผู้ใช้กรอกออกจากตัวคำสั่ง ผู้โจมตีจึงแอบใส่คำสั่ง SQL (ภาษาที่ใช้สั่งฐานข้อมูล) มาในช่องกรอกข้อมูลไม่ได้ นี่คือการแก้ที่โค้ดของเราเอง จึงอยู่ชั้น Application ชั้น Perimeter คือขอบเครือข่ายอย่าง NACL และระบบกัน DDoS ชั้น Data คือการเข้ารหัสด้วย KMS (Key Management Service) และ TLS ส่วนชั้น Monitoring คือการรู้ตัวว่ากำลังโดนโจมตี เช่น GuardDuty และ CloudTrail`},
+{id:"q46",s:"7E",q:`อัลกอริทึมเข้ารหัสที่ใช้กันทั่วโลกเผยแพร่วิธีทำงานให้ทุกคนศึกษาได้ แต่ระบบยังปลอดภัยเพราะกุญแจเป็นความลับ ตรงกับหลักการออกแบบข้อใด?`,
+ o:[`Open Design`,`Economy of Mechanism`,`Complete Mediation`,`Fail-Safe Defaults`],a:0,
+ e:`Open Design บอกว่าระบบต้องปลอดภัยได้แม้คนอื่นจะรู้วิธีออกแบบ เพราะการซ่อนวิธีทำงานไม่ใช่ความปลอดภัยที่แท้จริง สักวันก็รั่วออกไปได้ ความปลอดภัยจึงต้องฝากไว้กับกุญแจ ซึ่งเปลี่ยนใหม่ได้ง่ายเมื่อหลุด Economy of Mechanism คือออกแบบให้เรียบง่าย Complete Mediation คือตรวจสิทธิ์ทุกครั้งที่เข้าถึงโดยไม่จำผลครั้งก่อน และ Fail-Safe Defaults คือค่าเริ่มต้นต้องเป็นการห้าม`},
+
+/* ---------- ช่วงที่ 4 ---------- */
+{id:"q47",s:"8A",c:1,q:`แชตบอตใช้ Claude Sonnet 5 ราคา $2 ขาเข้า / $10 ขาออก ต่อหนึ่งล้าน token แต่ละคำขอส่งเข้า 3,000 token และได้คำตอบ 400 token มีคนถามวันละ 20,000 ครั้ง ค่าใช้จ่ายต่อวันเป็นเท่าไร?`,
+ o:[`$80`,`$120`,`$200`,`$2,000`],a:2,
+ e:`คิดทีละครั้งก่อน ขาเข้า 3,000 × $2 ÷ 1,000,000 = $0.006 ขาออก 400 × $10 ÷ 1,000,000 = $0.004 รวมครั้งละ $0.010 คูณ 20,000 ครั้งได้ $200 ต่อวัน ตัวเลือก $120 คิดแค่ขาเข้า ตัวเลือก $80 คิดแค่ขาออก ข้อนี้ยังเห็นด้วยว่าแม้ขาออกจะมีจำนวน token น้อยกว่ามาก แต่ค่าใช้จ่ายเกือบเท่าขาเข้า เพราะ token ขาออกแพงกว่าห้าเท่า ขาออกต้องสร้างทีละ token ส่วนขาเข้าคำนวณพร้อมกันได้ในรอบเดียว`},
+{id:"q48",s:"8A",q:`ผู้ใช้คุยกับแชตบอตต่อเนื่องไปแล้ว 40 รอบ แล้วบ่นว่าบอตตอบช้าลงเรื่อย ๆ และบิลของบริษัทแพงขึ้น ทั้งที่คำถามแต่ละรอบสั้นเท่าเดิม สาเหตุหลักคืออะไร?`,
+ o:[`โมเดลจำบทสนทนาไว้เองจนหน่วยความจำเต็ม`,`แอปส่งประวัติการคุยทั้งหมดกลับเข้าไปทุกรอบ token ขาเข้าจึงเพิ่มขึ้นทุกครั้ง`,`temperature เพิ่มขึ้นเองตามจำนวนรอบ`,`ราคา token ขาออกขึ้นตามเวลาที่คุย`],a:1,
+ e:`โมเดลไม่จำอะไรข้ามคำขอ แอปแชตที่ดูเหมือนจำได้ คือแอปส่งประวัติการคุยทั้งหมดกลับเข้าไปทุกครั้ง รอบที่ 40 จึงต้องส่งข้อความของ 39 รอบก่อนหน้าไปด้วย token ขาเข้าจึงโตขึ้นเรื่อย ๆ ทั้งแพงขึ้นและช้าลง และถ้ายาวจนเกิน context window (จำนวน token สูงสุดที่โมเดลรับได้ในคำขอเดียว) ก็ต้องตัดของเก่าทิ้ง สไลด์จึงแนะนำให้ใช้ RAG (Retrieval-Augmented Generation ค้นเฉพาะเอกสารที่เกี่ยวข้องมาให้โมเดลอ่าน) แทนการยัดทุกอย่างลงใน prompt`},
+{id:"q49",s:"8B",c:1,q:`ใช้ Claude Fable 5.1 ราคา $10 ขาเข้า / $50 ขาออก ต่อหนึ่งล้าน token และเปิด Extended Thinking คำขอหนึ่งครั้งมีขาเข้า 1,000 token, thinking 8,000 token และคำตอบ 600 token ค่าใช้จ่ายรวมเท่าไร?`,
+ o:[`$0.04`,`$0.12`,`$0.44`,`$4.40`],a:2,
+ e:`thinking token ถูกคิดเงินในราคาขาออก แม้ผู้ใช้จะมองไม่เห็นข้อความส่วนนี้ ขาเข้า 1,000 × $10 ÷ 1,000,000 = $0.01 thinking 8,000 × $50 ÷ 1,000,000 = $0.40 คำตอบ 600 × $50 ÷ 1,000,000 = $0.03 รวม $0.44 ตัวเลือก $0.04 ลืมคิดค่า thinking ตัวเลือก $0.12 คิด thinking ด้วยราคาขาเข้า สังเกตว่าเงินกว่า 90% เป็นค่าความคิด ระบบที่ดีจึงควรเปิดการคิดเฉพาะงานที่ยากจริง`},
+{id:"q50",s:"8B",q:`ระบบหนึ่งรับงานสามแบบ (1) แยกอีเมลสแปม (2) เขียน SQL ดึงรายงานยอดขาย (3) ไล่หาสาเหตุที่ระบบ production ล่มเป็นพัก ๆ จาก log หลายแหล่ง ตามหลัก route by difficulty ข้อใดจัดได้เหมาะที่สุด?`,
+ o:[`ทั้งสามงานใช้ reasoning ระดับสูงสุด เพื่อให้แม่นที่สุด`,`(1) reasoning ระดับสูง (2) โมเดลทั่วไป (3) reasoning ระดับต่ำ`,`ทั้งสามงานใช้โมเดลทั่วไป เพราะ reasoning แพงเกินไป`,`(1) โมเดลทั่วไป (2) reasoning ระดับต่ำถึงกลาง (3) reasoning ระดับสูง`],a:3,
+ e:`reasoning model เขียนลำดับความคิดออกมาก่อนตอบ ทำให้งานหลายขั้นแม่นขึ้น แต่ thinking token คิดเงินในราคาขาออกและทำให้ช้า จึงควรแยกส่งตามความยาก งานง่ายอย่างแยกสแปมใช้โมเดลทั่วไปก็พอ งานปานกลางอย่างเขียน SQL ใช้ระดับต่ำถึงกลาง ส่วนงานที่ต้องไล่เหตุผลหลายขั้นอย่างหาสาเหตุว่าระบบล่มเพราะอะไร ซึ่งคล้ายตัวอย่างการหาสาเหตุ segfault ในสไลด์ ควรใช้ระดับสูง การใช้ระดับสูงสุดกับทุกงานเปลืองเงินโดยไม่จำเป็น`},
+{id:"q51",s:"8B",q:`แอปต้องรับไฟล์เสียงการประชุม ถอดเป็นข้อความ แล้วสร้างภาพสรุปประเด็นออกมาเป็นรูป ตามตาราง multimodal ในสไลด์ โมเดลใด<b>ทำงานนี้ไม่ได้</b>?`,
+ o:[`GPT-6 Astra`,`Gemini 3.8 Flash`,`Muse Spark 1.3`,`Claude Fable 5.1`],a:3,
+ e:`งานนี้ต้องการสองความสามารถ คือรับเสียงเข้า (Audio In) และสร้างภาพออก (Image Out) ตามตารางในสไลด์ Claude Fable 5.1 รับข้อความ ภาพ และเอกสาร PDF ได้ แต่รับเสียงไม่ได้และสร้างภาพไม่ได้ ส่วน GPT-6 Astra ทำได้ทั้งคู่ผ่าน Whisper (โมเดลถอดเสียงพูดเป็นข้อความ) และ DALL-E 4 Gemini 3.8 Flash รับเสียงได้ในตัวและสร้างภาพด้วย Imagen 3 และ Muse Spark 1.3 ทำได้ทุกช่อง ข้อนี้สอนว่าโมเดลแถวหน้าเกือบทุกตัวเป็น multimodal ก็จริง แต่ความสามารถไม่เท่ากัน ต้องเช็กตารางก่อนเลือก`},
+{id:"q52",s:"8C",q:`แอปส่งคำขอตามด้านล่างไปแล้วหนึ่งรอบ ผู้ใช้ถามต่อว่า "แล้วต่างจาก Internet Gateway ยังไง" ในคำขอรอบที่สอง แอปต้องส่ง messages แบบใด?`,
+ pre:`curl https://api.openai.com/v1/chat/completions \\
+  -H "Authorization: Bearer $OPENAI_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "model": "gpt-5.6-terra",
+    "messages": [
+      {"role": "system", "content": "ตอบเป็นภาษาไทย สั้น กระชับ"},
+      {"role": "user", "content": "NAT Gateway คืออะไร"}
+    ],
+    "temperature": 0.2
+  }'`,
+ o:[`ส่งแค่ user ข้อความใหม่ เพราะ server จำบทสนทนารอบแรกไว้แล้ว`,`ส่ง system เดิม, user รอบแรก, assistant ที่เป็นคำตอบรอบแรก แล้วตามด้วย user ข้อความใหม่`,`เปลี่ยนข้อความของ role system ให้เป็นคำถามใหม่`,`ส่ง user ข้อความใหม่พร้อมใส่ API key ลงใน content`],a:1,
+ e:`API แบบนี้เป็น stateless คือไม่จำอะไรระหว่างคำขอ ถ้าอยากให้โมเดลรู้ว่า "แล้วต่างจาก…" หมายถึง NAT Gateway ต้องส่งบทสนทนาทั้งหมดกลับไป role system คือคำสั่งตั้งต้นที่กำหนดบทบาทของโมเดล user คือข้อความของผู้ใช้ และ assistant คือคำตอบเก่าของโมเดลที่ส่งกลับเข้าไปเมื่อคุยหลายรอบ API key อยู่ใน header Authorization และควรอ่านจากตัวแปรสภาพแวดล้อมอย่าง $OPENAI_API_KEY ห้ามใส่ลงในข้อความหรือฝังในโค้ด`},
+{id:"q53",s:"8C",c:1,q:`ทุกคำขอที่ส่งไป Claude Fable 5.1 แนบคู่มือบริษัทยาว 200,000 token ไว้ต้นข้อความ เหมือนกันทุกครั้ง ราคาขาเข้าปกติ $10 และราคา cache $0.25 ต่อหนึ่งล้าน token ถ้า prompt cache ใช้ได้ ค่าคู่มือต่อคำขอลดจากเท่าไรเหลือเท่าไร?`,
+ o:[`จาก $2.00 เหลือ $0.05`,`จาก $0.20 เหลือ $0.005`,`จาก $2.00 เหลือ $0.25`,`จาก $20 เหลือ $0.50`],a:0,
+ e:`ราคาปกติคือ 200,000 × $10 ÷ 1,000,000 = $2.00 ต่อคำขอ ราคา cache คือ 200,000 × $0.25 ÷ 1,000,000 = $0.05 ถูกลง 40 เท่า ตัวเลือก $0.25 เอาราคาต่อหนึ่งล้าน token มาตอบตรง ๆ โดยไม่คูณจำนวน token ราคาที่ถูกลงขนาดนี้ได้เพราะผู้ให้บริการเก็บ KV cache (Key-Value cache ค่ากลางที่คำนวณจาก token ที่อ่านไปแล้ว) ของส่วนต้นข้อความไว้ใช้ซ้ำ จึงต้องวางส่วนที่ไม่เปลี่ยนไว้ต้นข้อความ และวางคำถามที่เปลี่ยนไว้ท้าย สไลด์จึงบอกว่า KV-cache hit rate เป็นตัวชี้วัดสำคัญใน production`},
+{id:"q54",s:"8D",c:1,q:`บริษัทมีแอป AI 5 ตัว และระบบภายใน 6 ระบบที่อยากให้ AI ใช้ได้ ถ้าไม่มีมาตรฐานกลางต้องเขียนตัวเชื่อมกี่ชุด และถ้าใช้ MCP ต้องเขียนกี่ชุด?`,
+ o:[`30 ชุด และ 11 ชุด`,`11 ชุด และ 30 ชุด`,`30 ชุด และ 30 ชุด`,`36 ชุด และ 12 ชุด`],a:0,
+ e:`ถ้าไม่มีมาตรฐานกลาง แอปทุกตัวต้องมีตัวเชื่อมของตัวเองกับเครื่องมือทุกตัว จึงเป็น 5 × 6 = 30 ชุด MCP (Model Context Protocol) เป็นมาตรฐานเปิดที่สไลด์เปรียบว่าเป็น USB-C ของ AI เครื่องมือแต่ละตัวเขียนเป็น MCP server ครั้งเดียว และแอปแต่ละตัวรองรับ MCP ครั้งเดียว จำนวนงานจึงเปลี่ยนจากคูณเป็นบวก 5 + 6 = 11 ชุด และยังใช้กับโมเดลของเจ้าไหนก็ได้ จึงลด vendor lock-in (การผูกติดกับผู้ให้บริการรายเดียว)`},
+{id:"q55",s:"8D",q:`แชตบอตดูแลระบบใช้ function calling โดยนิยามเครื่องมือ terminate_instance ไว้ แอปรันด้วย IAM role ที่มีสิทธิ์แค่ ec2:DescribeInstances และ ec2:StartInstances ผู้ใช้พิมพ์ว่า "ลบเครื่อง i-0abc ทิ้งเลย" จะเกิดอะไรขึ้น?`,
+ o:[`LLM เรียก AWS API เองแล้วลบเครื่องได้ทันที`,`ผู้ให้บริการ LLM เป็นคนส่งคำสั่งลบไปที่ AWS`,`เครื่องถูกลบ เพราะ function calling ข้ามการตรวจสิทธิ์ของ IAM`,`โมเดลส่งคำขอเรียก terminate_instance กลับมา แอปเป็นคนเรียก AWS แต่ถูกปฏิเสธ เพราะ role ไม่มีสิทธิ์ ec2:TerminateInstances`],a:3,
+ e:`ใน function calling โมเดลไม่ได้เรียก API เอง มันแค่ตอบกลับมาว่าอยากให้เรียกฟังก์ชันไหนด้วยค่าอะไร คนที่เรียก AWS จริงคือแอปของเรา โดยใช้สิทธิ์ของ IAM (Identity and Access Management) role ที่แอปถืออยู่ role นี้ไม่มีกฎ Allow สำหรับ ec2:TerminateInstances คำขอจึงโดน implicit deny ตามที่เรียนในส่วน 7C นี่คือเหตุผลที่สไลด์ย้ำว่าสิทธิ์ของแอปต้องเป็น least privilege ต่อให้โมเดลตัดสินใจพลาดหรือถูกหลอกด้วยข้อความของผู้ใช้ ความเสียหายก็ไปได้ไม่เกินสิทธิ์ที่แอปมี`},
+{id:"q56",s:"8E",c:1,q:`ข้อความสองชิ้นถูกแปลงเป็น vector A = [3, 4] และ B = [4, 3] ค่า cosine similarity เท่ากับเท่าไร และแปลว่าอะไร?`,
+ o:[`0.96 แปลว่าความหมายคล้ายกันมาก`,`1.0 แปลว่าความหมายเหมือนกันทุกประการ`,`0.0 แปลว่าไม่เกี่ยวกันเลย`,`24 แปลว่าคล้ายกันมาก`],a:0,
+ e:`cosine similarity = (A · B) ÷ (|A| × |B|) โดย A · B คือผลรวมของผลคูณตัวเลขตำแหน่งเดียวกัน = 3 × 4 + 4 × 3 = 24 ส่วนความยาว |A| = √(9 + 16) = 5 และ |B| = 5 เท่ากัน จึงได้ 24 ÷ 25 = 0.96 ใกล้ 1.0 แปลว่าความหมายคล้ายกันมาก ตัวเลือก 24 คือ A · B ที่ลืมหารด้วยความยาว ค่าที่ได้จึงเกิน 1 ไม่ได้ ค่านี้ดูแค่มุมระหว่าง vector ไม่สนความยาว ถ้า B เป็น [6, 8] ซึ่งชี้ไปทางเดียวกับ A ก็จะได้ 1.0 พอดี`},
+{id:"q57",s:"8E",q:`ทีมเปลี่ยนไปใช้ embedding model ตัวใหม่สำหรับแปลงคำถามของผู้ใช้ แต่ไม่ได้แปลงเอกสารเก่าใน vector database ใหม่ด้วย ผลคือการค้นหาได้เอกสารที่ไม่เกี่ยวข้อง สาเหตุคืออะไร?`,
+ o:[`chunk ของเอกสารเล็กเกินไป`,`vector ที่ได้จากคนละ embedding model เทียบกันไม่ได้ ต้องแปลงเอกสารทั้งหมดใหม่ด้วยโมเดลตัวเดียวกับที่ใช้แปลงคำถาม`,`ต้องลด temperature ของ LLM ให้เป็น 0`,`vector database เก็บเอกสารไว้มากเกินไป`],a:1,
+ e:`embedding model แต่ละตัวเรียนรู้วิธีวางความหมายลงในตัวเลขคนละแบบ ตำแหน่งที่ 1 ของโมเดลหนึ่งอาจไม่ได้หมายถึงเรื่องเดียวกับตำแหน่งที่ 1 ของอีกโมเดลเลย การวัดความใกล้ระหว่าง vector จากสองโมเดลจึงไม่มีความหมาย สไลด์ย้ำว่าช่วงเตรียมเอกสาร (Ingest, Chunk, Embed, Store) กับช่วงตอบคำถามต้องใช้ embedding model ตัวเดียวกัน ส่วน temperature มีผลกับตอนที่ LLM เขียนคำตอบ ไม่ได้มีผลกับขั้นค้นหาของ RAG (Retrieval-Augmented Generation)`},
+{id:"q58",s:"8F",c:1,q:`ต้องการรันโมเดลขนาด 13B parameter เพื่อทำ inference ถ้าเก็บ weights แบบ FP16 ต้องใช้ VRAM เท่าไร และถ้า quantize เป็น INT4 จะเหลือเท่าไร (คิดเฉพาะ weights)?`,
+ o:[`26 GB และ 6.5 GB`,`13 GB และ 3.25 GB`,`26 GB และ 13 GB`,`52 GB และ 13 GB`],a:0,
+ e:`VRAM (หน่วยความจำของ GPU) ที่ใช้เก็บ weights คิดคร่าว ๆ จากจำนวน parameter × byte ต่อ parameter FP16 (เลขทศนิยม 16 bit) ใช้ 2 byte ได้ 13 × 2 = 26 GB INT4 ใช้ 4 bit หรือครึ่ง byte ได้ 13 × 0.5 = 6.5 GB ตัวเลือก 26 กับ 13 คือคิดแบบ INT8 ซึ่งใช้ 1 byte ตามสไลด์ INT4 ทำให้คุณภาพลดราว 3% แต่เร็วขึ้นราว 4 เท่า เพราะทุก token ที่สร้างต้องอ่าน weights ผ่านหน่วยความจำ ยิ่งตัวเลขเล็ก ข้อมูลที่ต้องอ่านก็ยิ่งน้อย`},
+{id:"q59",s:"8F",c:1,q:`ทีมจะ train โมเดลขนาด 7B parameter ด้วยความละเอียด FP16 ควรเตรียม VRAM ไว้ราวเท่าไร?`,
+ o:[`ราว 3.5 GB`,`ราว 7 GB`,`ราว 14 GB`,`ราว 42–56 GB`],a:3,
+ e:`ตัวโมเดลอย่างเดียวที่ FP16 ใช้ 7 × 2 = 14 GB ซึ่งพอสำหรับ inference แต่ training ต้องเก็บของเพิ่มอีกสองอย่าง คือ gradient (ตัวเลขที่บอกว่า weight แต่ละตัวควรปรับเท่าไร) และสถานะของ optimizer (อัลกอริทึมที่ใช้ gradient ไปปรับ weights) สไลด์จึงบอกว่า training ใช้ VRAM ราว 3–4 เท่าของโมเดล คือ 14 × 3 ถึง 14 × 4 = 42–56 GB training ยังต้องใช้ FP16 หรือ BF16 เพราะการปรับแต่ละรอบเล็กมาก ถ้าลดเป็น INT8 หรือ INT4 ตัวเลขจะหยาบจนการปรับถูกปัดทิ้ง`},
+{id:"q60",s:"8F",c:1,q:`ต้องย้ายข้อมูล 450 GB ระหว่าง GPU สองตัว ถ้าอยู่ในเครื่องเดียวกันใช้ NVLink 900 GB/s และถ้าอยู่ต่างเครื่องใช้ InfiniBand 400 Gb/s (คิดที่ความเร็วเต็มที่) จะใช้เวลาประมาณเท่าไรตามลำดับ?`,
+ o:[`0.5 วินาที และ 1.125 วินาที`,`0.5 วินาที และ 9 วินาที`,`2 วินาที และ 9 วินาที`,`0.5 วินาที และ 0.5 วินาที`],a:1,
+ e:`NVLink 900 GB/s ย้าย 450 GB ได้ใน 450 ÷ 900 = 0.5 วินาที แต่ InfiniBand 400 Gb/s เป็นหน่วย bit (b ตัวเล็ก) ไม่ใช่ byte ต้องหาร 8 ก่อนได้ 50 GB/s จึงใช้เวลา 450 ÷ 50 = 9 วินาที ช้ากว่า 18 เท่า ตัวเลือก 1.125 วินาทีเกิดจากเอา 450 ไปหาร 400 ตรง ๆ โดยลืมแปลงหน่วย ข้อนี้คือเหตุผลที่งานซึ่ง GPU ต้องคุยกันถี่ควรอยู่ในเครื่องเดียวกัน`},
+{id:"q61",s:"8G",q:`ทีมวิจัย train โมเดลและบันทึก checkpoint ทุกชั่วโมง อยากประหยัดค่า GPU จึงเช่า spot instance บน RunPod ข้อใดถูกต้อง?`,
+ o:[`spot instance ไม่มีวันถูกเรียกคืน จึงเหมาะกับทุกงาน`,`spot instance ราคาถูกแต่ถูกเรียกคืนได้ทุกเมื่อ งานที่มี checkpoint จึงเหมาะ เพราะถูกเรียกคืนแล้วทำต่อจากจุดที่บันทึกไว้ได้`,`spot instance แพงกว่าเครื่องปกติ แต่รับประกันว่าไม่ล่ม`,`spot instance เหมาะกับงาน training เท่านั้น เพราะถูกกว่า GPU 70% เหมือน Inferentia`],a:1,
+ e:`spot instance คือเครื่องที่ผู้ให้บริการปล่อยเช่าจากกำลังที่ว่างอยู่ ราคาจึงถูก แต่เจ้าของเรียกคืนได้ทุกเมื่อ งานที่หยุดแล้วทำต่อได้จึงเหมาะที่สุด training ที่บันทึก checkpoint (สถานะของงานที่บันทึกไว้เป็นระยะ) ไว้ทุกชั่วโมง ถ้าถูกเรียกคืนก็เสียงานไปไม่เกินชั่วโมงเดียว แล้วไปเริ่มต่อบนเครื่องใหม่ได้ ส่วนตัวเลข 70% เป็นของชิป Inferentia ของ AWS ซึ่งใช้กับ inference และไม่เกี่ยวกับ spot instance`}
+];
+
+const KEY = "cloud-mock-v1", LIMIT = 90*60;
+const store = {
+  get(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}},
+  set(v){try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}},
+  del(){try{localStorage.removeItem(KEY)}catch(e){}}
+};
+const byId = Object.fromEntries(Q.map(q=>[q.id,q]));
+const $ = id => document.getElementById(id);
+let st = null, timer = null, confirmSend = false, filterWrong = false;
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function fmt(sec){sec=Math.max(0,Math.round(sec));const m=Math.floor(sec/60),s=sec%60;return `${m}:${String(s).padStart(2,"0")}`}
+function fmtLong(sec){sec=Math.max(0,Math.round(sec));const m=Math.floor(sec/60),s=sec%60;return m?(s?`${m} นาที ${s} วินาที`:`${m} นาที`):`${s} วินาที`}
+function valid(s){return s && Array.isArray(s.order) && s.order.length===Q.length && s.order.every(id=>byId[id] && s.opt && Array.isArray(s.opt[id]) && s.opt[id].length===byId[id].o.length)}
+
+function startExam(){
+  const mix = $("mShuffle").checked, timed = $("mTimed").checked;
+  const order = Q.map(q=>q.id); if(mix) shuffle(order);
+  const opt = {}; Q.forEach(q=>{const p=q.o.map((_,i)=>i); opt[q.id]=mix?shuffle(p):p;});
+  st = {timed, order, opt, ans:{}, start:Date.now(), end: timed ? Date.now()+LIMIT*1000 : null, done:false, used:0};
+  store.set(st); showExam(); window.scrollTo(0,0);
+}
+
+function showExam(){
+  $("intro").classList.add("hide"); $("result").classList.add("hide"); $("exam").classList.remove("hide");
+  $("filter").classList.add("hide"); $("foot").classList.remove("hide");
+  ["jumpBtn","submitTop"].forEach(id=>$(id).classList.remove("hide"));
+  confirmSend = false; $("warn").textContent = "";
+  renderQs(); updateCount(); tickClock();
+  clearInterval(timer); timer = setInterval(tickClock, 1000);
+}
+
+function renderQs(){
+  const box = $("qs"); box.innerHTML = "";
+  st.order.forEach((id,n)=>{
+    const q = byId[id], card = document.createElement("div");
+    card.className = "qc"; card.id = "c-"+id;
+    card.innerHTML = `<div class="qh"><span class="no">ข้อ ${n+1}</span>${q.c?'<span class="tag">🧮 คำนวณ</span>':''}<span class="tag sec hide"></span></div><p class="qt"></p>`;
+    card.querySelector(".qt").innerHTML = q.q;
+    if(q.pre){const pre=document.createElement("pre");pre.textContent=q.pre;card.appendChild(pre);}
+    const opts = document.createElement("div"); opts.className = "opts";
+    st.opt[id].forEach((k,pos)=>{
+      const b = document.createElement("button"); b.dataset.k = k;
+      b.innerHTML = `<span class="k">${"กขคง"[pos]}.</span><span></span>`;
+      b.lastChild.textContent = q.o[k];
+      b.onclick = ()=>{ if(st.done) return; st.ans[id]=k; store.set(st); markSel(card,id); updateCount(); };
+      opts.appendChild(b);
+    });
+    card.appendChild(opts);
+    box.appendChild(card);
+    markSel(card,id);
+  });
+}
+function markSel(card,id){card.querySelectorAll(".opts button").forEach(b=>b.classList.toggle("sel", st.ans[id]===+b.dataset.k));}
+function answered(){return st.order.filter(id=>st.ans[id]!==undefined).length}
+function updateCount(){
+  const n = answered();
+  $("count").textContent = st.done ? "" : `ตอบแล้ว ${n}/${Q.length} ข้อ`;
+  if(confirmSend && n===Q.length){confirmSend=false;$("warn").textContent="";}
+}
+function tickClock(){
+  const c = $("clock");
+  if(st.done){c.textContent = `ส่งแล้ว · ใช้เวลา ${fmtLong(st.used)}`; c.classList.remove("low"); return;}
+  if(st.timed){
+    const left = (st.end-Date.now())/1000;
+    if(left<=0){finish(true); return;}
+    c.textContent = `เหลือเวลา ${fmt(left)}`; c.classList.toggle("low", left<300);
+  } else {
+    c.textContent = `ไม่จับเวลา · ใช้ไป ${fmt((Date.now()-st.start)/1000)}`;
+  }
+}
+
+function trySubmit(){
+  const left = Q.length - answered();
+  if(left>0 && !confirmSend){
+    confirmSend = true;
+    $("warn").textContent = `ยังไม่ได้ตอบ ${left} ข้อ ข้อที่ว่างจะนับเป็นผิด ถ้าแน่ใจแล้วให้กดส่งอีกครั้ง`;
+    $("warn").scrollIntoView({block:"center"});
+    return;
+  }
+  finish(false);
+}
+function finish(timeout){
+  clearInterval(timer);
+  st.done = true; st.timeout = !!timeout;
+  st.used = st.timed ? Math.min(LIMIT,(Date.now()-st.start)/1000) : (Date.now()-st.start)/1000;
+  store.set(st); showResult(); window.scrollTo(0,0);
+}
+
+function showResult(){
+  $("intro").classList.add("hide"); $("exam").classList.remove("hide"); $("result").classList.remove("hide");
+  ["jumpBtn","submitTop"].forEach(id=>$(id).classList.add("hide"));
+  $("foot").classList.add("hide"); $("filter").classList.remove("hide");
+  if(!$("qs").children.length) renderQs();
+  updateCount(); tickClock();
+
+  const per = {1:[0,0],2:[0,0],3:[0,0],4:[0,0]}, secMiss = {}, secAll = {};
+  let ok = 0;
+  st.order.forEach(id=>{
+    const q = byId[id], ph = SEC[q.s][0], right = st.ans[id]===q.a;
+    per[ph][1]++; secAll[q.s]=(secAll[q.s]||0)+1;
+    if(right){ok++; per[ph][0]++;} else secMiss[q.s]=(secMiss[q.s]||0)+1;
+    reviewCard(id,right);
+  });
+  const pct = Math.round(ok*100/Q.length);
+  const cls = p => p>=80?"hi":p>=60?"mid":"lo";
+  const msg = pct>=80 ? "ทำได้ดีมาก พื้นแน่นพอจะเข้าห้องสอบได้แล้ว ลองไล่อ่านคำอธิบายของข้อที่ผิดอีกรอบ แล้วทำซ้ำแบบสลับข้อเพื่อเช็กว่าไม่ได้จำตำแหน่งคำตอบ"
+    : pct>=60 ? "พื้นใช้ได้แล้ว แต่ยังมีบางส่วนที่หลุด ให้ดูตารางด้านล่างว่าช่วงไหนได้คะแนนน้อยที่สุด แล้วกลับไปอ่านส่วนที่อยู่ในรายการทวนก่อน ส่วนอื่นค่อยตามทีหลัง"
+    : "ยังมีหลายเรื่องที่ต้องทวน ไม่ต้องตกใจ เริ่มจากส่วนที่ผิดเยอะที่สุดในรายการด้านล่าง อ่านบทเรียนส่วนนั้นจนจบพร้อมทำ quiz ท้ายส่วน แล้วค่อยกลับมาทำชุดนี้ใหม่";
+  let rows = "";
+  for(const ph of [1,2,3,4]){
+    const [a,b] = per[ph], p = Math.round(a*100/b);
+    rows += `<tr><td>${ph} ${PH[ph]}</td><td>${a}/${b}</td><td style="width:34%"><div class="meter"><i class="${cls(p)}" style="width:${p}%"></i></div><small>${p}%</small></td></tr>`;
+  }
+  const miss = Object.keys(secMiss).sort((x,y)=>secMiss[y]-secMiss[x] || x.localeCompare(y));
+  const list = miss.length ? `<ol class="review">${miss.map(s=>{const [ph,f,an,t]=SEC[s];return `<li><a href="${f}#${an}">${s} ${t}</a> · ผิด ${secMiss[s]} จาก ${secAll[s]} ข้อ</li>`}).join("")}</ol>`
+    : `<p>ไม่มี ถูกครบทุกข้อ 🎉</p>`;
+  const blank = Q.length - answered();
+  $("result").innerHTML = `<h2>ผลสอบ</h2>
+    <div class="big">${ok}<small> / ${Q.length} ข้อ (${pct}%)</small></div>
+    <p>${st.timeout?"หมดเวลา ระบบส่งคำตอบให้อัตโนมัติ · ":""}ใช้เวลา ${fmtLong(st.used)}${blank?` · ไม่ได้ตอบ ${blank} ข้อ`:""}</p>
+    <p>${msg}</p>
+    <h3>คะแนนแยกตามช่วง</h3>
+    <div class="tw"><table class="score"><tr><th>ช่วง</th><th>ถูก</th><th>สัดส่วน</th></tr>${rows}</table></div>
+    <h3>ส่วนที่ควรกลับไปทวน</h3>
+    ${list}
+    <p>ด้านล่างคือข้อสอบทุกข้อพร้อมเฉลย ข้อที่ถูกมีแถบสีเขียวด้านซ้าย ข้อที่ผิดมีแถบสีแดง ทุกข้อมีคำอธิบายและลิงก์ไปยังส่วนของบทเรียนที่เกี่ยวข้อง</p>
+    <p><button class="btn" id="againBtn">ทำชุดใหม่อีกรอบ</button></p>`;
+  $("againBtn").onclick = ()=>{ store.del(); st=null; $("qs").innerHTML=""; $("result").classList.add("hide"); $("exam").classList.add("hide"); $("intro").classList.remove("hide"); window.scrollTo(0,0); };
+  applyFilter();
+}
+
+function reviewCard(id,right){
+  const q = byId[id], card = $("c-"+id), [ph,f,an,t] = SEC[q.s];
+  card.classList.add(right?"isok":"isno");
+  const tag = card.querySelector(".sec"); tag.textContent = `ช่วงที่ ${ph} · ${q.s} ${t}`; tag.classList.remove("hide");
+  card.querySelectorAll(".opts button").forEach(b=>{
+    const k = +b.dataset.k; b.disabled = true;
+    if(k===q.a) b.classList.add("right");
+    if(k===st.ans[id] && k!==q.a) b.classList.add("wrong");
+  });
+  if(!card.querySelector(".exp")){
+    const pos = st.opt[id].indexOf(q.a), mine = st.ans[id];
+    const verdict = mine===undefined ? `<span class="v no">ไม่ได้ตอบ</span> คำตอบที่ถูกคือข้อ ${"กขคง"[pos]}`
+      : right ? `<span class="v ok">ถูก</span>` : `<span class="v no">ผิด</span> ตอบข้อ ${"กขคง"[st.opt[id].indexOf(mine)]} คำตอบที่ถูกคือข้อ ${"กขคง"[pos]}`;
+    const d = document.createElement("div"); d.className = "exp";
+    d.innerHTML = `<p style="margin:0 0 6px">${verdict}</p><p style="margin:0">${q.e}</p><p style="margin:8px 0 0"><a href="${f}#${an}">อ่านทวนส่วน ${q.s} ${t} →</a></p>`;
+    card.appendChild(d);
+  }
+}
+function applyFilter(){
+  document.querySelectorAll("#filter button").forEach(b=>b.classList.toggle("on",(b.dataset.f==="wrong")===filterWrong));
+  document.querySelectorAll(".qc").forEach(c=>c.classList.toggle("hide", filterWrong && c.classList.contains("isok")));
+}
+
+$("startBtn").onclick = startExam;
+$("submitBtn").onclick = trySubmit;
+$("submitTop").onclick = trySubmit;
+$("jumpBtn").onclick = ()=>{
+  const id = st.order.find(id=>st.ans[id]===undefined);
+  if(id) $("c-"+id).scrollIntoView({behavior:"smooth",block:"start"});
+  else { $("warn").textContent = "ตอบครบทุกข้อแล้ว กดส่งคำตอบได้เลย"; $("foot").scrollIntoView({behavior:"smooth",block:"center"}); }
+};
+let quitArmed = false;
+$("quitBtn").onclick = ()=>{
+  if(!quitArmed){quitArmed=true;$("quitBtn").textContent="กดอีกครั้งเพื่อยืนยัน คำตอบในชุดนี้จะหายทั้งหมด";return;}
+  quitArmed=false; $("quitBtn").textContent="ยกเลิกชุดนี้แล้วกลับไปหน้าเริ่ม";
+  clearInterval(timer); store.del(); st=null; $("qs").innerHTML="";
+  $("exam").classList.add("hide"); $("intro").classList.remove("hide"); window.scrollTo(0,0);
+};
+document.querySelectorAll("#filter button").forEach(b=>b.onclick=()=>{filterWrong = b.dataset.f==="wrong"; applyFilter();});
+
+/* เปิดหน้ามาแล้วมีชุดที่ทำค้างไว้ ให้ทำต่อหรือดูผล */
+(function init(){
+  const s = store.get();
+  if(!valid(s)){ if(s) store.del(); return; }
+  st = s;
+  if(st.done) showResult();
+  else showExam();
+})();
+</script>
+</body>
+</html>
