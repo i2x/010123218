@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>สรุปช่วงที่ 2 Cloud Networking, สถาปัตยกรรม และแล็บ</title>
+<style>
+:root{--bg:#ffffff;--text:#1d1f23;--muted:#5d636b;--border:#d9d7cf;--soft:#f3f2ee;--accent:#2f6fd0;--surface2:#f3f2ee;--accent-soft:#e3ecfa;--orange:#c96a12;--orange-soft:#fbeedd;--good:#1f8a4c;--good-soft:#e2f3e8;--bad:#c23b3b;--bad-soft:#f8e3e3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.8 -apple-system,BlinkMacSystemFont,"Sukhumvit Set","Noto Sans Thai","Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px 80px}
+h1{font-size:28px;line-height:1.3;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 28px}
+nav{border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin-bottom:36px}
+nav b{display:block;margin-bottom:4px}
+nav a{color:var(--accent);text-decoration:none}
+nav ol{margin:0;padding-left:22px}
+h2{font-size:24px;line-height:1.35;margin:56px 0 4px;padding-top:12px;border-top:2px solid var(--text)}
+h2 small{display:block;font-size:15px;font-weight:400;color:var(--muted)}
+h3{font-size:19px;line-height:1.4;margin:34px 0 6px}
+p{margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:15.5px;margin:14px 0}
+th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--soft)}
+.tw{overflow-x:auto}
+.tw table{min-width:520px}
+.note{background:var(--soft);border-radius:8px;padding:10px 14px;margin:14px 0}
+code{background:var(--soft);border-radius:4px;padding:1px 5px;font-size:15px}
+pre{background:var(--soft);border-radius:8px;padding:12px 14px;margin:14px 0;overflow-x:auto;font-size:14px;line-height:1.55}
+pre code{background:none;padding:0;font-size:inherit}
+figure{margin:18px 0;overflow-x:auto}
+figure svg{display:block;width:100%;min-width:600px;height:auto}
+figcaption{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.6}
+svg text{font-family:inherit;fill:var(--text);font-size:15px}
+svg .m{fill:var(--muted);font-size:13px}
+svg .b{font-weight:700}
+svg .box{fill:var(--surface2);stroke:var(--border);stroke-width:1.5}
+svg .ba{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+svg .bo{fill:var(--orange-soft);stroke:var(--orange);stroke-width:1.5}
+svg .bg{fill:var(--good-soft);stroke:var(--good);stroke-width:1.5}
+svg .bb{fill:var(--bad-soft);stroke:var(--bad);stroke-width:1.5;stroke-dasharray:6 4}
+svg .frame{fill:none;stroke:var(--border);stroke-width:1.5;stroke-dasharray:5 4}
+svg .ln{stroke:var(--muted);stroke-width:2;fill:none}
+svg .la{stroke:var(--accent);stroke-width:2;fill:none}
+svg .lg{stroke:var(--good);stroke-width:2.5;fill:none}
+svg .lr{stroke:var(--bad);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+svg .ah{fill:var(--muted)} svg .aha{fill:var(--accent)} svg .ahg{fill:var(--good)} svg .ahr{fill:var(--bad)}
+svg .at{fill:var(--accent);font-weight:700}
+svg .gt{fill:var(--good);font-weight:700}
+svg .rt{fill:var(--bad);font-weight:700}
+.top{font-size:15px;margin:0 0 18px}
+.top a,.pager a{color:var(--accent);text-decoration:none}
+.pager{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--border);margin-top:48px;padding-top:16px;font-size:15px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahg" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahr" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="aha" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs></svg>
+<main>
+
+<p class="top"><a href="summary.html">กลับไปหน้าสารบัญ</a></p>
+
+<h1>ช่วงที่ 2 Cloud Networking, สถาปัตยกรรม และแล็บ</h1>
+<p class="sub">สรุปจาก Week3.pdf, GetStart.pdf, WebApp.pdf และ Lab-Build-VPC.pdf · ฉบับเตรียมสอบปิดตำรา ตัดเลข IP ของแล็บ ตัวเลือกของคำสั่ง ราคา และชื่อสินค้าที่ต้องท่องออกแล้ว</p>
+
+<div class="note">
+<p><b>ช่วงนี้ต้องเข้าใจอะไร</b></p>
+<p>แกนของช่วงนี้คือคำถามเดียว ว่า packet ตัวหนึ่งเดินจากอินเทอร์เน็ตไปถึงฐานข้อมูลใน VPC ได้ยังไง และอะไรเป็นตัวกำหนดว่าเดินได้หรือไม่ได้ ต้องคำนวณขนาดช่วง IP แบบ CIDR ได้ เข้าใจว่า subnet เป็น public หรือ private เพราะ route table อย่างเดียว เข้าใจว่า Internet Gateway กับ NAT Gateway ต่างกันที่ทิศทาง และวางของสำคัญไว้ลึกที่สุดแบบ three-tier ส่วน SDN กับ NFV คือเบื้องหลังที่ทำให้ Cloud สร้างเครือข่ายด้วยซอฟต์แวร์ได้ แล็บทั้งสามเอาแนวคิดเหล่านี้มาลงมือจริง โดยแล็บ WebApp เพิ่มเรื่อง REST API กับ CORS (ข้อ 12) ซึ่งต้องเข้าใจว่าใครเป็นคนบังคับใช้กฎ และสิ่งที่ต้องจำจากแล็บคือ<b>เหตุผล</b>ของแต่ละขั้น ไม่ใช่คำสั่ง</p>
+</div>
+
+<h3 id="s1">1. VPC คืออะไร</h3>
+<p><b>VPC (Virtual Private Cloud)</b> คือเครือข่ายส่วนตัวที่กันแยกไว้ให้เราบน Cloud การแยกนี้ทำด้วยซอฟต์แวร์ อุปกรณ์จริงยังใช้ร่วมกับลูกค้ารายอื่นอยู่ (ลูกค้าแต่ละรายเรียกว่า <b>tenant</b> แปลว่าผู้เช่า) แต่ข้อมูลข้ามจาก VPC หนึ่งไปอีก VPC เองไม่ได้ เหมือนได้ data center ส่วนตัวมาหนึ่งแห่งที่ออกแบบผังเครือข่ายได้เอง</p>
+<p>ใน VPC เราเลือกช่วง IP เองได้ และแบ่งเป็นเครือข่ายย่อยที่เรียกว่า <b>subnet</b> ได้ เรากำหนดได้ด้วยว่า traffic แบบไหนออกอินเทอร์เน็ตได้ (traffic คือข้อมูลที่วิ่งอยู่ในเครือข่าย) และยังมี firewall (ตัวกรองว่า traffic ไหนผ่านได้) ให้สองชั้น คือ Security Group (SG) กับ NACL (Network Access Control List) ซึ่งจะเรียนในช่วงที่ 3 ชื่อเรียกต่างกันไปตามผู้ให้บริการ AWS เรียกว่า VPC ส่วน Azure เรียกว่า <b>VNet</b></p>
+<figure>
+<svg viewBox="0 0 720 330" role="img" aria-label="VPC มี public และ private subnet สอง AZ พร้อม Internet Gateway และ NAT Gateway">
+<rect class="bo" x="290" y="4" width="140" height="34" rx="17"/><text x="360" y="27" text-anchor="middle" class="b">Internet</text>
+<rect class="frame" x="10" y="74" width="700" height="248" rx="12"/>
+<text x="700" y="94" text-anchor="end" class="b">VPC 10.0.0.0/16</text>
+<rect class="ba" x="280" y="58" width="160" height="34" rx="8"/><text x="360" y="81" text-anchor="middle" class="b">Internet Gateway</text>
+<path class="ln" marker-end="url(#arw)" marker-start="url(#arw)" d="M360 40 V56"/>
+<rect class="frame" x="24" y="102" width="330" height="210" rx="10"/><text x="36" y="120" class="m">AZ-1</text>
+<rect class="frame" x="366" y="102" width="330" height="210" rx="10"/><text x="378" y="120" class="m">AZ-2</text>
+<rect class="bg" x="40" y="126" width="298" height="66" rx="8"/><text x="189" y="152" text-anchor="middle" class="b">Public subnet 10.0.1.0/24</text><text x="189" y="176" text-anchor="middle" class="m">Load Balancer · NAT Gateway</text>
+<rect class="bg" x="382" y="126" width="298" height="66" rx="8"/><text x="531" y="152" text-anchor="middle" class="b">Public subnet 10.0.2.0/24</text><text x="531" y="176" text-anchor="middle" class="m">Load Balancer · NAT Gateway</text>
+<rect class="box" x="40" y="236" width="298" height="66" rx="8"/><text x="189" y="262" text-anchor="middle" class="b">Private subnet 10.0.3.0/24</text><text x="189" y="286" text-anchor="middle" class="m">App server · Database</text>
+<rect class="box" x="382" y="236" width="298" height="66" rx="8"/><text x="531" y="262" text-anchor="middle" class="b">Private subnet 10.0.4.0/24</text><text x="531" y="286" text-anchor="middle" class="m">App server · Database</text>
+<path class="ln" marker-end="url(#arw)" marker-start="url(#arw)" d="M320 92 L250 124"/>
+<path class="ln" marker-end="url(#arw)" marker-start="url(#arw)" d="M400 92 L470 124"/>
+<path class="ln" marker-end="url(#arw)" d="M189 234 V194"/><text x="200" y="219" class="m">App ออกผ่าน NAT ขาเดียว</text>
+<path class="ln" marker-end="url(#arw)" d="M531 234 V194"/><text x="542" y="219" class="m">App ออกผ่าน NAT ขาเดียว</text>
+</svg>
+<figcaption>VPC หนึ่งก้อนครอบคลุมทั้ง Region (พื้นที่ทางภูมิศาสตร์ที่ตั้ง data center ดูช่วงที่ 1) แล้วแบ่งเป็น subnet กระจายไปสอง AZ (Availability Zone data center ที่แยกกันจริงภายใน Region) สีเขียวคือ public subnet ที่คุยกับอินเทอร์เน็ตได้ทั้งขาเข้าและขาออก สีเทาคือ private subnet ที่ออกไปข้างนอกได้อย่างเดียว ลูกศรคือ app server ที่ออกเน็ตผ่าน NAT ส่วนฐานข้อมูลในระบบจริงมักแยกไปอยู่ใน subnet ที่ไม่มีเส้นทางไป NAT เลย (ดูภาพในข้อ 6)</figcaption>
+</figure>
+
+<h3 id="s2">2. การเขียนช่วง IP แบบ CIDR</h3>
+<p><b>CIDR (Classless Inter-Domain Routing)</b> คือวิธีเขียนช่วง IP ที่ใช้กันในปัจจุบัน แต่ก่อนจะอ่าน CIDR ได้ต้องรู้จัก <b>บิต</b> ก่อน คอมพิวเตอร์เก็บตัวเลขเป็นเลขฐานสอง ซึ่งแต่ละหลักมีค่าได้แค่ 0 หรือ 1 หลักหนึ่งหลักนี้เรียกว่าหนึ่งบิต ถ้ามี 1 บิตจะเขียนได้ 2 แบบ (0, 1) ถ้ามี 2 บิตได้ 4 แบบ (00, 01, 10, 11) ถ้ามี 3 บิตได้ 8 แบบ ทุกครั้งที่เพิ่มหนึ่งบิต จำนวนแบบจะคูณสอง ดังนั้น <b>n บิตเขียนได้ 2<sup>n</sup> แบบ</b> ประโยคนี้คือที่มาของสูตรทั้งหมดในหัวข้อนี้</p>
+<p>IPv4 หนึ่งตัวยาว 32 บิต เขียนเป็นเลขสี่ชุดคั่นด้วยจุด ชุดละ 8 บิต แต่ละชุดจึงมีค่าได้ 2<sup>8</sup> = 256 แบบ คือ 0 ถึง 255 ช่วง IP เขียนแบบ CIDR เช่น <code>10.0.0.0/16</code> ตัวเลขหลัง / เรียกว่า <b>prefix</b> บอกว่าบิตทางซ้ายกี่บิตถูกล็อกไว้เป็นส่วนของเครือข่าย ซึ่งทุกเครื่องในช่วงต้องมีเหมือนกัน บิตที่เหลือทางขวาเอาไปแจกเป็นเลขประจำเครื่อง <code>/16</code> จึงล็อกสองชุดแรก (8 + 8 = 16 บิต) ไว้ที่ 10.0 และเหลือ 32 − 16 = 16 บิตให้แจก ได้ 2<sup>16</sup> = 65,536 IP ตั้งแต่ 10.0.0.0 ถึง 10.0.255.255 เหมือนเบอร์โทรที่ล็อกรหัสพื้นที่ไว้ ส่วนเลขที่เหลือเอาไปแจกให้แต่ละบ้าน</p>
+<figure>
+<svg viewBox="0 0 720 222" role="img" aria-label="แบ่งบิต network กับ host ของ /16 /24 /28">
+<text x="10" y="42" class="b">/16</text>
+<rect class="ba" x="60" y="20" width="150" height="34" rx="6"/><text x="135" y="43" text-anchor="middle">10</text>
+<rect class="ba" x="218" y="20" width="150" height="34" rx="6"/><text x="293" y="43" text-anchor="middle">0</text>
+<rect class="bo" x="376" y="20" width="150" height="34" rx="6"/><text x="451" y="43" text-anchor="middle">0–255</text>
+<rect class="bo" x="534" y="20" width="150" height="34" rx="6"/><text x="609" y="43" text-anchor="middle">0–255</text>
+<text x="60" y="74" class="m">network 16 บิต · host 16 บิต → 2^16 = 65,536 IP (ขนาด VPC ที่นิยม)</text>
+<text x="10" y="110" class="b">/24</text>
+<rect class="ba" x="60" y="88" width="150" height="34" rx="6"/><text x="135" y="111" text-anchor="middle">10</text>
+<rect class="ba" x="218" y="88" width="150" height="34" rx="6"/><text x="293" y="111" text-anchor="middle">0</text>
+<rect class="ba" x="376" y="88" width="150" height="34" rx="6"/><text x="451" y="111" text-anchor="middle">1</text>
+<rect class="bo" x="534" y="88" width="150" height="34" rx="6"/><text x="609" y="111" text-anchor="middle">0–255</text>
+<text x="60" y="142" class="m">network 24 บิต · host 8 บิต → 2^8 = 256 IP (ขนาด subnet ที่นิยม)</text>
+<text x="10" y="178" class="b">/28</text>
+<rect class="ba" x="60" y="156" width="150" height="34" rx="6"/><text x="135" y="179" text-anchor="middle">10</text>
+<rect class="ba" x="218" y="156" width="150" height="34" rx="6"/><text x="293" y="179" text-anchor="middle">0</text>
+<rect class="ba" x="376" y="156" width="150" height="34" rx="6"/><text x="451" y="179" text-anchor="middle">1</text>
+<rect class="ba" x="534" y="156" width="75" height="34" rx="6"/><text x="571" y="179" text-anchor="middle" class="m">4 บิตล็อก</text>
+<rect class="bo" x="609" y="156" width="75" height="34" rx="6"/><text x="646" y="179" text-anchor="middle" class="m">4 บิตว่าง</text>
+<text x="60" y="210" class="m">network 28 บิต · host 4 บิต → 2^4 = 16 IP (subnet เล็กที่สุดที่ AWS ยอม)</text>
+</svg>
+<figcaption>สีฟ้าคือบิตที่ล็อกไว้เป็นส่วน network สีส้มคือบิตที่เหลือให้แจกเครื่อง ยิ่งล็อกมาก ยิ่งเหลือ IP น้อย</figcaption>
+</figure>
+<p>สูตรที่ต้องใช้ให้เป็นคือ <b>จำนวน IP = 2<sup>(32 − prefix)</sup></b> ตัวเลขหลัง / ยิ่งมาก IP ยิ่งน้อย วิธีคิดเร็วในห้องสอบคือจำไว้ตัวเดียวว่า /24 มี 256 ตัว (ชุดสุดท้ายว่างให้แจกทั้งชุด) แล้วนับจากตรงนั้น prefix มากขึ้นหนึ่งก็หารสอง (/25 มี 128 ตัว /26 มี 64 ตัว) น้อยลงหนึ่งก็คูณสอง เวลาแบ่งช่วงใหญ่เป็นช่วงย่อย เลขเริ่มของแต่ละช่วงต้องเป็นพหุคูณของขนาดช่วง เช่น แบ่ง <code>10.0.1.0/24</code> เป็น /25 สองก้อนจะได้ .0–.127 กับ .128–.255 จะเริ่มที่ .100 ไม่ได้ เพราะ 100 ไม่ใช่พหุคูณของ 128</p>
+<p>บน AWS ต้องหักออกอีก <b>5 IP ในทุก subnet</b> คือสี่ตัวแรกกับตัวสุดท้าย เพราะ AWS กันไว้ใช้เอง (เช่น router และ DNS ของ VPC) ระวังอย่าสับสนกับเครือข่ายทั่วไปที่หักแค่ 2 ตัว คือ network address (เลขตัวแรก ใช้เรียกทั้งช่วง) กับ broadcast (เลขตัวสุดท้าย ใช้ส่งถึงทุกเครื่องในช่วงพร้อมกัน)</p>
+<figure>
+<svg viewBox="0 0 720 150" role="img" aria-label="subnet /28 มี 16 IP AWS จอง 5 เหลือ 11">
+<text x="182" y="18" text-anchor="middle" class="m">AWS จอง 4 ตัวแรก</text>
+<text x="466" y="18" text-anchor="middle" class="gt">ใช้ได้ 11 ตัว (.4 – .14)</text>
+<text x="690" y="18" text-anchor="middle" class="m">ตัวสุดท้าย</text>
+<rect class="bb" x="96" y="28" width="40" height="44" rx="5"/><text x="116" y="56" text-anchor="middle">.0</text>
+<rect class="bb" x="140" y="28" width="40" height="44" rx="5"/><text x="160" y="56" text-anchor="middle">.1</text>
+<rect class="bb" x="184" y="28" width="40" height="44" rx="5"/><text x="204" y="56" text-anchor="middle">.2</text>
+<rect class="bb" x="228" y="28" width="40" height="44" rx="5"/><text x="248" y="56" text-anchor="middle">.3</text>
+<rect class="bg" x="272" y="28" width="32" height="44" rx="4"/><rect class="bg" x="308" y="28" width="32" height="44" rx="4"/><rect class="bg" x="344" y="28" width="32" height="44" rx="4"/><rect class="bg" x="380" y="28" width="32" height="44" rx="4"/><rect class="bg" x="416" y="28" width="32" height="44" rx="4"/><rect class="bg" x="452" y="28" width="32" height="44" rx="4"/><rect class="bg" x="488" y="28" width="32" height="44" rx="4"/><rect class="bg" x="524" y="28" width="32" height="44" rx="4"/><rect class="bg" x="560" y="28" width="32" height="44" rx="4"/><rect class="bg" x="596" y="28" width="32" height="44" rx="4"/><rect class="bg" x="632" y="28" width="32" height="44" rx="4"/>
+<rect class="bb" x="670" y="28" width="40" height="44" rx="5"/><text x="690" y="56" text-anchor="middle">.15</text>
+<text x="8" y="56" class="b">/28</text>
+<text x="10" y="102" class="m">.0 = network address · .1 = router ของ VPC · .2 = DNS · .3 = สำรองไว้ใช้ในอนาคต · .15 = broadcast</text>
+<text x="10" y="128" class="m">ตัวอย่าง subnet 10.0.1.0/28 มี IP ตั้งแต่ 10.0.1.0 ถึง 10.0.1.15 รวม 16 ตัว แจกเครื่องได้จริง 11 ตัว</text>
+</svg>
+<figcaption>กล่องเส้นประสีแดงคือ IP ที่ AWS กันไว้ กล่องสีเขียวคือ IP ที่เราแจกให้เครื่องได้</figcaption>
+</figure>
+<p>ตัวอย่างโจทย์ ถ้าต้องวางเครื่อง 100 เครื่องใน subnet เดียวบน AWS ให้ไล่ดู /25 ใช้ได้ 128 − 5 = 123 ตัวซึ่งพอ แต่ /26 ใช้ได้ 64 − 5 = 59 ตัวไม่พอ คำตอบคือ /25</p>
+
+<h3 id="s3">3. ช่วง Private IP ตาม RFC 1918</h3>
+<p>มาตรฐาน RFC 1918 (เอกสารมาตรฐานของอินเทอร์เน็ตชุด Request for Comments ฉบับที่ 1918) กันช่วง IP ไว้สามช่วงให้ใช้เป็น private IP ใครจะใช้ซ้ำกันก็ได้ เพราะ router บนอินเทอร์เน็ตตกลงกันว่าจะไม่ส่งต่อ packet ที่ไปหาช่วงเหล่านี้ VPC จึงควรใช้ IP จากสามช่วงนี้ ถ้าไปใช้ช่วงที่เป็น IP จริงบนอินเทอร์เน็ต เครื่องใน VPC จะคุยกับเครื่องจริงที่ใช้ IP นั้นไม่ได้ เพราะ route table (ตารางบอกทาง อธิบายในข้อ 5) จะเข้าใจว่าปลายทางอยู่ใน VPC เอง</p>
+<div class="tw"><table>
+<tr><th>ช่วง</th><th>ครอบคลุม</th></tr>
+<tr><td>10.0.0.0/8</td><td>10.0.0.0 ถึง 10.255.255.255</td></tr>
+<tr><td>172.16.0.0/12</td><td>172.16.0.0 ถึง 172.31.255.255</td></tr>
+<tr><td>192.168.0.0/16</td><td>192.168.0.0 ถึง 192.168.255.255</td></tr>
+</table></div>
+<p>กับดักที่เจอบ่อยคือช่วง 172.16.0.0/12 ซึ่งคิดออกได้จากหลักเดิม /12 ล็อกชุดแรกไว้ 8 บิตที่ 172 แล้วล็อกต่ออีก 4 บิตทางซ้ายของชุดที่สอง ชุดที่สองจึงเหลือ 4 บิตทางขวาให้เปลี่ยนได้ 2<sup>4</sup> = 16 ค่า เริ่มจาก 16 ไปจนถึง 16 + 15 = 31 ช่วงนี้จึงครอบคลุมแค่ 172.16 ถึง 172.31 ดังนั้น 172.32.1.1 ไม่ใช่ private IP แม้จะขึ้นต้นด้วย 172</p>
+
+<h3 id="s4">4. Public subnet และ Private subnet</h3>
+<p><b>Public subnet</b> มีเส้นทางออกไปยัง Internet Gateway เครื่องข้างในมี public IP ได้และคนข้างนอกเข้าถึงได้ ใช้วางของที่ต้องหันหน้าออกอินเทอร์เน็ต เช่น <b>load balancer</b> (ตัวกระจายคำขอไปหลาย server) และ <b>bastion</b> (เครื่องที่เป็นประตูให้ผู้ดูแลเข้าเครือข่าย) <b>Private subnet</b> ไม่มีเส้นทางไป Internet Gateway คนข้างนอกจึงเข้าไม่ถึง ใช้วางของสำคัญอย่าง app server (เครื่องที่รันโปรแกรมประมวลผลของแอป) และฐานข้อมูล</p>
+<p>ประโยคที่ต้องจำให้ขึ้นใจคือ <b>public กับ private ต่างกันที่ route table เท่านั้น</b> subnet ไม่ได้มีป้ายติดมาตั้งแต่สร้าง แต่กลายเป็น public ทันทีที่ route table มีเส้นทาง <code>0.0.0.0/0</code> ไปที่ Internet Gateway</p>
+<p>หลักออกแบบมีสามข้อ กระจาย subnet ไปหลาย AZ ให้ public subnet เล็กและ private subnet ใหญ่เพราะของส่วนใหญ่อยู่ข้างใน และถ้าวันหน้าจะเชื่อม VPC สองก้อนเข้าหากัน (VPC peering) ช่วง IP ต้องไม่ทับกัน ไม่อย่างนั้นระบบจะไม่รู้ว่า IP นั้นหมายถึงเครื่องฝั่งไหน</p>
+
+<h3 id="s5">5. Route Table</h3>
+<p><b>Route table</b> คือตารางกฎที่บอกว่า packet ที่จะไปปลายทางไหนให้ส่งไปทางใด แต่ละกฎมี Destination (ช่วง IP ปลายทาง) กับ Target (ส่งไปที่ใด) ใน VPC ทั่วไปจะเจอกฎสามแบบ</p>
+<div class="tw"><table>
+<tr><th>กฎ</th><th>ความหมาย</th><th>อยู่ที่ไหน</th></tr>
+<tr><td><code>10.0.0.0/16 → local</code></td><td>ปลายทางอยู่ใน VPC เดียวกัน ส่งกันภายใน</td><td>ทุก route table (มีให้อัตโนมัติ) เครื่องใน VPC เดียวกันจึงคุยกันได้ทันที</td></tr>
+<tr><td><code>0.0.0.0/0 → igw</code></td><td>ปลายทางอื่นทั้งหมด ออกทาง Internet Gateway</td><td>public subnet</td></tr>
+<tr><td><code>0.0.0.0/0 → nat</code></td><td>ปลายทางอื่นทั้งหมด ส่งไป NAT Gateway</td><td>private subnet</td></tr>
+</table></div>
+<figure>
+<svg viewBox="0 0 720 300" role="img" aria-label="route table ของ public subnet และ private subnet">
+<text x="10" y="22" class="b">Route table ของ public subnet</text>
+<rect class="box" x="10" y="34" width="170" height="36" rx="6"/><text x="95" y="57" text-anchor="middle">10.0.0.0/16</text>
+<path class="ln" marker-end="url(#arw)" d="M180 52 H228"/>
+<rect class="bg" x="230" y="34" width="170" height="36" rx="6"/><text x="315" y="57" text-anchor="middle" class="b">local</text>
+<text x="414" y="57" class="m">คุยกันภายใน VPC (มีให้อัตโนมัติ)</text>
+<rect class="box" x="10" y="78" width="170" height="36" rx="6"/><text x="95" y="101" text-anchor="middle">0.0.0.0/0</text>
+<path class="ln" marker-end="url(#arw)" d="M180 96 H228"/>
+<rect class="ba" x="230" y="78" width="170" height="36" rx="6"/><text x="315" y="101" text-anchor="middle" class="b">igw-12345</text>
+<text x="414" y="101" class="m">ที่เหลือทั้งหมด → อินเทอร์เน็ต เข้าและออกได้</text>
+<text x="10" y="150" class="b">Route table ของ private subnet</text>
+<rect class="box" x="10" y="162" width="170" height="36" rx="6"/><text x="95" y="185" text-anchor="middle">10.0.0.0/16</text>
+<path class="ln" marker-end="url(#arw)" d="M180 180 H228"/>
+<rect class="bg" x="230" y="162" width="170" height="36" rx="6"/><text x="315" y="185" text-anchor="middle" class="b">local</text>
+<text x="414" y="185" class="m">คุยกันภายใน VPC (มีให้อัตโนมัติ)</text>
+<rect class="box" x="10" y="206" width="170" height="36" rx="6"/><text x="95" y="229" text-anchor="middle">0.0.0.0/0</text>
+<path class="ln" marker-end="url(#arw)" d="M180 224 H228"/>
+<rect class="bo" x="230" y="206" width="170" height="36" rx="6"/><text x="315" y="229" text-anchor="middle" class="b">nat-67890</text>
+<text x="414" y="229" class="m">ที่เหลือทั้งหมด → ออกผ่าน NAT ขาเดียว</text>
+<text x="10" y="270" class="m">packet ไป 10.0.3.42 เข้าได้ทั้ง /16 และ /0 → เลือก /16 เพราะเจาะจงกว่า → ส่งภายใน (local)</text>
+<text x="10" y="292" class="m">packet ไป 8.8.8.8 เข้าได้แค่ /0 → public subnet ส่งไป IGW ส่วน private subnet ส่งไป NAT</text>
+</svg>
+<figcaption>สอง route table ต่างกันแค่แถวล่าง แถวนี้แหละที่ทำให้ subnet หนึ่งเป็น public และอีก subnet เป็น private</figcaption>
+</figure>
+<p><code>0.0.0.0/0</code> ไม่ล็อกบิตไหนเลยจึงครอบคลุมทุก IP เรียกว่า <b>default route</b> ถ้า packet ตรงกับหลายกฎพร้อมกัน ระบบเลือกกฎที่เจาะจงที่สุด คือกฎที่ prefix ยาวที่สุด เรียกว่า <b>longest prefix match</b> เช่น packet ไป 10.0.3.42 ตรงทั้ง /16 และ /0 ระบบเลือก /16 packet จึงวิ่งภายใน VPC ไม่ออกไปข้างนอก เหมือนขับรถไปบางนาแล้วเจอป้าย "บางนา" กับป้าย "ทุกทิศทาง" ก็ต้องเลี้ยวตามป้ายบางนา</p>
+
+<h3 id="s6">6. Internet Gateway และ NAT Gateway</h3>
+<p><b>Internet Gateway (IGW)</b> คือประตูที่ให้ VPC คุยกับอินเทอร์เน็ตได้ทั้งขาเข้าและขาออก ผู้ให้บริการดูแลไม่ให้ล่มและขยายรับ traffic ได้เอง จึงไม่เป็น single point of failure (จุดเดียวที่ถ้าพังแล้วทั้งระบบพังตาม) VPC หนึ่งก้อนมี IGW ได้ตัวเดียว เครื่องที่มี public IP จะไม่เห็น public IP นั้นในตัวเอง เห็นแค่ private IP เพราะ IGW เป็นคนแปลงที่อยู่ให้แบบจับคู่หนึ่งต่อหนึ่ง เรียกว่า 1:1 NAT (Network Address Translation การแปลงที่อยู่ IP ที่เรียนในช่วงที่ 1)</p>
+<p>ปัญหาคือเครื่องใน private subnet ก็ต้องออกเน็ตบ้าง เช่น โหลด patch (ตัวแก้ช่องโหว่) แต่ถ้าใส่เส้นทางไป IGW ก็จะกลายเป็น public ทันที ทางออกคือ <b>NAT Gateway</b> ซึ่งทำงานแบบ router ที่บ้านในช่วงที่ 1 ให้เครื่องข้างในออกไปได้ แต่คนข้างนอกเริ่มการเชื่อมต่อเข้ามาไม่ได้</p>
+<p>จุดที่ตอบผิดบ่อยคือ <b>ตัว NAT Gateway ต้องวางไว้ใน public subnet</b> เพราะ NAT เองก็ต้องส่ง packet ต่อออกทาง IGW เส้นทางจริงจึงเป็น เครื่องใน private subnet → NAT Gateway (อยู่ใน public subnet) → IGW → อินเทอร์เน็ต และควรมี NAT หนึ่งตัวต่อ AZ เพื่อไม่ให้ AZ หนึ่งล่มแล้วพาทุก private subnet ออกเน็ตไม่ได้</p>
+<div class="tw"><table>
+<tr><th></th><th>Internet Gateway</th><th>NAT Gateway</th></tr>
+<tr><td>ทิศทาง</td><td>เข้าและออก</td><td>ออกอย่างเดียว</td></tr>
+<tr><td>เครื่องต้องมี public IP ไหม</td><td>ต้องมี</td><td>ไม่ต้อง NAT ใช้ IP ของตัวเอง</td></tr>
+<tr><td>ใช้กับ</td><td>public subnet</td><td>private subnet (แต่ตัว NAT วางใน public subnet)</td></tr>
+<tr><td>จำนวน</td><td>หนึ่งตัวต่อ VPC</td><td>แนะนำหนึ่งตัวต่อ AZ</td></tr>
+<tr><td>ค่าใช้จ่าย</td><td>ไม่คิดเงิน</td><td>คิดเงิน</td></tr>
+</table></div>
+<figure><svg viewBox="0 0 720 340" role="img" aria-label="Internet Gateway เทียบกับ NAT Gateway">
+<text x="170" y="22" text-anchor="middle" class="b">Internet Gateway: เข้าและออกได้</text>
+<rect class="box" x="60" y="36" width="220" height="44" rx="8"/><text x="170" y="64" text-anchor="middle">อินเทอร์เน็ต</text>
+<rect class="bg" x="60" y="130" width="220" height="50" rx="8"/><text x="170" y="151" text-anchor="middle" class="b">Internet Gateway</text><text x="170" y="170" text-anchor="middle" class="m">54.1.2.3 ↔ 10.0.1.10 (1:1)</text>
+<rect class="ba" x="60" y="236" width="220" height="60" rx="8"/><text x="170" y="260" text-anchor="middle" class="b">Web server · public subnet</text><text x="170" y="282" text-anchor="middle" class="m">10.0.1.10 + public IP 54.1.2.3</text>
+<line class="lg" x1="140" y1="236" x2="140" y2="184" marker-end="url(#arwg)"/><line class="lg" x1="140" y1="130" x2="140" y2="84" marker-end="url(#arwg)"/>
+<line class="lg" x1="200" y1="80" x2="200" y2="126" marker-end="url(#arwg)"/><line class="lg" x1="200" y1="180" x2="200" y2="232" marker-end="url(#arwg)"/>
+<text x="130" y="110" text-anchor="end" class="gt">ออก ✓</text><text x="210" y="110" class="gt">เข้า ✓</text>
+<text x="130" y="214" text-anchor="end" class="gt">ออก ✓</text><text x="210" y="214" class="gt">เข้า ✓</text>
+<text x="550" y="22" text-anchor="middle" class="b">NAT Gateway: ออกได้อย่างเดียว</text>
+<rect class="box" x="440" y="36" width="220" height="44" rx="8"/><text x="550" y="64" text-anchor="middle">อินเทอร์เน็ต</text>
+<rect class="bo" x="440" y="130" width="220" height="50" rx="8"/><text x="550" y="151" text-anchor="middle" class="b">NAT Gateway</text><text x="550" y="170" text-anchor="middle" class="m">public subnet · IP ของตัวเอง</text>
+<rect class="box" x="440" y="236" width="220" height="60" rx="8"/><text x="550" y="260" text-anchor="middle" class="b">App server · private subnet</text><text x="550" y="282" text-anchor="middle" class="m">10.0.3.42 ไม่มี public IP</text>
+<line class="lg" x1="520" y1="236" x2="520" y2="184" marker-end="url(#arwg)"/><line class="lg" x1="520" y1="130" x2="520" y2="84" marker-end="url(#arwg)"/>
+<line class="lr" x1="590" y1="80" x2="590" y2="126" marker-end="url(#arwr)"/><text x="600" y="214" class="rt">เข้า ✕</text>
+<text x="510" y="110" text-anchor="end" class="gt">ออก ✓</text><text x="600" y="110" class="rt">เข้ามาเอง</text>
+<text x="510" y="214" text-anchor="end" class="gt">ออก ✓</text>
+<text x="170" y="324" text-anchor="middle" class="m">คนข้างนอกเข้าถึงเครื่องได้ผ่าน public IP</text>
+<text x="550" y="324" text-anchor="middle" class="m">คำตอบของคำขอขาออกกลับมาได้ แต่เปิดใหม่จากข้างนอกไม่ได้</text>
+</svg>
+<figcaption>ซ้าย: IGW จับคู่ public IP กับเครื่องแบบหนึ่งต่อหนึ่ง จึงเข้าและออกได้ ขวา: NAT Gateway ให้เครื่องข้างในออกไปได้ (ผ่าน IGW อีกทอด) แต่คนข้างนอกเริ่มคุยเข้ามาเองไม่ได้</figcaption>
+</figure>
+<p>วิธีพิสูจน์ว่า traffic ขาออกวิ่งทางไหนจริง คือถามเว็บภายนอกว่าเห็นเราเข้ามาจาก IP อะไร เครื่องใน public subnet จะได้ public IP ของตัวเอง ส่วนเครื่องใน private subnet จะได้ IP ของ NAT Gateway ซึ่งยืนยันว่าขาออกผ่าน NAT จริง</p>
+<p>เมื่อต่อทุกอย่างเป็นเว็บหนึ่งเว็บ คำขอของผู้ใช้วิ่งจากอินเทอร์เน็ตเข้า IGW ไปที่ load balancer ใน public subnet ต่อไปที่ app server ใน private subnet แล้วถึงฐานข้อมูลใน private subnet อีกชั้น สองทอดหลัง คือจาก load balancer ไป app server และจาก app server ไปฐานข้อมูล ใช้กฎ local ส่วนเวลาที่ app server ต้องออกไปเรียกบริการภายนอกจะออกทาง NAT Gateway หลักคิดคือ<b>ของที่สำคัญที่สุดต้องอยู่ลึกที่สุด</b> ผู้โจมตีจะได้ต้องผ่านหลายด่าน</p>
+<figure>
+<svg viewBox="0 0 720 470" role="img" aria-label="เส้นทางจากอินเทอร์เน็ต ผ่าน IGW ไป Load Balancer App และ DB และเส้นทาง App ออกผ่าน NAT">
+<rect class="bo" x="270" y="6" width="180" height="40" rx="20"/><text x="360" y="31" text-anchor="middle" class="b">อินเทอร์เน็ต (ผู้ใช้)</text>
+<rect class="frame" x="10" y="64" width="700" height="398" rx="12"/><text x="24" y="88" class="b">VPC 10.0.0.0/16</text>
+<path class="ln" marker-end="url(#arw)" marker-start="url(#arw)" d="M360 48 V74"/>
+<rect class="ba" x="270" y="76" width="180" height="40" rx="8"/><text x="360" y="101" text-anchor="middle" class="b">Internet Gateway</text>
+<rect class="frame" x="24" y="140" width="672" height="96" rx="10"/><text x="684" y="158" text-anchor="end" class="m">Public subnet 10.0.1.0/24</text>
+<rect class="ba" x="60" y="166" width="250" height="58" rx="8"/><text x="185" y="189" text-anchor="middle" class="b">Load Balancer</text><text x="185" y="211" text-anchor="middle" class="m">10.0.1.10 · public IP 54.1.2.3</text>
+<rect class="bo" x="420" y="166" width="230" height="58" rx="8"/><text x="535" y="189" text-anchor="middle" class="b">NAT Gateway</text><text x="535" y="211" text-anchor="middle" class="m">ให้ private ออกเน็ตขาเดียว</text>
+<rect class="frame" x="24" y="256" width="672" height="86" rx="10"/><text x="684" y="274" text-anchor="end" class="m">Private subnet 10.0.3.0/24</text>
+<rect class="box" x="60" y="280" width="250" height="54" rx="8"/><text x="185" y="302" text-anchor="middle" class="b">App server</text><text x="185" y="324" text-anchor="middle" class="m">10.0.3.42 · ไม่มี public IP</text>
+<rect class="frame" x="24" y="362" width="672" height="88" rx="10"/><text x="684" y="380" text-anchor="end" class="m">Private subnet 10.0.4.0/24</text>
+<rect class="box" x="60" y="386" width="250" height="54" rx="8"/><text x="185" y="408" text-anchor="middle" class="b">Database</text><text x="185" y="430" text-anchor="middle" class="m">10.0.4.99 · ไม่ออกเน็ตเลย</text>
+<path class="la" marker-end="url(#arwa)" d="M300 116 L222 164"/><text x="246" y="134" class="at">1</text>
+<path class="la" marker-end="url(#arwa)" d="M185 224 V278"/><text x="196" y="256" class="at">2</text>
+<path class="la" marker-end="url(#arwa)" d="M185 334 V384"/><text x="196" y="364" class="at">3</text>
+<path class="ln" style="stroke-dasharray:6 4" marker-end="url(#arw)" d="M310 296 L470 226"/>
+<path class="ln" style="stroke-dasharray:6 4" marker-end="url(#arw)" d="M500 166 L428 118"/><text x="400" y="240" class="b">4</text>
+<text x="360" y="316" class="m">เส้นประ 4 = App เรียก API ภายนอก</text>
+<text x="360" y="334" class="m">ผ่าน NAT → IGW (ออกได้อย่างเดียว)</text>
+<text x="360" y="414" class="m">DB คุยได้กับเครื่องใน VPC เท่านั้น</text>
+</svg>
+<figcaption>เส้นสีฟ้า 1–3 คือคำขอของผู้ใช้ที่วิ่งเข้ามา คำตอบย้อนกลับตามเส้นเดิม เส้นประ 4 คือ app server ออกไปเรียกบริการภายนอกผ่าน NAT Gateway</figcaption>
+</figure>
+
+<h3 id="s7">7. SDN: แยกงานคิดเส้นทางออกจากงานส่ง packet</h3>
+<p>router ส่ง packet ข้ามเครือข่าย ส่วน switch ส่ง packet ต่อกันภายในเครือข่ายเดียวกัน อุปกรณ์ทั้งสองแบบมีงานสองอย่าง งานแรกคือคิดว่า packet ควรไปทางไหน เรียกว่า <b>control plane</b> งานที่สองคือส่ง packet ออกไปตามเส้นทางที่คิดไว้แล้ว เรียกว่า <b>data plane</b></p>
+<p>งานคิดเส้นทางทำโดยแลกข้อมูลกับอุปกรณ์ตัวอื่นผ่าน routing protocol ซึ่งเป็นกติกาที่ router ใช้บอกกันว่าไปเครือข่ายไหนได้ทางไหน ตัวอย่างคือ OSPF ที่ใช้ภายในองค์กร และ BGP ที่ใช้ระหว่างองค์กรบนอินเทอร์เน็ต</p>
+<p>เครือข่ายแบบเดิมรวมสองงานไว้ในกล่องเดียว จะเปลี่ยนการตั้งค่าก็ต้องเข้าไปสั่งทีละเครื่อง ถ้ามีอุปกรณ์สิบตัวยังพอไหว แต่ Cloud มีอุปกรณ์หลายพันตัว และลูกค้าก็สร้างเครือข่ายใหม่อยู่ตลอดเวลา จึงทำแบบนั้นไม่ได้</p>
+<p><b>SDN (Software-Defined Networking)</b> แยก control plane ออกจาก data plane แล้วรวมงานคิดไว้ที่โปรแกรมกลางชื่อ <b>SDN controller</b> ตัว controller มองเห็นทั้งเครือข่าย คำนวณเส้นทาง แล้วส่งกฎลงไปให้ switch ส่วน switch เหลืองานเดียวคือส่ง packet ตามกฎให้เร็วที่สุด ผลคือควบคุมทั้งเครือข่ายจากจุดเดียว และสั่งงานผ่าน API (Application Programming Interface ช่องทางที่โปรแกรมใช้สั่งงานโปรแกรมอื่น) จึงเขียนโปรแกรมให้ทำงานอัตโนมัติได้ และไม่ผูกกับผู้ผลิตรายใด VPC บน Cloud ก็ทำงานแบบนี้ เมื่อเรากดสร้าง route table คำสั่งจะไปที่ controller แล้วกระจายกฎลงไปที่ switch จริงหลายพันตัวให้เอง</p>
+<figure>
+<svg viewBox="0 0 720 300" role="img" aria-label="เครือข่ายแบบเดิม control กับ data อยู่ในกล่องเดียว เทียบกับ SDN ที่ controller แยกออกมา">
+<text x="175" y="22" text-anchor="middle" class="b">แบบเดิม: คิดและส่งอยู่ในกล่องเดียว</text>
+<rect class="box" x="14" y="80" width="100" height="134" rx="8"/><text x="64" y="100" text-anchor="middle" class="m">Router</text>
+<rect class="ba" x="22" y="110" width="84" height="40" rx="6"/><text x="64" y="135" text-anchor="middle">Control</text>
+<rect class="bg" x="22" y="160" width="84" height="40" rx="6"/><text x="64" y="185" text-anchor="middle">Data</text>
+<rect class="box" x="125" y="80" width="100" height="134" rx="8"/><text x="175" y="100" text-anchor="middle" class="m">Router</text>
+<rect class="ba" x="133" y="110" width="84" height="40" rx="6"/><text x="175" y="135" text-anchor="middle">Control</text>
+<rect class="bg" x="133" y="160" width="84" height="40" rx="6"/><text x="175" y="185" text-anchor="middle">Data</text>
+<rect class="box" x="236" y="80" width="100" height="134" rx="8"/><text x="286" y="100" text-anchor="middle" class="m">Router</text>
+<rect class="ba" x="244" y="110" width="84" height="40" rx="6"/><text x="286" y="135" text-anchor="middle">Control</text>
+<rect class="bg" x="244" y="160" width="84" height="40" rx="6"/><text x="286" y="185" text-anchor="middle">Data</text>
+<text x="175" y="58" text-anchor="middle" class="m">แต่ละตัวคิดเส้นทางเอง (OSPF/BGP)</text>
+<text x="175" y="248" text-anchor="middle" class="m">ผู้ดูแลต้อง login ตั้งค่าทีละเครื่อง</text>
+<text x="175" y="270" text-anchor="middle" class="m">กล่องปิดจากผู้ผลิตรายเดียว</text>
+<path class="frame" d="M360 10 V290"/>
+<text x="545" y="22" text-anchor="middle" class="b">SDN: แยกงานคิดไปไว้ที่ controller</text>
+<rect class="ba" x="415" y="40" width="260" height="58" rx="10"/><text x="545" y="64" text-anchor="middle" class="b">SDN Controller</text><text x="545" y="86" text-anchor="middle" class="m">control plane · เห็นทั้งเครือข่าย</text>
+<path class="ln" marker-end="url(#arw)" d="M515 98 L440 176"/>
+<path class="ln" marker-end="url(#arw)" d="M545 98 V176"/>
+<path class="ln" marker-end="url(#arw)" d="M575 98 L650 176"/>
+<rect class="bg" x="390" y="178" width="100" height="56" rx="8"/><text x="440" y="202" text-anchor="middle" class="b">Switch</text><text x="440" y="222" text-anchor="middle" class="m">data plane</text>
+<rect class="bg" x="495" y="178" width="100" height="56" rx="8"/><text x="545" y="202" text-anchor="middle" class="b">Switch</text><text x="545" y="222" text-anchor="middle" class="m">data plane</text>
+<rect class="bg" x="600" y="178" width="100" height="56" rx="8"/><text x="650" y="202" text-anchor="middle" class="b">Switch</text><text x="650" y="222" text-anchor="middle" class="m">data plane</text>
+<text x="545" y="258" text-anchor="middle" class="m">controller ส่งกฎลง switch ผ่าน OpenFlow / API</text>
+<text x="545" y="280" text-anchor="middle" class="m">switch ทำหน้าที่ส่ง packet อย่างเดียว</text>
+</svg>
+<figcaption>สีฟ้าคืองานคิดเส้นทาง (control plane) สีเขียวคืองานส่ง packet (data plane) SDN ดึงสีฟ้าออกจากทุกกล่องมารวมไว้ที่เดียว</figcaption>
+</figure>
+<p>ที่แยกแล้วดีขึ้นเพราะสองงานต้องการความเร็วต่างกันมาก งานคิดช้าได้เพราะเส้นทางไม่ได้เปลี่ยนบ่อย แต่งานส่งต้องจัดการ packet หลายล้านตัวต่อวินาทีจึงต้องใช้ฮาร์ดแวร์เฉพาะทาง เมื่อแยกกันแล้ว งานคิดย้ายไปรันบน server ธรรมดาได้ ส่วน switch ก็ทุ่มฮาร์ดแวร์ให้งานส่งอย่างเดียว controller สั่ง switch ผ่าน protocol มาตรฐานชื่อ <b>OpenFlow</b> switch เก็บคำสั่งไว้ใน <b>flow table</b> ซึ่งแต่ละแถวเป็นคู่ของเงื่อนไข (match) กับสิ่งที่ต้องทำ (action) เช่น ถ้าปลายทางอยู่ใน 10.0.3.0/24 (match) ให้ส่งออกทาง port 5 ของ switch (action) เพราะเป็นมาตรฐานกลาง จะใช้ switch ยี่ห้อไหนก็ได้</p>
+
+<h3 id="s8">8. NFV: เปลี่ยนกล่องอุปกรณ์เครือข่ายให้เป็นโปรแกรม</h3>
+<p>อุปกรณ์อย่าง firewall, load balancer และ router แต่เดิมขายเป็นกล่องฮาร์ดแวร์เฉพาะทาง ราคาแพง และถ้ารับงานไม่ไหวก็ต้องรอซื้อกล่องใหม่ <b>NFV (Network Functions Virtualization)</b> เปลี่ยนงานของกล่องเหล่านั้นเป็นซอฟต์แวร์ที่รันเป็น VM หรือ container บน server ธรรมดา แนวคิดเดียวกับ virtualization ในช่วงที่ 1 แต่จำลองอุปกรณ์เครือข่ายแทนคอมพิวเตอร์ ข้อดีคือไม่ติดผู้ผลิตรายเดียว เปิดใช้ได้ในไม่กี่วินาที เพิ่มจำนวนตามงานได้ และถูกกว่า อีกข้อคือ <b>service chaining</b> ซึ่งให้ traffic ผ่านอุปกรณ์เสมือนหลายตัวต่อกันเป็นสาย เช่น firewall แล้วไป load balancer จะสลับลำดับก็แค่แก้การตั้งค่า ไม่ต้องย้ายสาย</p>
+<figure>
+<svg viewBox="0 0 720 200" role="img" aria-label="ก่อน NFV ใช้กล่องเฉพาะทาง หลัง NFV รันเป็น VM บน server ทั่วไป">
+<text x="175" y="20" text-anchor="middle" class="b">ก่อน NFV</text>
+<rect class="box" x="10" y="36" width="160" height="96" rx="8"/><text x="90" y="64" text-anchor="middle" class="b">Firewall</text><text x="90" y="86" text-anchor="middle" class="m">appliance</text><text x="90" y="112" text-anchor="middle">ราคาสูงต่อกล่อง</text>
+<rect class="box" x="180" y="36" width="160" height="96" rx="8"/><text x="260" y="64" text-anchor="middle" class="b">Load Balancer</text><text x="260" y="86" text-anchor="middle" class="m">appliance</text><text x="260" y="112" text-anchor="middle">ราคาสูงต่อกล่อง</text>
+<text x="175" y="160" text-anchor="middle" class="m">ฮาร์ดแวร์เฉพาะ หนึ่งงานต่อหนึ่งกล่อง</text>
+<text x="175" y="182" text-anchor="middle" class="m">จะขยายต้องซื้อกล่องใหม่ รอเป็นสัปดาห์</text>
+<path class="ln" marker-end="url(#arw)" d="M350 84 H392"/>
+<text x="555" y="20" text-anchor="middle" class="b">หลัง NFV</text>
+<rect class="ba" x="400" y="32" width="310" height="128" rx="10"/><text x="555" y="54" text-anchor="middle" class="b">Commodity server (x86 ทั่วไป)</text>
+<rect class="bg" x="414" y="70" width="84" height="60" rx="6"/><text x="456" y="96" text-anchor="middle" class="b">vFW</text><text x="456" y="118" text-anchor="middle" class="m">VM</text>
+<rect class="bg" x="513" y="70" width="84" height="60" rx="6"/><text x="555" y="96" text-anchor="middle" class="b">vLB</text><text x="555" y="118" text-anchor="middle" class="m">VM</text>
+<rect class="bg" x="612" y="70" width="84" height="60" rx="6"/><text x="654" y="96" text-anchor="middle" class="b">vIDS</text><text x="654" y="118" text-anchor="middle" class="m">VM</text>
+<path class="ln" marker-end="url(#arw)" d="M498 100 H511"/><path class="ln" marker-end="url(#arw)" d="M597 100 H610"/>
+<text x="555" y="150" text-anchor="middle" class="m">service chaining: vFW → vLB → vIDS</text>
+<text x="555" y="182" text-anchor="middle" class="m">เพิ่มหรือลดได้ในไม่กี่วินาที ไม่ต้องซื้อกล่องใหม่</text>
+</svg>
+<figcaption>ซ้ายคือแบบเดิมที่ต้องมีกล่องหนึ่งใบต่อหนึ่งงาน ขวาคือ NFV ที่ทุกงานเป็นโปรแกรมรันอยู่บน server ทั่วไป และต่อกันเป็นสายได้ vFW คือ firewall เสมือน vLB คือ load balancer เสมือน และ vIDS คือ IDS (Intrusion Detection System ระบบตรวจจับการบุกรุก) ที่รันเป็นโปรแกรม</figcaption>
+</figure>
+<div class="tw"><table>
+<tr><th></th><th>SDN</th><th>NFV</th></tr>
+<tr><td>เปลี่ยนอะไร</td><td>วิธีตัดสินว่า packet ไปทางไหน</td><td>ที่ที่งานของอุปกรณ์เครือข่ายรันอยู่ จากกล่องเป็นโปรแกรม</td></tr>
+<tr><td>แนวคิดหลัก</td><td>แยก control plane ออกจาก data plane</td><td>เปลี่ยนฮาร์ดแวร์เฉพาะทางให้เป็นซอฟต์แวร์</td></tr>
+<tr><td>คำที่บอกใบ้ในโจทย์</td><td>controller, OpenFlow, flow table</td><td>VM, service chaining, virtual firewall</td></tr>
+</table></div>
+<p>SDN กับ NFV ไม่ได้แข่งกันแต่ใช้เสริมกัน SDN ตัดสินว่า traffic ไปทางไหน NFV ทำให้อุปกรณ์ที่ traffic ผ่านกลายเป็นโปรแกรม ข้อสอบชอบหลอกให้สลับสองคำนี้ และจำไว้ว่า OSPF กับ BGP เป็นงานฝั่ง control plane</p>
+
+<h3 id="s9">9. สถาปัตยกรรมแบบ Tier</h3>
+<p>เว็บหนึ่งเว็บมีงานหลักสามส่วน คือหน้าเว็บที่ผู้ใช้เห็น โปรแกรมฝั่ง server ที่ประมวลผล และฐานข้อมูล <b>Single-tier</b> เอาทั้งหมดไว้เครื่องเดียว ถูกและง่าย แต่เป็น single point of failure และถ้าเว็บโดนเจาะ ผู้โจมตีได้ฐานข้อมูลไปด้วยทันที จึงเหมาะแค่การพัฒนาและทดสอบ <b>Two-tier</b> แยกฐานข้อมูลไปไว้ใน private subnet จึงปลอดภัยขึ้น แต่ส่วนหน้ายังอยู่เครื่องเดียว ไม่มี load balancer ล่มเมื่อไรเว็บก็ล่ม</p>
+<p><b>Three-tier</b> เป็นมาตรฐานของระบบจริง ชั้น <b>presentation</b> อยู่ใน public subnet มี load balancer กระจายงานให้ web server หลายเครื่อง ชั้น <b>application</b> ประมวลผลตามกฎธุรกิจ (business logic เช่น คิดราคา ตัดสต็อก) อยู่ใน private subnet ชั้น <b>data</b> คือฐานข้อมูล อยู่ใน private subnet และออกเน็ตไม่ได้ แต่ละชั้นคุยกับชั้นที่ติดกันเท่านั้น และมี SG ของตัวเอง (ช่วงที่ 3) ถ้าออกแบบดี ชั้นหนึ่งมีปัญหาก็จะไม่ลามไปถึงชั้นอื่น</p>
+<p>ข้อดีอีกข้อคือแต่ละชั้นขยายแยกกันได้ สองชั้นแรกขยาย<b>แนวนอน</b>ได้ง่าย คือเพิ่มจำนวนเครื่อง ซึ่งมักใช้ Auto Scaling ที่เพิ่มลดจำนวนเครื่องให้เองตามปริมาณงาน ที่ทำได้ง่ายก็เพราะเครื่องในสองชั้นนี้ไม่เก็บข้อมูลไว้กับตัว (stateless) เครื่องใหม่ทำงานแทนกันได้ทันที ส่วนชั้น data ขยายยากกว่า เพราะการเขียนข้อมูลต้องรวมไว้ที่จุดเดียว ข้อมูลจึงจะไม่ขัดกัน จึงมักขยาย<b>แนวตั้ง</b> (เปลี่ยนเป็นเครื่องใหญ่ขึ้น) หรือเพิ่ม <b>read replica</b> (สำเนาที่ช่วยรับงานอ่านแต่ไม่รับงานเขียน)</p>
+<figure>
+<svg viewBox="0 0 720 330" role="img" aria-label="three-tier presentation application data">
+<rect class="bo" x="44" y="6" width="160" height="34" rx="17"/><text x="124" y="29" text-anchor="middle" class="b">อินเทอร์เน็ต</text>
+<rect class="frame" x="6" y="58" width="708" height="266" rx="12"/><text x="700" y="80" text-anchor="end" class="m">VPC</text>
+<path class="ln" marker-end="url(#arw)" marker-start="url(#arw)" d="M124 40 V70"/>
+<rect class="ba" x="44" y="72" width="160" height="32" rx="8"/><text x="124" y="94" text-anchor="middle" class="b">IGW</text>
+<rect class="frame" x="14" y="118" width="220" height="196" rx="10"/><text x="124" y="138" text-anchor="middle" class="b">Presentation tier</text><text x="124" y="156" text-anchor="middle" class="m">public subnet</text>
+<rect class="frame" x="250" y="118" width="220" height="196" rx="10"/><text x="360" y="138" text-anchor="middle" class="b">Application tier</text><text x="360" y="156" text-anchor="middle" class="m">private subnet</text>
+<rect class="frame" x="486" y="118" width="220" height="196" rx="10"/><text x="596" y="138" text-anchor="middle" class="b">Data tier</text><text x="596" y="156" text-anchor="middle" class="m">private subnet</text>
+<rect class="ba" x="30" y="166" width="188" height="34" rx="6"/><text x="124" y="189" text-anchor="middle">Load Balancer</text>
+<rect class="bg" x="30" y="214" width="88" height="50" rx="6"/><text x="74" y="244" text-anchor="middle">Web</text>
+<rect class="bg" x="130" y="214" width="88" height="50" rx="6"/><text x="174" y="244" text-anchor="middle">Web</text>
+<rect class="box" x="266" y="184" width="84" height="56" rx="6"/><text x="308" y="217" text-anchor="middle">App</text>
+<rect class="box" x="370" y="184" width="84" height="56" rx="6"/><text x="412" y="217" text-anchor="middle">App</text>
+<rect class="bo" x="500" y="184" width="84" height="56" rx="6"/><text x="542" y="207" text-anchor="middle" class="b">DB</text><text x="542" y="228" text-anchor="middle" class="m">Primary</text>
+<rect class="bo" x="612" y="184" width="84" height="56" rx="6"/><text x="654" y="207" text-anchor="middle" class="b">DB</text><text x="654" y="228" text-anchor="middle" class="m">Replica</text>
+<path class="ln" marker-end="url(#arw)" d="M198 104 V164"/>
+<path class="ln" marker-end="url(#arw)" d="M74 200 V212"/><path class="ln" marker-end="url(#arw)" d="M174 200 V212"/>
+<path class="ln" marker-end="url(#arw)" d="M220 226 H264"/>
+<path class="ln" marker-end="url(#arw)" d="M456 212 H498"/>
+<path class="ln" marker-end="url(#arw)" d="M584 212 H610"/>
+<text x="124" y="292" text-anchor="middle" class="m">LB + Auto Scaling</text>
+<text x="360" y="292" text-anchor="middle" class="m">เพิ่มเครื่องในแนวนอน</text>
+<text x="596" y="270" text-anchor="middle" class="m">replication</text>
+<text x="596" y="292" text-anchor="middle" class="m">ขยายแนวตั้ง / read replica</text>
+</svg>
+<figcaption>คำขอเข้ามาทาง IGW ถึง presentation tier ก่อน แล้วจึงส่งต่อไป application tier และ data tier ตามลำดับ</figcaption>
+</figure>
+<p><b>Multi-tier</b> ใช้กับระบบใหญ่ โดยเพิ่มชั้นเข้ามาแก้ปัญหาเฉพาะเรื่อง เช่น <b>CDN</b> (Content Delivery Network) เก็บสำเนาไฟล์ไว้ใกล้ผู้ใช้เพื่อลดระยะทาง <b>API Gateway</b> เป็นด่านหน้าที่ตรวจตัวตนและจำกัดจำนวนคำขอ <b>cache</b> เก็บข้อมูลที่ถูกอ่านบ่อยไว้ในหน่วยความจำเพื่อลดภาระฐานข้อมูล และ <b>message queue</b> พักงานที่ไม่ต้องทำทันที เช่น ส่งอีเมลยืนยัน ผู้ใช้จะได้ไม่ต้องรอ หลักการเลือกคือเริ่มจากแบบง่ายก่อน แล้วค่อยเพิ่มชั้นเมื่อมีปัญหาที่ต้องแก้จริง</p>
+<figure>
+<svg viewBox="0 0 720 200" role="img" aria-label="multi-tier เจ็ดชั้น">
+<rect class="bo" x="10" y="14" width="156" height="62" rx="8"/><text x="88" y="40" text-anchor="middle" class="b">CDN / Edge</text><text x="88" y="62" text-anchor="middle" class="m">ตัวกระจายไฟล์ใกล้ผู้ใช้</text>
+<rect class="bg" x="190" y="14" width="156" height="62" rx="8"/><text x="268" y="40" text-anchor="middle" class="b">Presentation</text><text x="268" y="62" text-anchor="middle" class="m">Web, Load Balancer</text>
+<rect class="ba" x="370" y="14" width="156" height="62" rx="8"/><text x="448" y="40" text-anchor="middle" class="b">API Gateway</text><text x="448" y="62" text-anchor="middle" class="m">auth, rate limit</text>
+<rect class="box" x="550" y="14" width="156" height="62" rx="8"/><text x="628" y="40" text-anchor="middle" class="b">Application</text><text x="628" y="62" text-anchor="middle" class="m">Microservices</text>
+<rect class="box" x="550" y="122" width="156" height="62" rx="8"/><text x="628" y="148" text-anchor="middle" class="b">Cache</text><text x="628" y="170" text-anchor="middle" class="m">ข้อมูลที่อ่านบ่อยใน RAM</text>
+<rect class="box" x="370" y="122" width="156" height="62" rx="8"/><text x="448" y="148" text-anchor="middle" class="b">Data</text><text x="448" y="170" text-anchor="middle" class="m">DB, Replica, Search</text>
+<rect class="box" x="190" y="122" width="156" height="62" rx="8"/><text x="268" y="148" text-anchor="middle" class="b">Message Queue</text><text x="268" y="170" text-anchor="middle" class="m">คิวงานที่ทำทีหลังได้</text>
+<path class="ln" marker-end="url(#arw)" d="M166 45 H188"/><path class="ln" marker-end="url(#arw)" d="M346 45 H368"/><path class="ln" marker-end="url(#arw)" d="M526 45 H548"/>
+<path class="ln" marker-end="url(#arw)" d="M628 76 V120"/>
+<path class="ln" marker-end="url(#arw)" d="M550 153 H528"/><path class="ln" marker-end="url(#arw)" d="M370 153 H348"/>
+<text x="88" y="158" text-anchor="middle" class="m">ไล่จากผู้ใช้</text><text x="88" y="178" text-anchor="middle" class="m">เข้าไปข้างใน</text>
+</svg>
+<figcaption>ชั้นของ multi-tier ตามสไลด์ แต่ละชั้นเพิ่มเข้ามาเพื่อแก้ปัญหาเรื่องหนึ่ง Microservices คือการแตกโปรแกรมชั้น application ออกเป็นบริการเล็ก ๆ หลายตัวที่ทำงานแยกกัน ส่วน Search คือระบบค้นหาข้อมูลที่วางคู่กับฐานข้อมูล</figcaption>
+</figure>
+<p>เทียบทั้งสี่แบบแล้ว ยิ่งเพิ่มชั้น ระบบยิ่งทนทานและขยายได้ดีขึ้น แต่ก็แพงและซับซ้อนขึ้นตาม ถ้าโจทย์ถามว่าควรเลือกแบบไหน ให้ดูว่างานใหญ่แค่ไหนและล่มได้หรือไม่</p>
+<div class="tw"><table>
+<tr><th>แบบ</th><th>จำนวนชั้น</th><th>เหมาะกับ</th><th>จุดอ่อนหลัก</th></tr>
+<tr><td>Single-tier</td><td>1</td><td>การพัฒนา ทดสอบ และโปรเจกต์ส่วนตัว</td><td>พังพร้อมกันทั้งระบบ และเว็บโดนเจาะเท่ากับฐานข้อมูลโดนด้วย</td></tr>
+<tr><td>Two-tier</td><td>2</td><td>แอปเล็ก MVP (แอปรุ่นแรกที่มีแค่ฟีเจอร์ที่จำเป็น) และเครื่องมือที่ใช้ภายในองค์กร</td><td>ส่วนหน้าเป็นเครื่องเดียว ไม่มี load balancer</td></tr>
+<tr><td>Three-tier</td><td>3</td><td>เว็บแอปที่ใช้งานจริงทั่วไป</td><td>ซับซ้อนและแพงขึ้นในระดับปานกลาง</td></tr>
+<tr><td>Multi-tier</td><td>4 ขึ้นไป</td><td>ระบบใหญ่ที่คนใช้มาก และแตกเป็น microservices</td><td>ซับซ้อนและแพงที่สุด</td></tr>
+</table></div>
+
+<h3 id="s10">10. Azure VNet ต่างจาก AWS VPC ตรงไหน</h3>
+<p>ข้อต่างที่สำคัญที่สุดคือการออกอินเทอร์เน็ต <b>AWS เริ่มจากปิดแล้วให้เราเปิดเอง</b> คือต้องสร้าง IGW และเพิ่ม route เอง ส่วน <b>Azure เริ่มจากเปิดแล้วให้เราปิดเอง</b> คือทุก subnet ออกอินเทอร์เน็ตได้เป็นค่าเริ่มต้น วิธีปิดคือสร้าง route table ของเราเอง ซึ่ง Azure เรียกว่า UDR (User Defined Route) ให้ <code>0.0.0.0/0</code> ชี้ไปที่ NAT Gateway แล้วผูกเข้ากับ private subnet เครื่องข้างในจึงออกเน็ตได้ขาเดียวเหมือนฝั่ง AWS ข้อต่างที่สองคือ subnet ของ AWS อยู่ใน AZ เดียว ถ้าจะกระจายข้าม AZ ต้องสร้างหลาย subnet แต่ subnet ของ Azure ครอบคลุมทั้ง Region ส่วนการเชื่อมสองเครือข่ายเข้าหากัน AWS เรียก VPC Peering และ Azure เรียก VNet Peering</p>
+
+<h3 id="s11">11. แล็บ GetStart: Bastion และ Port mapping</h3>
+<p>แล็บนี้จำลองผู้ให้บริการ Cloud ขนาดเล็ก แต่ละกลุ่มได้ VPC ที่มี public subnet กับ private subnet เครื่องที่นักศึกษาสร้างอยู่ใน public subnet ก็จริง แต่มีแค่ private IP ข้อนี้ย้ำว่าอยู่ใน public subnet อย่างเดียวยังไม่พอ เครื่องต้องมี public IP ด้วยคนข้างนอกจึงจะเข้าถึงได้ ในแล็บนี้คนข้างนอกจึงเข้าได้แค่ผ่าน bastion หรือ port mapping ของเครื่องจริง (ดูด้านล่าง) ถ้า SSH (Secure Shell โปรแกรมรีโมตเข้าไปสั่งงานเครื่องอื่นแบบเข้ารหัส) จากโน้ตบุ๊กตรง ๆ จะไปไม่ถึง เพราะ router บนอินเทอร์เน็ตไม่ส่งต่อ packet ที่ไปหา private IP ต้อง SSH ไปที่ <b>bastion</b> (jump host) ก่อน แล้วจึงต่อเข้าเครื่องข้างใน (ตัวเลือก ProxyJump ของ ssh ทำสองต่อนี้ในคำสั่งเดียว)</p>
+<figure>
+<svg viewBox="0 0 720 250" role="img" aria-label="Laptop SSH เข้า Bastion แล้วต่อไป my-vm และ ProxyJump">
+<rect class="bo" x="10" y="80" width="130" height="66" rx="10"/><text x="75" y="107" text-anchor="middle" class="b">Laptop</text><text x="75" y="130" text-anchor="middle" class="m">เครื่องของเรา</text>
+<rect class="frame" x="186" y="62" width="414" height="116" rx="10"/><text x="200" y="170" class="m">VPC ของกลุ่ม · public subnet</text>
+<rect class="ba" x="204" y="80" width="160" height="66" rx="10"/><text x="284" y="107" text-anchor="middle" class="b">Bastion</text><text x="284" y="130" text-anchor="middle" class="m">ประตูเข้า VPC</text>
+<rect class="bg" x="424" y="80" width="160" height="66" rx="10"/><text x="504" y="107" text-anchor="middle" class="b">my-vm</text><text x="504" y="130" text-anchor="middle" class="m">มีแค่ private IP</text>
+<rect class="bo" x="630" y="80" width="80" height="66" rx="33"/><text x="670" y="118" text-anchor="middle" class="b">Internet</text>
+<path class="ln" marker-end="url(#arw)" d="M140 113 H202"/><text x="171" y="52" text-anchor="middle" class="m">ssh ต่อที่ 1</text>
+<path class="ln" marker-end="url(#arw)" d="M364 113 H422"/><text x="393" y="52" text-anchor="middle" class="m">ssh ต่อที่ 2</text>
+<path class="ln" marker-end="url(#arw)" d="M584 113 H628"/><text x="640" y="52" text-anchor="middle" class="m">ping 8.8.8.8</text>
+<path class="la" style="stroke-dasharray:6 4" marker-end="url(#arwa)" d="M75 146 C75 224 504 224 504 148"/>
+<text x="290" y="242" text-anchor="middle" class="at">ssh -J ผ่าน bastion ทีเดียวถึงเครื่องปลายทาง</text>
+</svg>
+<figcaption>เส้นทึบคือการ SSH ทีละต่อ เส้นประสีฟ้าคือ ProxyJump ซึ่งผ่าน bastion เหมือนกัน แต่ทำให้ในคำสั่งเดียว</figcaption>
+</figure>
+<p>ทำไมต้องผ่าน bastion นอกจากเครื่องข้างในไม่มี public IP จึงเข้าตรงไม่ได้อยู่แล้ว ต่อให้เข้าตรงได้ก็ไม่ควร เพราะถ้าทุกเครื่องเปิด SSH ให้คนทั้งโลก เราต้องเฝ้าประตูหลายสิบบาน bastion ทำให้เหลือ<b>ประตูบานเดียว</b>ที่ป้องกันให้แน่นหนาและบันทึกได้ว่าใครเข้ามาเมื่อไร</p>
+<p>เครื่องจริงของแล็บมี public IP ตัวเดียวที่ทุกกลุ่มใช้ร่วมกัน จึงต้องแยกแต่ละกลุ่มด้วยเลข port วิธีนี้เรียกว่า <b>port mapping</b> คือเครื่องจริงรับคำขอที่ port หนึ่ง แล้วส่งต่อไปให้ web server ของกลุ่มนั้นที่ port 80 ข้างใน (ในแล็บใช้ Nginx ซึ่งเป็นโปรแกรม web server ที่นิยมมาก) เหมือนเบอร์โทรหลักของบริษัทที่โอนสายต่อไปยังเบอร์ภายใน ถ้าไม่ได้ตั้ง port mapping ไว้ เว็บนั้นจะเปิดได้จากใน VPC เท่านั้น</p>
+<figure>
+<svg viewBox="0 0 720 200" role="img" aria-label="port mapping 10101 บน host ส่งต่อไป port 80 ของ Nginx">
+<rect class="bo" x="10" y="54" width="170" height="80" rx="10"/><text x="95" y="80" text-anchor="middle" class="b">คนข้างนอก</text><text x="95" y="102" text-anchor="middle" class="m">เปิด IP สาธารณะของ host</text><text x="95" y="120" text-anchor="middle" class="m">:10101</text>
+<rect class="ba" x="240" y="44" width="200" height="100" rx="10"/><text x="340" y="72" text-anchor="middle" class="b">Host (IP สาธารณะ)</text><text x="340" y="98" text-anchor="middle">port 10101</text><text x="340" y="122" text-anchor="middle" class="m">ประตูที่คนนอกมาเคาะ</text>
+<rect class="frame" x="480" y="20" width="230" height="148" rx="10"/><text x="494" y="40" class="m">VPC ของกลุ่ม</text>
+<rect class="bg" x="498" y="54" width="194" height="80" rx="10"/><text x="595" y="80" text-anchor="middle" class="b">my-web (Nginx)</text><text x="595" y="104" text-anchor="middle">private IP : port 80</text><text x="595" y="124" text-anchor="middle" class="m">ห้องที่ Nginx รอตอบ</text>
+<path class="ln" marker-end="url(#arw)" d="M180 94 H238"/>
+<path class="ln" marker-end="url(#arw)" d="M440 94 H496"/><text x="468" y="114" text-anchor="middle" class="m">ส่งต่อ</text>
+<text x="360" y="190" text-anchor="middle" class="m">จับคู่ port ของ host (10101) เข้ากับ port ของ container ข้างใน (80)</text>
+</svg>
+<figcaption>port ด้านนอกเป็นของเครื่องจริง ส่วน port 80 เป็นของ web server ข้างใน host ทำหน้าที่รับสายแล้วโอนต่อให้ถูกเครื่อง</figcaption>
+</figure>
+
+<h3 id="s12">12. แล็บ WebApp: แอปสามชั้น, REST API และ CORS</h3>
+<p>แล็บนี้ลงมือสร้างแอป three-tier ขนาดเล็กขึ้นมาจริง ชั้นแรกคือ web server ที่เก็บหน้าเว็บ ชั้นที่สองคือ API ที่ประมวลผล และชั้นที่สามคือฐานข้อมูล ฐานข้อมูลไม่เปิด port ให้ข้างนอกเลย และ API ต่อฐานข้อมูลด้วย private IP ภายใน VPC</p>
+<figure>
+<svg viewBox="0 0 720 320" role="img" aria-label="ภาพรวมแอปสามชั้น browser host web-01 api db-01">
+<rect class="bo" x="250" y="6" width="220" height="50" rx="10"/><text x="360" y="28" text-anchor="middle" class="b">Browser ของผู้ใช้</text><text x="360" y="48" text-anchor="middle" class="m">หน้าเว็บ + JavaScript</text>
+<rect class="ba" x="10" y="90" width="700" height="40" rx="8"/><text x="20" y="115" class="b">Host (IP สาธารณะ)</text>
+<text x="240" y="115" text-anchor="middle" class="b">:10X01</text><text x="460" y="115" text-anchor="middle" class="b">:10X02</text><text x="630" y="115" text-anchor="middle" class="m">DB ไม่มี public port</text>
+<path class="ln" marker-end="url(#arw)" d="M290 56 L242 88"/><text x="230" y="72" text-anchor="end" class="m">1 โหลดหน้าเว็บ</text>
+<path class="ln" marker-end="url(#arw)" d="M430 56 L458 88"/><text x="472" y="72" class="m">2 fetch /api/products</text>
+<rect class="frame" x="10" y="146" width="700" height="166" rx="10"/><text x="24" y="166" class="m">VPC กลุ่ม X</text>
+<rect class="bg" x="40" y="182" width="190" height="66" rx="10"/><text x="135" y="208" text-anchor="middle" class="b">web-01 (Nginx)</text><text x="135" y="230" text-anchor="middle" class="m">private IP · port 80</text>
+<rect class="ba" x="265" y="182" width="190" height="66" rx="10"/><text x="360" y="208" text-anchor="middle" class="b">api (Flask)</text><text x="360" y="230" text-anchor="middle" class="m">private IP · port 8000</text>
+<rect class="bo" x="490" y="182" width="190" height="66" rx="10"/><text x="585" y="208" text-anchor="middle" class="b">db-01 (PostgreSQL)</text><text x="585" y="230" text-anchor="middle" class="m">private IP · port 5432</text>
+<path class="ln" marker-end="url(#arw)" d="M240 130 L150 180"/>
+<path class="ln" marker-end="url(#arw)" d="M460 130 L372 180"/>
+<path class="ln" marker-end="url(#arw)" marker-start="url(#arw)" d="M455 215 H488"/><text x="472" y="270" text-anchor="middle" class="m">3 SQL ผ่าน private IP</text>
+<text x="360" y="298" text-anchor="middle" class="m">API ตอบเป็น JSON กลับไปให้ JavaScript ในหน้าเว็บ แล้วหน้าเว็บจึงแสดงสินค้า</text>
+</svg>
+<figcaption>browser อยู่นอก VPC จึงต้องเรียกทุกอย่างผ่าน IP สาธารณะกับเลข port ส่วน API คุยกับฐานข้อมูลด้วย private IP ภายใน VPC ฐานข้อมูลไม่มี public port เลย</figcaption>
+</figure>
+<p>API ใช้รูปแบบ <b>REST</b> (Representational State Transfer) ซึ่งใช้ path ใน URL (ส่วนที่ต่อท้ายชื่อเว็บ เช่น /api/products) บอกว่าพูดถึงข้อมูลอะไร และใช้ <b>HTTP method</b> บอกว่าจะทำอะไรกับข้อมูลนั้น GET คืออ่าน POST คือสร้างใหม่ PUT คือแก้ไข และ DELETE คือลบ เช่น <code>GET /api/products</code> คือขอรายการสินค้า server ตอบกลับเป็น <b>JSON</b> (JavaScript Object Notation รูปแบบข้อความสำหรับส่งข้อมูลระหว่างโปรแกรม)</p>
+<p><b>API contract</b> คือข้อตกลงที่ชัดเจนว่า API มีทางเข้า (endpoint) อะไรบ้าง แต่ละทางรับข้อมูลแบบไหนและตอบแบบไหน เหมือนเมนูอาหารที่ลูกค้าสั่งได้โดยไม่ต้องรู้ว่าในครัวทำยังไง ตราบใดที่สองฝั่งรักษาข้อตกลงนี้ไว้ frontend (ส่วนที่ผู้ใช้เห็น) กับ backend (ส่วนประมวลผลและเก็บข้อมูล) ก็เปลี่ยนภายในของตัวเองได้โดยไม่กระทบกัน และ API ชุดเดียวใช้ร่วมกันได้ทั้งแอปมือถือ เว็บ และแดชบอร์ด</p>
+<p>ในแล็บ หน้าเว็บกับ API อยู่คนละ port browser จึงมองว่าทั้งสองมาจากคนละ <b>origin</b> คำว่า origin หมายถึงชุดของสามอย่าง คือ scheme (http หรือ https), host (ชื่อเครื่องหรือ IP) และ port ถ้าต่างกันแม้อย่างเดียวก็นับเป็นคนละ origin</p>
+<p>browser มีกฎชื่อ <b>same-origin policy</b> ที่ไม่ยอมให้ JavaScript (ภาษาโปรแกรมที่รันอยู่ในหน้าเว็บ) อ่านข้อมูลที่ได้จาก origin อื่น เว้นแต่ server ปลายทางจะบอกว่าอนุญาต วิธีบอกคือใส่ header (ข้อมูลกำกับที่แนบมากับคำขอหรือคำตอบของ HTTP) ชื่อ <code>Access-Control-Allow-Origin</code> มาในคำตอบ กลไกนี้เรียกว่า <b>CORS</b> (Cross-Origin Resource Sharing)</p>
+<figure>
+<svg viewBox="0 0 720 150" role="img" aria-label="origin ประกอบด้วย scheme host port หน้าเว็บกับ API ต่างกันที่ port">
+<text x="120" y="20" text-anchor="middle" class="m">scheme</text><text x="300" y="20" text-anchor="middle" class="m">host</text><text x="495" y="20" text-anchor="middle" class="m">port</text>
+<text x="10" y="54" class="b">หน้าเว็บ</text>
+<rect class="bg" x="80" y="30" width="80" height="38" rx="6"/><text x="120" y="55" text-anchor="middle">http</text>
+<rect class="bg" x="170" y="30" width="260" height="38" rx="6"/><text x="300" y="55" text-anchor="middle">IP สาธารณะของ host</text>
+<rect class="ba" x="440" y="30" width="110" height="38" rx="6"/><text x="495" y="55" text-anchor="middle">10101</text>
+<text x="10" y="104" class="b">API</text>
+<rect class="bg" x="80" y="80" width="80" height="38" rx="6"/><text x="120" y="105" text-anchor="middle">http</text>
+<rect class="bg" x="170" y="80" width="260" height="38" rx="6"/><text x="300" y="105" text-anchor="middle">IP สาธารณะของ host</text>
+<rect class="bb" x="440" y="80" width="110" height="38" rx="6"/><text x="495" y="105" text-anchor="middle">10102</text>
+<text x="570" y="62" class="m">ต่างกันที่ port</text><text x="570" y="82" class="rt">→ คนละ origin</text><text x="570" y="102" class="m">ต้องใช้ CORS</text>
+<text x="10" y="142" class="m">scheme กับ host ตรงกันก็ยังไม่พอ ต้องตรงกันครบทั้งสามช่องจึงจะเป็น origin เดียวกัน</text>
+</svg>
+<figcaption>origin ของหน้าเว็บกับ API ตรงกันสองช่อง แต่ช่อง port ต่างกัน browser จึงถือว่าเป็นคนละ origin</figcaption>
+</figure>
+<p>กฎนี้มีไว้<b>ปกป้องผู้ใช้ ไม่ได้ปกป้อง server</b> สมมติเรา login เว็บธนาคารค้างไว้แล้วเผลอเปิดเว็บแปลก ๆ ถ้าไม่มีกฎนี้ JavaScript ของเว็บแปลก ๆ ก็ส่งคำขอไปธนาคารโดยอาศัยสถานะ login ของเรา แล้วอ่านข้อมูลบัญชีกลับไปได้ ข้อสอบชอบหลอกว่า CORS ป้องกัน API ซึ่งไม่จริง ใครก็ยังยิงคำขอเข้า API ด้วย curl (โปรแกรมบรรทัดคำสั่งสำหรับส่งคำขอ HTTP) ได้ตามปกติ เพราะคนที่บังคับใช้กฎคือ browser และ curl ไม่ใช่ browser</p>
+<figure><svg viewBox="0 0 720 380" role="img" aria-label="ขั้นตอนของ CORS">
+<text x="20" y="22" class="b">1) API ไม่ได้เปิด CORS</text>
+<rect class="ba" x="20" y="34" width="200" height="60" rx="8"/><text x="120" y="58" text-anchor="middle" class="b">Browser</text><text x="120" y="80" text-anchor="middle" class="m">หน้าเว็บจาก :10101</text>
+<rect class="box" x="500" y="34" width="200" height="60" rx="8"/><text x="600" y="58" text-anchor="middle" class="b">API</text><text x="600" y="80" text-anchor="middle" class="m">:10102</text>
+<line class="la" x1="220" y1="52" x2="496" y2="52" marker-end="url(#arwa)"/><text x="360" y="45" text-anchor="middle" class="m">ขอ /api/products</text>
+<line class="ln" x1="500" y1="80" x2="224" y2="80" marker-end="url(#arw)"/><text x="360" y="73" text-anchor="middle" class="m">ตอบข้อมูลกลับมา แต่ไม่มี header CORS</text>
+<text x="20" y="118" class="rt">browser ได้คำตอบแล้ว แต่ไม่ยอมให้ JavaScript ของหน้าเว็บอ่าน → หน้าเว็บว่าง ✕</text>
+<text x="20" y="150" class="b">2) API ใส่ CORS(app)</text>
+<rect class="ba" x="20" y="162" width="200" height="60" rx="8"/><text x="120" y="186" text-anchor="middle" class="b">Browser</text><text x="120" y="208" text-anchor="middle" class="m">หน้าเว็บจาก :10101</text>
+<rect class="box" x="500" y="162" width="200" height="60" rx="8"/><text x="600" y="186" text-anchor="middle" class="b">API</text><text x="600" y="208" text-anchor="middle" class="m">:10102</text>
+<line class="la" x1="220" y1="180" x2="496" y2="180" marker-end="url(#arwa)"/><text x="360" y="173" text-anchor="middle" class="m">ขอ /api/products</text>
+<line class="lg" x1="500" y1="208" x2="224" y2="208" marker-end="url(#arwg)"/><text x="360" y="201" text-anchor="middle" class="m">ตอบข้อมูล + Access-Control-Allow-Origin</text>
+<text x="20" y="244" class="gt">browser เห็น header นี้ จึงยอมให้ JavaScript อ่าน → หน้าเว็บแสดงสินค้าได้ ✓</text>
+<text x="20" y="278" class="b">3) ยิงด้วย curl จากเครื่องไหนก็ได้</text>
+<rect class="box" x="20" y="290" width="200" height="60" rx="8"/><text x="120" y="314" text-anchor="middle" class="b">curl</text><text x="120" y="336" text-anchor="middle" class="m">ไม่ใช่ browser</text>
+<rect class="box" x="500" y="290" width="200" height="60" rx="8"/><text x="600" y="314" text-anchor="middle" class="b">API</text><text x="600" y="336" text-anchor="middle" class="m">:10102</text>
+<line class="la" x1="220" y1="308" x2="496" y2="308" marker-end="url(#arwa)"/><text x="360" y="301" text-anchor="middle" class="m">ขอ /api/products</text>
+<line class="lg" x1="500" y1="336" x2="224" y2="336" marker-end="url(#arwg)"/><text x="360" y="329" text-anchor="middle" class="m">ได้ข้อมูลเสมอ ไม่ว่าจะมี CORS หรือไม่</text>
+<text x="20" y="374" class="m">curl ไม่ได้ทำตามกฎของ browser ดังนั้น CORS ไม่ได้กันใครไม่ให้เรียก API</text>
+</svg>
+<figcaption>คนที่ตัดสินคือ browser ไม่ใช่ server ฝั่ง server แค่บอกผ่าน header ว่าอนุญาตให้หน้าเว็บจาก origin ไหนอ่านคำตอบได้</figcaption>
+</figure>
+<p>อีกข้อที่แล็บเน้นคือหน้าเว็บไม่ควรต่อฐานข้อมูลตรง ๆ เพราะต้องใส่รหัสผ่านฐานข้อมูลไว้ใน JavaScript ซึ่งใครเปิดหน้าเว็บก็กดดูได้ API จึงต้องเป็นด่านกลางเสมอ รหัสผ่านอยู่ที่ฝั่ง server ซึ่งผู้ใช้มองไม่เห็น</p>
+<p>คำถามท้ายแล็บที่ควรตอบได้มีอีกสามข้อ ข้อแรก ถ้า API ล่มแต่ Nginx กับฐานข้อมูลยังทำงานอยู่ หน้าเว็บจะยังโหลดขึ้น เพราะ Nginx ส่งไฟล์หน้าเว็บได้ตามปกติ แต่จะไม่มีสินค้าแสดง เพราะ JavaScript ไปขอข้อมูลจาก API ไม่สำเร็จ นี่คือผลของการแยกชั้น ชั้นที่ล่มไม่ได้พาชั้นอื่นล่มตาม แต่ส่วนที่ต้องพึ่งชั้นนั้นจะใช้ไม่ได้ ข้อที่สอง บรรทัด <code>CORS(app)</code> ที่ไม่ได้ระบุอะไรเพิ่มจะอนุญาตทุก origin หน้าเว็บของกลุ่มอื่นจึงเรียก API ของเราแล้วอ่านผลได้ด้วย ถ้าอยากให้เฉพาะหน้าเว็บของเราอ่านได้ ต้องระบุ origin ที่อนุญาตให้ชัด</p>
+<p>ข้อที่สาม มีอีกทางที่ไม่ต้องใช้ CORS เลย คือให้ Nginx รับคำขอที่ขึ้นต้นด้วย /api แล้วส่งต่อไปที่ API เอง ตัวกลางที่รับคำขอแทน server ข้างหลังแบบนี้เรียกว่า <b>reverse proxy</b> เมื่อหน้าเว็บกับ API มาจาก host และ port เดียวกัน browser ก็นับเป็น origin เดียวกัน จึงไม่ต้องมี header ของ CORS</p>
+
+<h3 id="s13">13. แล็บ Build VPC: กั้น traffic ด้วย iptables</h3>
+<p>ในแล็บก่อน ๆ ทุกเครื่องใน VPC คุยกันได้หมด แม้แต่ bastion ก็ต่อตรงไปฐานข้อมูลได้ ซึ่งขัดกับหลัก three-tier แล็บนี้จึงให้แก้ด้วย <b>iptables</b> ซึ่งเป็น firewall ที่มากับ Linux ผังของแล็บมี bastion, app และ db อยู่ใน VPC เดียวกัน เป้าหมายเขียนเป็นตาราง <b>connectivity matrix</b> ที่บอกว่าเครื่องไหนต้องคุยกับเครื่องไหนได้หรือไม่ได้ ให้จำเหตุผลของแต่ละแถวมากกว่าตัวตาราง</p>
+<figure>
+<svg viewBox="0 0 720 330" role="img" aria-label="ผังแล็บ bastion app db พร้อมผล connectivity matrix">
+<rect class="frame" x="10" y="10" width="700" height="310" rx="12"/><text x="24" y="32" class="b">VPC ของกลุ่ม</text>
+<rect class="box" x="270" y="24" width="180" height="56" rx="10"/><text x="360" y="48" text-anchor="middle" class="b">Gateway</text><text x="360" y="70" text-anchor="middle" class="m">Internet Gateway ของแล็บ</text>
+<path class="ln" d="M300 80 L140 128"/><text x="225" y="98" text-anchor="end" class="m">default route</text>
+<rect class="ba" x="30" y="130" width="190" height="70" rx="10"/><text x="125" y="158" text-anchor="middle" class="b">Bastion</text><text x="125" y="182" text-anchor="middle" class="m">เรานั่งอยู่ที่นี่</text>
+<rect class="bg" x="265" y="130" width="190" height="70" rx="10"/><text x="360" y="158" text-anchor="middle" class="b">App (Nginx)</text><text x="360" y="182" text-anchor="middle" class="m">port 80</text>
+<rect class="bo" x="500" y="130" width="190" height="70" rx="10"/><text x="595" y="158" text-anchor="middle" class="b">DB (MariaDB)</text><text x="595" y="182" text-anchor="middle" class="m">port 3306</text>
+<path class="lg" marker-end="url(#arwg)" d="M220 165 H262"/><text x="242" y="122" text-anchor="middle" class="gt">HTTP ✓</text>
+<path class="lg" marker-end="url(#arwg)" d="M455 165 H497"/><text x="477" y="122" text-anchor="middle" class="gt">MySQL ✓</text>
+<path class="lr" marker-end="url(#arwr)" d="M125 200 C125 285 595 285 595 203"/>
+<text x="360" y="240" text-anchor="middle" class="rt">Bastion → DB (MySQL) ✕ BLOCK</text>
+<text x="360" y="304" text-anchor="middle" class="m">ข้อมูลต้องผ่าน App เท่านั้น: Bastion → App → DB</text>
+</svg>
+<figcaption>เส้นสีเขียวคือทางที่ต้องเปิด เส้นประสีแดงคือทางที่ต้องปิด</figcaption>
+</figure>
+<div class="tw"><table>
+<tr><th>ต้นทาง → ปลายทาง</th><th>ผลที่ต้องได้</th><th>เหตุผล</th></tr>
+<tr><td>Bastion → App (เว็บ)</td><td>ผ่าน</td><td>ผู้ดูแลต้องตรวจได้ว่าเว็บทำงาน</td></tr>
+<tr><td>Bastion → DB</td><td>บล็อก</td><td>bastion เสี่ยงโดนเจาะที่สุด ถ้าโดนแล้วต้องไปถึงข้อมูลตรง ๆ ไม่ได้</td></tr>
+<tr><td>App → DB</td><td>ผ่าน</td><td>app เป็นชั้นเดียวที่มีสิทธิ์อ่านเขียนข้อมูล</td></tr>
+</table></div>
+<p>กฎของ iptables แบ่งกลุ่มตามทิศทางของ packet เรียกว่า chain คือ <b>INPUT</b> (packet ที่มาถึงเครื่องนี้), <b>OUTPUT</b> (packet ที่เครื่องนี้ส่งออก) และ <b>FORWARD</b> (packet ที่แค่ผ่านเครื่องนี้ไปที่อื่น) ระบบตรวจกฎจากบนลงล่าง <b>กฎแรกที่ตรงเป็นตัวตัดสิน</b>ว่าจะรับ (ACCEPT) หรือทิ้ง (DROP) ถ้าไม่ตรงกฎไหนเลยใช้ค่าเริ่มต้นของ chain นั้น ซึ่งเรียกว่า policy</p>
+<figure>
+<svg viewBox="0 0 720 200" role="img" aria-label="chain INPUT OUTPUT FORWARD ของ iptables">
+<rect class="box" x="10" y="120" width="150" height="44" rx="8"/><text x="85" y="147" text-anchor="middle">packet เข้ามา</text>
+<rect class="box" x="560" y="120" width="150" height="44" rx="8"/><text x="635" y="147" text-anchor="middle">packet ออกไป</text>
+<rect class="frame" x="176" y="8" width="368" height="186" rx="10"/><text x="190" y="28" class="m">เครื่อง Linux</text>
+<rect class="box" x="290" y="20" width="140" height="44" rx="8"/><text x="360" y="47" text-anchor="middle">โปรแกรมในเครื่อง</text>
+<rect class="bg" x="200" y="86" width="110" height="38" rx="8"/><text x="255" y="110" text-anchor="middle" class="b">INPUT</text>
+<rect class="bo" x="410" y="86" width="110" height="38" rx="8"/><text x="465" y="110" text-anchor="middle" class="b">OUTPUT</text>
+<rect class="ba" x="305" y="146" width="110" height="38" rx="8"/><text x="360" y="170" text-anchor="middle" class="b">FORWARD</text>
+<path class="ln" marker-end="url(#arw)" d="M160 134 L198 116"/>
+<path class="ln" marker-end="url(#arw)" d="M160 152 L303 165"/>
+<path class="ln" marker-end="url(#arw)" d="M270 86 L310 66"/>
+<path class="ln" marker-end="url(#arw)" d="M410 66 L450 84"/>
+<path class="ln" marker-end="url(#arw)" d="M520 116 L558 134"/>
+<path class="ln" marker-end="url(#arw)" d="M415 165 L558 152"/>
+</svg>
+<figcaption>packet ที่มาหาโปรแกรมในเครื่องผ่าน INPUT, packet ที่โปรแกรมส่งออกผ่าน OUTPUT ส่วน packet ที่แค่ผ่านทางไปเครื่องอื่นผ่าน FORWARD</figcaption>
+</figure>
+<p>หลักที่ใช้คือ <b>default deny</b> ปิดทุกอย่างไว้ก่อนแล้วเปิดเฉพาะที่จำเป็น เหตุผลคือ ถ้าลืมเปิดอะไรสักอย่าง ผลเสียมีแค่ใช้งานบางอย่างไม่ได้ ซึ่งรู้ตัวทันทีและแก้ได้ แต่ถ้าเริ่มจากเปิดหมดแล้วลืมปิดบางช่อง ช่องนั้นจะเป็นช่องโหว่ที่ไม่มีใครรู้จนกว่าจะโดนเจาะ</p>
+<p>ในแล็บนี้ bastion ไม่ได้เป็นแค่ประตูให้คน SSH เข้ามา แต่ยังเปิด IP forwarding ให้ทำหน้าที่เป็น router ที่ส่ง packet ต่อระหว่างเครื่องด้วย packet ระหว่าง app กับ db จึงวิ่งผ่าน bastion และกฎที่คุมว่าใครคุยกับใครได้ก็เขียนไว้ใน chain FORWARD ของ bastion ส่วนค่าเริ่มต้นใช้ default deny กับขาเข้า คือตั้ง policy ของ INPUT กับ FORWARD เป็น DROP แต่ปล่อย OUTPUT เป็น ACCEPT เพราะของที่เครื่องส่งออกเองไม่ใช่สิ่งที่ต้องกัน ขาเข้าจึงต้องมีกฎเปิดให้ทีละอย่าง รวมถึงกฎเปิด loopback (lo) ซึ่งเป็นช่องที่โปรแกรมในเครื่องใช้คุยกับตัวเอง เช่น การเรียก localhost ไม่อย่างนั้นโปรแกรมในเครื่องเดียวกันจะคุยกันเองไม่ได้</p>
+<p>กฎที่ขาดไม่ได้คือกฎที่รับ packet สถานะ <b>ESTABLISHED,RELATED</b> ถ้าไม่มี เมื่อเครื่องส่งคำขอออกไป คำขอออกได้ แต่คำตอบที่วิ่งกลับเข้ามาทาง INPUT ไม่ตรงกฎไหนเลยจึงโดนทิ้ง การเชื่อมต่อจึงค้าง กฎนี้แก้ได้เพราะ Linux จดจำการเชื่อมต่อทุกเส้นไว้ ESTABLISHED คือ packet ของการเชื่อมต่อที่มีอยู่แล้ว เช่น คำตอบของคำขอที่เราส่งออกไป RELATED คือ packet ที่เกี่ยวเนื่องกับการเชื่อมต่อเดิม เช่น ข้อความแจ้ง error firewall ที่จำการเชื่อมต่อได้แบบนี้เรียกว่า <b>stateful</b> ซึ่งเป็นพฤติกรรมเดียวกับ SG ในช่วงที่ 3</p>
+<p>บนเครื่อง DB ตั้งกฎให้รับ port ของฐานข้อมูลเฉพาะจาก IP ของ app เมื่อมีด่านซ้อนกันทั้งบน bastion และบน DB ถ้าด่านหนึ่งตั้งพลาด อีกด่านยังกันไว้ได้ นี่คือ <b>defense in depth</b> ส่วนในฐานข้อมูลก็สร้าง user ให้ app ที่ login ได้เฉพาะจาก IP ของ app และมีสิทธิ์แค่อ่าน เพิ่ม แก้ และลบข้อมูลในตาราง ลบทั้งตารางหรือสร้าง user ใหม่ไม่ได้ นี่คือ <b>least privilege</b> ถ้า app โดนเจาะ ความเสียหายก็จำกัดอยู่แค่สิทธิ์เหล่านี้</p>
+<p>ตอนทดสอบเส้นที่ถูกบล็อก คำสั่งจะค้างจนหมดเวลา ไม่ได้ถูกปฏิเสธทันที เพราะ <b>DROP</b> ทิ้ง packet เงียบ ๆ โดยไม่ตอบอะไร ถ้าใช้ <b>REJECT</b> ฝั่งที่ส่งมาจะได้ข้อความปฏิเสธทันที firewall ส่วนใหญ่เลือก DROP เพราะไม่บอกอะไรผู้โจมตีเลย แม้แต่ว่ามีเครื่องนี้อยู่จริงหรือไม่</p>
+
+<h3 id="review">ทวนก่อนสอบ</h3>
+<p>เรื่องตัวเลขใช้สูตรเดียว จำนวน IP = 2<sup>(32 − prefix)</sup> แล้วบน AWS หักอีก 5 ตัวในทุก subnet (ไม่ใช่ 2 ตัวแบบเครือข่ายทั่วไป) /28 จึงแจกเครื่องได้จริงแค่ 11 ตัว ส่วนช่วง private ที่ชอบหลอกคือ 172.16.0.0/12 ซึ่งครอบคลุมแค่ 172.16 ถึง 172.31</p>
+<p>การไล่ packet ในห้องสอบให้ถามทีละด่าน ปลายทางอยู่ในช่วง IP ไหน แล้วเปิด route table ของ subnet ต้นทางดูว่ากฎที่ prefix ยาวที่สุดส่งไปที่ไหน local คือคุยกันภายใน IGW แปลว่า subnet นี้เป็น public ส่วน NAT แปลว่าออกได้อย่างเดียว โดยตัว NAT Gateway ต้องอยู่ใน public subnet และอย่าลืมว่า subnet เป็น public ได้เพราะ route table แต่เครื่องจะถูกเข้าถึงจากข้างนอกได้ก็ต่อเมื่อมี public IP ด้วย</p>
+<p>เรื่องแนวคิด ข้อสอบชอบหลอกให้สลับ SDN กับ NFV จำไว้ว่า SDN แยก control plane ออกจาก data plane แล้วรวมงานคิดไว้ที่ controller (OSPF กับ BGP เป็นงานฝั่ง control plane) ส่วน NFV เปลี่ยนกล่องอุปกรณ์เครือข่ายเป็นโปรแกรม เรื่อง tier ยิ่งเพิ่มชั้นยิ่งทนทานแต่แพงและซับซ้อนขึ้น ชั้นที่เป็น stateless ขยายแนวนอนได้ง่าย ส่วนชั้นฐานข้อมูลมักขยายแนวตั้งหรือเพิ่ม read replica</p>
+<p>จากแล็บ ให้จำว่า CORS ถูกบังคับใช้โดย browser จึงปกป้องผู้ใช้ แต่ไม่ได้กันใครยิง API ด้วย curl และ <code>CORS(app)</code> ที่ไม่ระบุ origin เปิดให้หน้าเว็บของใครก็อ่านผลได้ ส่วน iptables ตรวจกฎจากบนลงล่างและกฎแรกที่ตรงชนะ ถ้าขาดกฎ ESTABLISHED,RELATED คำตอบจะกลับเข้ามาไม่ได้ และ DROP ทำให้คำสั่งค้างจนหมดเวลา หลักวางของสำคัญไว้ลึกที่สุดกับ default deny จะต่อยอดเป็น SG, NACL และหลักการออกแบบในช่วงที่ 3</p>
+
+<nav class="pager"><a href="summary1.html">ก่อนหน้า: ช่วงที่ 1 พื้นฐาน Network, Cloud และ Virtualization</a><a href="summary3.html">ถัดไป: ช่วงที่ 3 Cloud Security</a></nav>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>สรุปช่วงที่ 1 พื้นฐาน Network, Cloud และ Virtualization</title>
+<style>
+:root{--bg:#ffffff;--text:#1d1f23;--muted:#5d636b;--border:#d9d7cf;--soft:#f3f2ee;--accent:#2f6fd0;--surface2:#f3f2ee;--accent-soft:#e3ecfa;--orange:#c96a12;--orange-soft:#fbeedd;--good:#1f8a4c;--good-soft:#e2f3e8;--bad:#c23b3b;--bad-soft:#f8e3e3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.8 -apple-system,BlinkMacSystemFont,"Sukhumvit Set","Noto Sans Thai","Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px 80px}
+h1{font-size:28px;line-height:1.3;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 28px}
+nav{border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin-bottom:36px}
+nav b{display:block;margin-bottom:4px}
+nav a{color:var(--accent);text-decoration:none}
+nav ol{margin:0;padding-left:22px}
+h2{font-size:24px;line-height:1.35;margin:56px 0 4px;padding-top:12px;border-top:2px solid var(--text)}
+h2 small{display:block;font-size:15px;font-weight:400;color:var(--muted)}
+h3{font-size:19px;line-height:1.4;margin:34px 0 6px}
+p{margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:15.5px;margin:14px 0}
+th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--soft)}
+.tw{overflow-x:auto}
+.tw table{min-width:520px}
+.note{background:var(--soft);border-radius:8px;padding:10px 14px;margin:14px 0}
+code{background:var(--soft);border-radius:4px;padding:1px 5px;font-size:15px}
+pre{background:var(--soft);border-radius:8px;padding:12px 14px;margin:14px 0;overflow-x:auto;font-size:14px;line-height:1.55}
+pre code{background:none;padding:0;font-size:inherit}
+figure{margin:18px 0;overflow-x:auto}
+figure svg{display:block;width:100%;min-width:600px;height:auto}
+figcaption{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.6}
+svg text{font-family:inherit;fill:var(--text);font-size:15px}
+svg .m{fill:var(--muted);font-size:13px}
+svg .b{font-weight:700}
+svg .box{fill:var(--surface2);stroke:var(--border);stroke-width:1.5}
+svg .ba{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+svg .bo{fill:var(--orange-soft);stroke:var(--orange);stroke-width:1.5}
+svg .bg{fill:var(--good-soft);stroke:var(--good);stroke-width:1.5}
+svg .bb{fill:var(--bad-soft);stroke:var(--bad);stroke-width:1.5;stroke-dasharray:6 4}
+svg .frame{fill:none;stroke:var(--border);stroke-width:1.5;stroke-dasharray:5 4}
+svg .ln{stroke:var(--muted);stroke-width:2;fill:none}
+svg .la{stroke:var(--accent);stroke-width:2;fill:none}
+svg .lg{stroke:var(--good);stroke-width:2.5;fill:none}
+svg .lr{stroke:var(--bad);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+svg .ah{fill:var(--muted)} svg .aha{fill:var(--accent)} svg .ahg{fill:var(--good)} svg .ahr{fill:var(--bad)}
+svg .at{fill:var(--accent);font-weight:700}
+svg .gt{fill:var(--good);font-weight:700}
+svg .rt{fill:var(--bad);font-weight:700}
+.top{font-size:15px;margin:0 0 18px}
+.top a,.pager a{color:var(--accent);text-decoration:none}
+.pager{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--border);margin-top:48px;padding-top:16px;font-size:15px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahg" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahr" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="aha" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs></svg>
+<main>
+
+<p class="top"><a href="summary.html">กลับไปหน้าสารบัญ</a></p>
+
+<h1>ช่วงที่ 1 พื้นฐาน Network, Cloud และ Virtualization</h1>
+<p class="sub">สรุปจาก Week1.pdf และ Week2.pdf · ฉบับเตรียมสอบปิดตำรา เก็บเฉพาะเรื่องที่ต้องเข้าใจ ตัดชื่อสินค้า ตัวเลขสเปก และรายละเอียดที่ต้องท่องจำออกแล้ว</p>
+
+<div class="note">
+<p><b>ช่วงนี้ต้องเข้าใจอะไร</b></p>
+<p>ช่วงนี้มีสามเรื่องที่ต่อกันเป็นทอด เรื่องแรกคือเครือข่าย ต้องเข้าใจว่าข้อมูลเดินทางยังไง ทำไมต้องแบ่งงานเป็นชั้น และทำไม NAT จึงยอมให้เครื่องข้างในออกไปได้แต่ไม่ให้คนข้างนอกเข้ามา เรื่องที่สองคือนิยามของ Cloud ซึ่งมีแก่นอยู่ที่การเช่าแทนการซื้อ และการแบ่งว่าใครดูแลชั้นไหน (IaaS, PaaS, SaaS) เรื่องที่สามคือ virtualization ซึ่งเป็นเทคโนโลยีที่ทำให้ Cloud ขายเครื่องเสมือนได้ในราคาถูก จุดที่ข้อสอบชอบถามลึกคือปัญหาของ CPU x86 กับวิธีแก้สามแบบ และความต่างระหว่าง VM กับ container</p>
+</div>
+
+<h3 id="s1">1. เปิดเว็บหนึ่งครั้ง ข้อมูลเดินทางยังไง</h3>
+<p>คอมพิวเตอร์บนอินเทอร์เน็ตติดต่อกันด้วยตัวเลขที่เรียกว่า <b>IP address</b> (Internet Protocol address) ซึ่งทำหน้าที่คล้ายบ้านเลขที่ ส่วนชื่อเว็บอย่าง google.com มีไว้ให้คนจำง่ายเท่านั้น พอเราพิมพ์ชื่อเว็บ browser จึงต้องถาม <b>DNS</b> (Domain Name System) ก่อนว่าชื่อนี้ตรงกับ IP อะไร เหมือนเปิดสมุดโทรศัพท์หาเบอร์จากชื่อ</p>
+<p>ได้ IP แล้ว browser ต้องเปิดการเชื่อมต่อแบบ TCP (Transmission Control Protocol อธิบายในข้อ 3) กับปลายทางก่อน จากนั้นข้อมูลถูกหั่นเป็นชิ้นเล็กที่เรียกว่า <b>packet</b> แล้วส่งต่อเป็นทอด ๆ ผ่าน <b>router</b> ซึ่งเป็นอุปกรณ์ที่รับ packet แล้วส่งต่อไปเครือข่ายถัดไป เริ่มจาก router ในบ้าน ผ่าน ISP (Internet Service Provider ผู้ให้บริการอินเทอร์เน็ต) และ router อีกหลายตัว จนถึง <b>edge</b> ซึ่งเป็นทางเข้าเครือข่ายของ Google ที่อยู่ใกล้เราที่สุด จากนั้น <b>server</b> (เครื่องที่คอยรับคำขอแล้วส่งผลลัพธ์กลับ) จะประมวลผลคำขอแล้วส่งหน้าเว็บกลับมา ถ้าโจทย์ให้เรียงลำดับ ให้นึกว่าต้องรู้ที่อยู่ก่อน (DNS) แล้วจึงเปิดสาย (TCP) แล้วจึงส่งของ</p>
+<figure>
+<svg viewBox="0 0 720 220" role="img" aria-label="เส้นทางของคำขอ 8 ขั้น">
+<rect class="ba" x="10" y="20" width="150" height="62" rx="10"/><text x="85" y="46" text-anchor="middle" class="b">1 Browser</text><text x="85" y="68" text-anchor="middle" class="m">เริ่มส่งคำขอ</text>
+<rect class="ba" x="190" y="20" width="150" height="62" rx="10"/><text x="265" y="46" text-anchor="middle" class="b">2 DNS Lookup</text><text x="265" y="68" text-anchor="middle" class="m">ถามว่าชื่อนี้คือ IP อะไร</text>
+<rect class="ba" x="370" y="20" width="150" height="62" rx="10"/><text x="445" y="46" text-anchor="middle" class="b">3 ได้ IP</text><text x="445" y="68" text-anchor="middle" class="m">รู้ที่อยู่ปลายทาง</text>
+<rect class="ba" x="550" y="20" width="150" height="62" rx="10"/><text x="625" y="46" text-anchor="middle" class="b">4 TCP</text><text x="625" y="68" text-anchor="middle" class="m">เปิดการเชื่อมต่อ</text>
+<rect class="bo" x="550" y="138" width="150" height="62" rx="10"/><text x="625" y="164" text-anchor="middle" class="b">5 Routing</text><text x="625" y="186" text-anchor="middle" class="m">ISP → อินเทอร์เน็ต</text>
+<rect class="bo" x="370" y="138" width="150" height="62" rx="10"/><text x="445" y="164" text-anchor="middle" class="b">6 Edge</text><text x="445" y="186" text-anchor="middle" class="m">เข้าเครือข่าย Google</text>
+<rect class="bo" x="190" y="138" width="150" height="62" rx="10"/><text x="265" y="164" text-anchor="middle" class="b">7 Web Server</text><text x="265" y="186" text-anchor="middle" class="m">ประมวลผล</text>
+<rect class="bg" x="10" y="138" width="150" height="62" rx="10"/><text x="85" y="164" text-anchor="middle" class="b">8 Response</text><text x="85" y="186" text-anchor="middle" class="m">หน้าเว็บกลับมา</text>
+<path class="ln" marker-end="url(#arw)" d="M160 51 H188"/><path class="ln" marker-end="url(#arw)" d="M340 51 H368"/><path class="ln" marker-end="url(#arw)" d="M520 51 H548"/>
+<path class="ln" marker-end="url(#arw)" d="M625 82 V136"/>
+<path class="ln" marker-end="url(#arw)" d="M550 169 H522"/><path class="ln" marker-end="url(#arw)" d="M370 169 H342"/><path class="ln" marker-end="url(#arw)" d="M190 169 H162"/>
+</svg>
+<figcaption>สีฟ้าคือสิ่งที่เกิดในเครื่องเรา สีส้มคือระหว่างทางและฝั่ง Google สีเขียวคือผลลัพธ์ที่กลับมา</figcaption>
+</figure>
+
+<h3 id="s2">2. ทำไมเครือข่ายต้องแบ่งงานเป็นชั้น</h3>
+<p>การเปิดเว็บหนึ่งครั้งมีงานหลายแบบปนกัน ทั้งตัดสินว่าจะขออะไร ดูแลให้ข้อมูลไปถึงครบ หาเส้นทาง และส่งสัญญาณจริงผ่านสายหรือคลื่นวิทยุ ถ้าโปรแกรมตัวเดียวทำทุกอย่าง วันที่เปลี่ยนจาก Wi-Fi เป็นสาย LAN (Local Area Network คือเครือข่ายในพื้นที่ใกล้ ๆ เช่น ในบ้านหรือในตึก) ก็อาจต้องแก้ browser ตามไปด้วย จึงแบ่งงานเป็นชั้น (layer) ให้แต่ละชั้นทำเรื่องเดียวและคุยกับชั้นที่อยู่ติดกันเท่านั้น <b>ประโยชน์คือเปลี่ยนชั้นหนึ่งได้โดยไม่กระทบชั้นอื่น</b> เหมือนคนส่งพัสดุไม่ต้องรู้ว่าบริษัทขนส่งจะขนด้วยรถหรือเครื่องบิน</p>
+<p>แบบจำลองมีสองแบบ <b>OSI</b> (Open Systems Interconnection) แบ่ง 7 ชั้น ใช้อธิบายทางทฤษฎี ส่วน <b>TCP/IP</b> แบ่ง 4 ชั้นและเป็นแบบที่อินเทอร์เน็ตใช้จริง โดยรวมสามชั้นบนของ OSI เป็นชั้นเดียว และรวมสองชั้นล่างเป็นชั้นเดียว คำว่า <b>protocol</b> หมายถึงกติกาที่สองฝั่งตกลงกันไว้ว่าจะคุยกันด้วยรูปแบบไหน</p>
+<figure>
+<svg viewBox="0 0 720 330" role="img" aria-label="OSI 7 ชั้น เทียบ TCP/IP 4 ชั้น">
+<rect class="box" x="10" y="10" width="200" height="40" rx="6"/><text x="110" y="36" text-anchor="middle">L7 Application</text>
+<rect class="box" x="10" y="54" width="200" height="40" rx="6"/><text x="110" y="80" text-anchor="middle">L6 Presentation</text>
+<rect class="box" x="10" y="98" width="200" height="40" rx="6"/><text x="110" y="124" text-anchor="middle">L5 Session</text>
+<rect class="box" x="10" y="142" width="200" height="40" rx="6"/><text x="110" y="168" text-anchor="middle">L4 Transport</text>
+<rect class="box" x="10" y="186" width="200" height="40" rx="6"/><text x="110" y="212" text-anchor="middle">L3 Network</text>
+<rect class="box" x="10" y="230" width="200" height="40" rx="6"/><text x="110" y="256" text-anchor="middle">L2 Data Link</text>
+<rect class="box" x="10" y="274" width="200" height="40" rx="6"/><text x="110" y="300" text-anchor="middle">L1 Physical</text>
+<rect class="ba" x="230" y="10" width="200" height="128" rx="8"/><text x="330" y="70" text-anchor="middle" class="b">Application</text><text x="330" y="92" text-anchor="middle" class="m">ส่งข้อมูลอะไร</text>
+<rect class="ba" x="230" y="142" width="200" height="40" rx="8"/><text x="330" y="168" text-anchor="middle" class="b">Transport</text>
+<rect class="ba" x="230" y="186" width="200" height="40" rx="8"/><text x="330" y="212" text-anchor="middle" class="b">Internet</text>
+<rect class="ba" x="230" y="230" width="200" height="84" rx="8"/><text x="330" y="268" text-anchor="middle" class="b">Network Access</text><text x="330" y="290" text-anchor="middle" class="m">ส่งบิตจริง</text>
+<text x="450" y="70">HTTP/HTTPS · DNS · FTP · SSH</text>
+<text x="450" y="168">TCP · UDP</text>
+<text x="450" y="212">IP · ICMP (ping)</text>
+<text x="450" y="268">Ethernet · Wi-Fi · fiber</text>
+</svg>
+<figcaption>ซ้ายคือ OSI (ทฤษฎี) ตรงกลางคือ TCP/IP (ใช้จริง) ขวาคือ protocol ที่ทำงานในแต่ละชั้น</figcaption>
+</figure>
+<div class="tw"><table>
+<tr><th>ชั้นของ TCP/IP</th><th>ทำอะไร</th><th>protocol ตัวอย่าง</th></tr>
+<tr><td>Application</td><td>โปรแกรมตัดสินว่าจะคุยอะไรกัน</td><td>HTTP (HyperText Transfer Protocol ภาษาที่ browser คุยกับ web server) และ HTTPS ซึ่งเป็น HTTP แบบเข้ารหัส, DNS, FTP (File Transfer Protocol ใช้รับส่งไฟล์), SSH (Secure Shell ใช้รีโมตเข้าเครื่องอื่น)</td></tr>
+<tr><td>Transport</td><td>หั่นข้อมูล ใส่หมายเลข ดูแลให้ไปถึงครบ</td><td>TCP, UDP (User Datagram Protocol) ต่างกันอย่างไรดูข้อ 3</td></tr>
+<tr><td>Internet</td><td>ใส่ที่อยู่ปลายทาง (IP) ให้ router เลือกเส้นทาง</td><td>IP, ICMP (Internet Control Message Protocol ใช้ส่งข้อความแจ้งสถานะของเครือข่าย เช่น ที่คำสั่ง ping ใช้)</td></tr>
+<tr><td>Network Access</td><td>ส่งสัญญาณจริงไปอุปกรณ์ตัวถัดไป</td><td>Ethernet (สาย LAN), Wi-Fi, fiber (สายใยแก้วนำแสง)</td></tr>
+</table></div>
+<p>ถ้าโจทย์พูดเป็นเลขชั้นของ OSI ให้แปลงกลับเป็นงานของชั้นนั้น L7 (Application) คือตัวแอปที่ตัดสินว่าจะส่งข้อมูลอะไร L4 (Transport) คือ TCP กับ UDP รวมถึงเลข port (ข้อ 3) L3 (Network) คือ IP กับการเลือกเส้นทางของ router L2 (Data Link) คือการส่งต่อระหว่างอุปกรณ์ในเครือข่ายเดียวกัน เช่น Ethernet และ L1 (Physical) คือการส่งสัญญาณจริงเป็นบิตบนสายหรือคลื่น ส่วน L6 (Presentation) กับ L5 (Session) ซึ่งดูแลรูปแบบข้อมูลและการเปิดปิดช่วงการคุย ถูกรวมไว้ในชั้น Application ของ TCP/IP เลขชั้นเหล่านี้ใช้ต่อในช่วงหลัง เช่น อุปกรณ์ที่ทำงานที่ L4 ดูได้แค่ IP กับ port ส่วนอุปกรณ์ที่ L7 อ่านเนื้อหาของคำขอได้ด้วย</p>
+<p>ข้อสอบชอบหลอกสองจุด ping ไม่ได้ใช้ TCP หรือ UDP แต่ใช้ ICMP ซึ่งอยู่ชั้น Internet และ DNS อยู่ชั้น Application เพราะ DNS ก็เป็นโปรแกรมที่ส่งคำถามและคำตอบหากันเหมือนแอปทั่วไป</p>
+
+<h3 id="s3">3. TCP กับ UDP ต่างกันยังไง</h3>
+<p>ชั้น Transport มีให้เลือกสองตัวเพราะแอปต้องการไม่เหมือนกัน <b>TCP</b> เปิดการเชื่อมต่อก่อนส่ง ใส่หมายเลขทุก packet ชิ้นไหนหายก็ส่งใหม่ และเรียงให้ถูกลำดับ ข้อมูลจึงครบแน่นอนแต่ต้องเสียเวลารอ เหมาะกับหน้าเว็บ อีเมล และการโหลดไฟล์ <b>UDP</b> ส่งทันทีโดยไม่เปิดการเชื่อมต่อและไม่ส่งซ้ำ จึงเร็วแต่ข้อมูลอาจหาย เหมาะกับวิดีโอคอลและเกม เพราะภาพของวินาทีที่แล้วต่อให้ส่งมาใหม่ก็ไม่มีประโยชน์ วิธีตอบคือถามว่าข้อมูลหายได้ไหม ถ้าหายไม่ได้ตอบ TCP ถ้าหายได้บ้างแต่ช้าไม่ได้ตอบ UDP</p>
+<p>ทั้งสองตัวใช้เลข <b>port</b> บอกว่าข้อมูลเป็นของโปรแกรมไหนในเครื่อง IP พาไปถึงเครื่องที่ถูก ส่วน port พาไปถึงโปรแกรมที่ถูก เหมือนบ้านเลขที่กับชื่อคนในบ้าน port ที่จะเจอบ่อยในช่วงหลังคือ 80 (เว็บ), 443 (เว็บแบบเข้ารหัส) และ 22 (SSH)</p>
+<figure><svg viewBox="0 0 720 320" role="img" aria-label="TCP เทียบกับ UDP">
+<text x="180" y="24" text-anchor="middle" class="b">TCP: เชื่อมต่อก่อน หายแล้วส่งซ้ำ</text>
+<text x="70" y="50" text-anchor="middle" class="m">ผู้ส่ง</text><text x="290" y="50" text-anchor="middle" class="m">ผู้รับ</text>
+<line class="ln" x1="70" y1="58" x2="70" y2="270"/><line class="ln" x1="290" y1="58" x2="290" y2="270"/>
+<line class="la" x1="70" y1="80" x2="286" y2="80" marker-end="url(#arwa)"/><text x="180" y="74" text-anchor="middle" class="m">ขอเชื่อมต่อ</text>
+<line class="la" x1="290" y1="108" x2="74" y2="108" marker-end="url(#arwa)"/><text x="180" y="102" text-anchor="middle" class="m">ตกลง</text>
+<line class="la" x1="70" y1="136" x2="286" y2="136" marker-end="url(#arwa)"/><text x="180" y="130" text-anchor="middle" class="m">พร้อมแล้ว เริ่มส่ง</text>
+<line class="lg" x1="70" y1="168" x2="286" y2="168" marker-end="url(#arwg)"/><text x="180" y="162" text-anchor="middle" class="m">ชิ้นที่ 1</text>
+<line class="lr" x1="70" y1="196" x2="190" y2="196"/><text x="200" y="201" class="rt">✕</text><text x="130" y="190" text-anchor="middle" class="m">ชิ้นที่ 2 หาย</text>
+<line class="la" x1="290" y1="226" x2="74" y2="226" marker-end="url(#arwa)"/><text x="180" y="220" text-anchor="middle" class="m">ได้ชิ้น 1 แล้ว ยังไม่ได้ชิ้น 2</text>
+<line class="lg" x1="70" y1="256" x2="286" y2="256" marker-end="url(#arwg)"/><text x="180" y="250" text-anchor="middle" class="m">ส่งชิ้นที่ 2 ซ้ำ</text>
+<text x="540" y="24" text-anchor="middle" class="b">UDP: ส่งเลย หายก็ปล่อยไป</text>
+<text x="430" y="50" text-anchor="middle" class="m">ผู้ส่ง</text><text x="650" y="50" text-anchor="middle" class="m">ผู้รับ</text>
+<line class="ln" x1="430" y1="58" x2="430" y2="270"/><line class="ln" x1="650" y1="58" x2="650" y2="270"/>
+<line class="lg" x1="430" y1="80" x2="646" y2="80" marker-end="url(#arwg)"/><text x="540" y="74" text-anchor="middle" class="m">ชิ้นที่ 1</text>
+<line class="lr" x1="430" y1="108" x2="550" y2="108"/><text x="560" y="113" class="rt">✕</text><text x="490" y="102" text-anchor="middle" class="m">ชิ้นที่ 2 หาย</text>
+<line class="lg" x1="430" y1="136" x2="646" y2="136" marker-end="url(#arwg)"/><text x="540" y="130" text-anchor="middle" class="m">ชิ้นที่ 3</text>
+<line class="lg" x1="430" y1="164" x2="646" y2="164" marker-end="url(#arwg)"/><text x="540" y="158" text-anchor="middle" class="m">ชิ้นที่ 4</text>
+<text x="540" y="205" text-anchor="middle" class="m">ไม่ต้องรอเชื่อมต่อ ไม่มีการส่งซ้ำ</text>
+<text x="540" y="226" text-anchor="middle" class="m">ผู้รับไปต่อกับชิ้นถัดไปเลย</text>
+<text x="180" y="298" text-anchor="middle" class="gt">ข้อมูลครบแน่นอน แต่ต้องรอ</text>
+<text x="180" y="316" text-anchor="middle" class="m">หน้าเว็บ ดาวน์โหลดไฟล์</text>
+<text x="540" y="298" text-anchor="middle" class="at">เร็ว แต่บางชิ้นอาจหาย</text>
+<text x="540" y="316" text-anchor="middle" class="m">วิดีโอคอล เกมออนไลน์</text>
+</svg>
+<figcaption>TCP เสียเวลาเปิดการเชื่อมต่อและรอส่งชิ้นที่หายใหม่ UDP ไม่ทำทั้งสองอย่าง จึงเร็วกว่าแต่ไม่รับประกันว่าข้อมูลครบ</figcaption>
+</figure>
+
+<h3 id="s4">4. Private IP, Public IP และ NAT</h3>
+<p>IP รุ่นที่ใช้กันทั่วไปคือ IPv4 ซึ่งมีราว 4,300 ล้านหมายเลข ไม่พอแจกอุปกรณ์ทุกชิ้นในโลก ทางแก้คือกันบางช่วงไว้ให้ใช้ซ้ำกันได้ IP จึงแบ่งเป็นสองแบบ <b>Private IP</b> เป็นช่วงที่กันไว้ใช้ภายในบ้านหรือองค์กร เช่น 10.x.x.x และ 192.168.x.x ทุกบ้านใช้ซ้ำกันได้เพราะคนข้างนอกมองไม่เห็น ส่วน <b>Public IP</b> ไม่ซ้ำกันทั้งโลกและเข้าถึงได้จากทุกที่</p>
+<p>ถ้ามือถือมีแค่ private IP คำตอบจาก Google จะกลับมาถึงได้ยังไง คำตอบคือ <b>NAT</b> (Network Address Translation) ตอนข้อมูลออกจากบ้าน router เปลี่ยนที่อยู่ผู้ส่งเป็น public IP ของตัวเอง และเปลี่ยนเลข port ของผู้ส่งเป็นเลขใหม่ด้วย แล้วจดคู่นั้นลงตารางว่าการเชื่อมต่อนี้เป็นของเครื่องไหน พอคำตอบกลับมาที่ port นั้นก็เปิดตารางแล้วส่งต่อให้ถูกเครื่อง หลายเครื่องจึงใช้ public IP เดียวกันได้</p>
+<p>ผลพลอยได้ที่สำคัญที่สุดคือ <b>คนข้างนอกเปิดการเชื่อมต่อเข้ามาเองไม่ได้</b> เพราะในตารางไม่มีรายการว่าจะส่งให้ใคร packet นั้นจึงถูกทิ้ง หลักคิด "เริ่มจากข้างในได้ เริ่มจากข้างนอกไม่ได้" นี้จะกลับมาอีกในช่วงที่ 2 ในชื่อ NAT Gateway</p>
+<figure><svg viewBox="0 0 720 470" role="img" aria-label="NAT ขาออกและขาเข้า">
+<text x="20" y="24" class="b">ขาออก: เครื่องในบ้านเริ่มคุยก่อน คำตอบจึงกลับมาถึงได้</text>
+<rect class="ba" x="20" y="40" width="160" height="80" rx="8"/><text x="100" y="68" text-anchor="middle" class="b">มือถือ</text><text x="100" y="90" text-anchor="middle" class="m">192.168.1.10</text><text x="100" y="108" text-anchor="middle" class="m">port 51000</text>
+<rect class="bo" x="270" y="40" width="200" height="80" rx="8"/><text x="370" y="68" text-anchor="middle" class="b">Router (NAT)</text><text x="370" y="90" text-anchor="middle" class="m">public IP 203.0.113.5</text>
+<rect class="box" x="560" y="40" width="140" height="80" rx="8"/><text x="630" y="68" text-anchor="middle" class="b">Google</text><text x="630" y="90" text-anchor="middle" class="m">142.250.1.1</text><text x="630" y="108" text-anchor="middle" class="m">port 443</text>
+<line class="lg" x1="180" y1="65" x2="266" y2="65" marker-end="url(#arwg)"/><text x="225" y="58" text-anchor="middle" class="gt">①</text>
+<line class="lg" x1="470" y1="65" x2="556" y2="65" marker-end="url(#arwg)"/><text x="515" y="58" text-anchor="middle" class="gt">②</text>
+<line class="la" x1="560" y1="100" x2="474" y2="100" marker-end="url(#arwa)"/><text x="515" y="93" text-anchor="middle" class="at">③</text>
+<line class="la" x1="270" y1="100" x2="184" y2="100" marker-end="url(#arwa)"/><text x="225" y="93" text-anchor="middle" class="at">④</text>
+<rect class="bo" x="240" y="134" width="260" height="56" rx="6"/><text x="370" y="156" text-anchor="middle" class="m">ตาราง NAT ที่ router จดไว้</text><text x="370" y="178" text-anchor="middle">:40001 ↔ 192.168.1.10:51000</text>
+<text x="20" y="218" class="m"><tspan class="gt">①</tspan> มือถือส่งคำขอ ผู้ส่งคือ 192.168.1.10:51000 ซึ่งข้างนอกมองไม่เห็น</text>
+<text x="20" y="240" class="m"><tspan class="gt">②</tspan> router เปลี่ยนผู้ส่งเป็น 203.0.113.5:40001 จดคู่นี้ลงตาราง แล้วส่งต่อให้ Google</text>
+<text x="20" y="262" class="m"><tspan class="at">③</tspan> Google ตอบกลับไปที่ 203.0.113.5:40001 ซึ่งเป็นที่อยู่ของ router</text>
+<text x="20" y="284" class="m"><tspan class="at">④</tspan> router เปิดตาราง เจอว่า :40001 คือมือถือ จึงเปลี่ยนปลายทางกลับเป็น 192.168.1.10 แล้วส่งคืน</text>
+<line x1="20" y1="306" x2="700" y2="306" stroke="var(--border)" stroke-width="1.5"/>
+<text x="20" y="334" class="b">ขาเข้า: คนข้างนอกพยายามเริ่มคุยก่อน ถูกทิ้ง</text>
+<rect class="ba" x="20" y="352" width="160" height="70" rx="8"/><text x="100" y="380" text-anchor="middle" class="b">โน้ตบุ๊ก</text><text x="100" y="402" text-anchor="middle" class="m">192.168.1.11</text>
+<rect class="bo" x="270" y="352" width="200" height="70" rx="8"/><text x="370" y="380" text-anchor="middle" class="b">Router (NAT)</text><text x="370" y="402" text-anchor="middle" class="m">ตารางไม่มีรายการนี้</text>
+<rect class="bb" x="560" y="352" width="140" height="70" rx="8"/><text x="630" y="380" text-anchor="middle" class="b">คนแปลกหน้า</text><text x="630" y="402" text-anchor="middle" class="m">บนอินเทอร์เน็ต</text>
+<line class="lr" x1="560" y1="387" x2="474" y2="387" marker-end="url(#arwr)"/>
+<line class="lr" x1="270" y1="387" x2="200" y2="387"/><text x="225" y="380" text-anchor="middle" class="rt">✕</text>
+<text x="20" y="446" class="m">router ไม่รู้ว่า packet นี้เป็นของเครื่องไหน เพราะไม่มีเครื่องในบ้านเครื่องไหนเริ่มคุยไว้ จึงทิ้งไป</text>
+<text x="20" y="464" class="m">ผลคือคนข้างนอกเปิดการเชื่อมต่อเข้ามาหาเครื่องในบ้านเองไม่ได้</text>
+</svg>
+<figcaption>บน: ขาออกผ่านได้ เพราะ router จดไว้ว่าการเชื่อมต่อนี้เป็นของใคร ล่าง: ขาเข้าที่ไม่มีใครเริ่มคุยก่อนจะไม่มีรายการในตาราง จึงถูกทิ้ง</figcaption>
+</figure>
+
+<h3 id="s5">5. Cloud Computing คืออะไร</h3>
+<p>ก่อนมี Cloud บริษัทต้องซื้อ server เอง จ่ายเงินก้อนใหญ่ล่วงหน้าและต้องเดาขนาดให้ถูก ซื้อเล็กไปเว็บล่มตอนคนเข้าเยอะ ซื้อใหญ่ไปก็เสียเงินกับเครื่องที่ว่าง <b>Cloud Computing</b> แก้ด้วยการให้<b>เช่า</b>ทรัพยากรคอมพิวเตอร์ผ่านอินเทอร์เน็ตได้ทันทีที่ต้องการ และจ่ายตามที่ใช้จริง (pay-as-you-go) ของที่เช่าได้มีตั้งแต่ VM (เครื่องเสมือน อธิบายในข้อ 10) ที่เก็บข้อมูล ฐานข้อมูล ไปจนถึงบริการ AI ในทางบัญชี นี่คือการเปลี่ยนจาก <b>CapEx</b> (เงินลงทุนก้อนใหญ่ล่วงหน้า) เป็น <b>OpEx</b> (ค่าใช้จ่ายที่จ่ายไปเรื่อย ๆ ตามการใช้งาน เหมือนค่าไฟ) และงานดูแลฮาร์ดแวร์ย้ายไปเป็นภาระของผู้ให้บริการ</p>
+<p>เบื้องหลังของ Cloud คือ server หลายพันเครื่องใน <b>data center</b> (อาคารที่รวม server จำนวนมากไว้ พร้อมไฟฟ้าสำรองและระบบทำความเย็น) หลายแห่งทั่วโลกที่เชื่อมกันด้วยเครือข่าย ถ้ามี server เครื่องเดียวจะเจอทั้งปัญหา <b>latency</b> (คนที่อยู่ไกลต้องรอนาน) และ <b>single point of failure</b> (จุดเดียวพังแล้วทั้งระบบพังตาม) การกระจายเครื่องแก้ได้ทั้งสองข้อ แต่ server ที่กระจายกันอยู่จะทำงานร่วมกันเหมือนเครื่องเดียวได้ก็ต้องมีเครือข่ายที่ดี สไลด์จึงสรุปว่า "Computing is Networking"</p>
+
+<h3 id="s6">6. ลักษณะ 5 ข้อของ Cloud ตาม NIST</h3>
+<p>NIST (National Institute of Standards and Technology สถาบันมาตรฐานและเทคโนโลยีแห่งชาติของสหรัฐฯ) กำหนดว่าระบบที่จะเรียกว่า Cloud ได้ต้องมีครบห้าข้อ ถ้าขาดข้อใด เช่น ต้องโทรขอให้เจ้าหน้าที่เปิดเครื่องให้ ก็ยังไม่นับเป็น Cloud ข้อสอบมักเล่าสถานการณ์แล้วถามว่าตรงกับข้อไหน</p>
+<div class="tw"><table>
+<tr><th>ลักษณะ</th><th>ความหมาย</th><th>ตัวอย่าง</th></tr>
+<tr><td>On-demand self-service</td><td>ขอใช้ได้เองทันที ไม่ต้องรอคนอนุมัติ</td><td>กดสร้าง VM จากหน้าเว็บได้เลย</td></tr>
+<tr><td>Broad network access</td><td>เข้าถึงผ่านเครือข่ายได้จากทุกอุปกรณ์</td><td>จัดการจากโน้ตบุ๊กหรือมือถือก็ได้</td></tr>
+<tr><td>Resource pooling</td><td>รวมทรัพยากรเป็นกองกลางให้ลูกค้าหลายรายใช้ร่วมกัน (multi-tenant)</td><td>VM ของหลายบริษัทอยู่บนเครื่องจริงเครื่องเดียวกัน</td></tr>
+<tr><td>Rapid elasticity</td><td>เพิ่มหรือลดทรัพยากรได้เร็วตามปริมาณงาน</td><td>ช่วงลดราคาเพิ่มเครื่อง จบงานลดลง</td></tr>
+<tr><td>Measured service</td><td>วัดการใช้งานและคิดเงินตามจริง</td><td>บิลบอกว่าใช้ CPU กี่ชั่วโมง</td></tr>
+</table></div>
+<p>คู่ที่สับสนบ่อยคือ resource pooling กับ rapid elasticity ข้อแรกพูดถึง<b>การใช้เครื่องร่วมกัน</b>ของลูกค้าหลายราย ข้อหลังพูดถึง<b>การขยายและหดขนาด</b>ตามงาน</p>
+
+<h3 id="s7">7. IaaS, PaaS และ SaaS</h3>
+<p>แอปหนึ่งตัวอาศัยของหลายชั้นซ้อนกัน ล่างสุดคือฮาร์ดแวร์และเครือข่าย ถัดมาคือ OS (ระบบปฏิบัติการ เช่น Linux หรือ Windows) ถัดมาคือ runtime (ซอฟต์แวร์ที่แอปต้องใช้ตอนรัน เช่น Python) กับ middleware (ซอฟต์แวร์ตัวกลางที่เชื่อมแอปกับส่วนอื่น เช่น ตัวเชื่อมต่อฐานข้อมูล) และบนสุดคือแอปกับข้อมูล สิ่งที่ทำให้บริการ Cloud สามแบบต่างกันมีอยู่เรื่องเดียว คือ<b>ผู้ให้บริการดูแลให้ถึงชั้นไหน แล้วเราต้องดูแลเองตั้งแต่ชั้นไหน</b></p>
+<div class="tw"><table>
+<tr><th>แบบ</th><th>ย่อมาจาก</th><th>ผู้ให้บริการให้อะไร</th><th>เราดูแลอะไร</th><th>ตัวอย่าง</th></tr>
+<tr><td>IaaS</td><td>Infrastructure as a Service</td><td>เครื่องเปล่า เครือข่าย ดิสก์</td><td>ตั้งแต่ OS ขึ้นไปทั้งหมด รวมถึงลง patch (ตัวแก้ช่องโหว่ของซอฟต์แวร์) เอง</td><td>Amazon EC2 (เช่า VM)</td></tr>
+<tr><td>PaaS</td><td>Platform as a Service</td><td>เครื่อง + OS + runtime</td><td>แค่โค้ดกับข้อมูล</td><td>อัปโค้ดขึ้นไปแล้วรันได้เลย</td></tr>
+<tr><td>SaaS</td><td>Software as a Service</td><td>ซอฟต์แวร์พร้อมใช้</td><td>แค่ใช้งาน ผู้ให้บริการดูแลทุกชั้นตามสไลด์ (ดูข้อควรระวังใต้ภาพ)</td><td>Gmail</td></tr>
+</table></div>
+<figure>
+<svg viewBox="0 0 720 250" role="img" aria-label="ตารางความรับผิดชอบ IaaS PaaS SaaS">
+<text x="265" y="30" text-anchor="middle" class="b">IaaS</text><text x="445" y="30" text-anchor="middle" class="b">PaaS</text><text x="625" y="30" text-anchor="middle" class="b">SaaS</text>
+<text x="10" y="74">App &amp; Data</text><text x="10" y="122">Runtime/Middleware</text><text x="10" y="170">OS</text><text x="10" y="218">Physical</text>
+<rect class="ba" x="180" y="46" width="170" height="42" rx="6"/><text x="265" y="73" text-anchor="middle">เรา</text>
+<rect class="ba" x="180" y="94" width="170" height="42" rx="6"/><text x="265" y="121" text-anchor="middle">เรา</text>
+<rect class="ba" x="180" y="142" width="170" height="42" rx="6"/><text x="265" y="169" text-anchor="middle">เรา</text>
+<rect class="bo" x="180" y="190" width="170" height="42" rx="6"/><text x="265" y="217" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="ba" x="360" y="46" width="170" height="42" rx="6"/><text x="445" y="73" text-anchor="middle">เรา</text>
+<rect class="bo" x="360" y="94" width="170" height="42" rx="6"/><text x="445" y="121" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="bo" x="360" y="142" width="170" height="42" rx="6"/><text x="445" y="169" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="bo" x="360" y="190" width="170" height="42" rx="6"/><text x="445" y="217" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="bo" x="540" y="46" width="170" height="42" rx="6"/><text x="625" y="73" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="bo" x="540" y="94" width="170" height="42" rx="6"/><text x="625" y="121" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="bo" x="540" y="142" width="170" height="42" rx="6"/><text x="625" y="169" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="bo" x="540" y="190" width="170" height="42" rx="6"/><text x="625" y="217" text-anchor="middle">ผู้ให้บริการ</text>
+</svg>
+<figcaption>สีฟ้าคือส่วนที่เราดูแล สีส้มคือส่วนที่ผู้ให้บริการดูแล (ตามตารางในสไลด์) ยิ่งไปทางขวา ส่วนที่เราต้องดูแลยิ่งน้อย</figcaption>
+</figure>
+<p>เปรียบง่าย ๆ ว่า IaaS คือเช่าที่ดินเปล่าแล้วสร้างบ้านเอง PaaS คือเช่าห้องที่ต่อน้ำไฟไว้แล้ว SaaS คือห้องโรงแรมที่หิ้วกระเป๋าเข้าไปอยู่ได้เลย จุดที่ต้องระวังคือ SaaS ถ้าโจทย์ถามตามตารางของสไลด์ ให้ตอบว่าผู้ให้บริการดูแลทุกชั้นรวมถึงแอปกับข้อมูล แต่ถ้าถามในมุมความปลอดภัยของข้อมูล ให้ตอบว่าเป็นความรับผิดชอบ<b>ร่วมกัน</b> เพราะถ้าเราตั้งรหัสผ่านง่าย ๆ หรือแชร์ไฟล์ให้คนผิด ผู้ให้บริการห้ามเราไม่ได้</p>
+
+<h3 id="s8">8. Public cloud, Private cloud และ Hybrid cloud</h3>
+<p><b>Public cloud</b> คือแบบที่ผู้ให้บริการเป็นเจ้าของเครื่องและเปิดให้ลูกค้าจำนวนมากเช่าร่วมกัน ขยายได้แทบไม่จำกัดและจ่ายตามใช้ <b>Private cloud</b> คือแบบที่องค์กรเดียวใช้ผู้เดียว มักตั้งใน data center ขององค์กรเอง ควบคุมได้เต็มที่และทำตามกฎหมายง่าย แต่ต้องลงทุนและดูแลเอง <b>Hybrid cloud</b> คือการใช้ทั้งสองแบบแล้วเชื่อมถึงกัน เช่น ธนาคารเก็บข้อมูลลูกค้าไว้ใน Private cloud แต่วางเว็บประชาสัมพันธ์ไว้บน Public cloud</p>
+<p>ศัพท์ที่มากับเรื่องนี้มีสองคำ <b>data sovereignty</b> คือการคุมได้ว่าข้อมูลเก็บอยู่ในประเทศไหนให้ตรงตามกฎหมาย และ <b>cloud bursting</b> คือส่งงานส่วนที่ล้นจาก Private cloud ไปทำบน Public cloud ชั่วคราวช่วงที่คนใช้เยอะ</p>
+
+<h3 id="s9">9. Region และ Availability Zone</h3>
+<p><b>Region</b> คือพื้นที่ทางภูมิศาสตร์ที่ผู้ให้บริการตั้ง data center ไว้ เช่น Singapore เราเลือก Region จากสองเหตุผล คือยิ่งใกล้ผู้ใช้ latency ยิ่งต่ำ และกฎหมายบางประเทศบังคับให้เก็บข้อมูลไว้ในประเทศ</p>
+<p>ใน Region หนึ่งแบ่งเป็นหลาย <b>Availability Zone (AZ)</b> แต่ละ AZ คือ data center ที่แยกกันจริง มีไฟฟ้า ระบบทำความเย็น และเครือข่ายของตัวเอง ห่างกันพอที่ภัยที่หนึ่งจะไม่ลามไปอีกที่ แต่ใกล้กันพอที่จะส่งข้อมูลหากันได้เร็ว ถ้าทำสำเนาระบบไว้หลาย AZ แล้ว AZ หนึ่งล่ม ผู้ใช้ก็แทบไม่รู้สึกอะไร Region จึงเหมือนจังหวัด ส่วน AZ คืออาคารหลายหลังในจังหวัดนั้นที่ใช้ไฟคนละสาย ประโยชน์ของการกระจายข้าม AZ คือ high availability (พร้อมใช้ต่อเนื่อง), fault tolerance (ความเสียหายจำกัดอยู่ที่เดียว), disaster recovery (กู้คืนหลังภัยพิบัติได้) และซ่อมทีละ AZ ได้โดยไม่ต้องปิดทั้งระบบ</p>
+<figure>
+<svg viewBox="0 0 720 200" role="img" aria-label="Region มี 3 AZ ถ้า AZ-A ล่ม B และ C ยังทำงาน">
+<rect class="frame" x="4" y="6" width="712" height="188" rx="14"/><text x="20" y="30" class="b">Singapore Region</text>
+<rect class="bb" x="24" y="48" width="210" height="126" rx="10"/><text x="129" y="80" text-anchor="middle" class="b">AZ-A</text><text x="129" y="108" text-anchor="middle">❌ ไฟดับ / fiber ขาด</text><text x="129" y="134" text-anchor="middle" class="m">ระบบในนี้หยุด</text>
+<rect class="bg" x="255" y="48" width="210" height="126" rx="10"/><text x="360" y="80" text-anchor="middle" class="b">AZ-B</text><text x="360" y="108" text-anchor="middle">✅ สำเนายังทำงาน</text><text x="360" y="134" text-anchor="middle" class="m">ไฟ/เครือข่ายแยกจาก A</text>
+<rect class="bg" x="486" y="48" width="210" height="126" rx="10"/><text x="591" y="80" text-anchor="middle" class="b">AZ-C</text><text x="591" y="108" text-anchor="middle">✅ สำเนายังทำงาน</text><text x="591" y="134" text-anchor="middle" class="m">ไฟ/เครือข่ายแยกจาก A</text>
+</svg>
+<figcaption>ระบบที่ทำสำเนาข้าม AZ ไว้ ผู้ใช้จะไม่รู้สึกเลยว่า AZ-A ล่ม</figcaption>
+</figure>
+
+<h3 id="s10">10. Virtualization และ Hypervisor</h3>
+<p>ก่อนมี virtualization องค์กรใช้ server หนึ่งเครื่องต่องานหนึ่งอย่าง แต่ละเครื่องใช้ CPU จริงแค่ส่วนน้อย ที่เหลือว่างแต่ยังกินค่าไฟและพื้นที่เต็มเครื่อง <b>virtualization</b> คือการสร้าง CPU หน่วยความจำ ดิสก์ และเครือข่าย "เสมือน" ขึ้นจากฮาร์ดแวร์จริง เพื่อแบ่งเครื่องจริงหนึ่งเครื่องเป็นหลาย <b>VM</b> (Virtual Machine) แต่ละ VM มี OS ของตัวเองและทำงานแยกกันเหมือนคนละเครื่อง เครื่องจริงจึงถูกใช้คุ้มขึ้นมาก นี่คือเหตุที่ Cloud ขาย VM ได้ถูก</p>
+<p>ซอฟต์แวร์ที่แบ่งเครื่องจริงเป็น VM เรียกว่า <b>hypervisor</b> หรืออีกชื่อหนึ่งคือ <b>VMM</b> (Virtual Machine Monitor) ถ้าโจทย์ใช้คำไหนก็หมายถึงสิ่งเดียวกัน hypervisor อยู่ระหว่างฮาร์ดแวร์กับ OS ของแต่ละ VM (เรียกว่า <b>guest OS</b>) ทุกครั้งที่ VM จะใช้ทรัพยากรจริงต้องผ่าน hypervisor เหมือนผู้จัดการอาคารที่ไม่ให้ห้องหนึ่งไปใช้ของอีกห้อง</p>
+<p>Hypervisor มีสองแบบ แบบแรกคือ <b>Type 1</b> (bare-metal) ซึ่งติดตั้งบนฮาร์ดแวร์โดยตรง ไม่มี OS อื่นคั่น จึงเร็วและปลอดภัยที่สุด ตัวที่รู้จักกันคือ VMware ESXi, Xen, KVM และ Hyper-V ซึ่งผู้ให้บริการ Cloud ทุกเจ้าใช้แบบนี้ ส่วนแบบที่สองคือ <b>Type 2</b> (hosted) ซึ่งเป็นโปรแกรมที่ลงบน OS ที่มีอยู่แล้ว (เรียกว่า host OS) ติดตั้งง่ายแต่ช้ากว่าเพราะต้องผ่าน host OS อีกชั้น เหมาะกับทดลองบนโน้ตบุ๊ก เช่น VirtualBox จำสั้น ๆ ว่า Type 1 ใช้กับระบบจริง Type 2 ใช้บนเครื่องส่วนตัว</p>
+<figure>
+<svg viewBox="0 0 720 270" role="img" aria-label="Type 1 hypervisor บนฮาร์ดแวร์ Type 2 บน host OS">
+<text x="175" y="22" text-anchor="middle" class="b">Type 1 (Bare-metal)</text>
+<rect class="box" x="20" y="38" width="150" height="50" rx="8"/><text x="95" y="68" text-anchor="middle">VM A</text>
+<rect class="box" x="180" y="38" width="150" height="50" rx="8"/><text x="255" y="68" text-anchor="middle">VM B</text>
+<rect class="ba" x="20" y="96" width="310" height="48" rx="8"/><text x="175" y="126" text-anchor="middle" class="b">Hypervisor</text>
+<rect class="bo" x="20" y="152" width="310" height="48" rx="8"/><text x="175" y="182" text-anchor="middle">Physical Hardware</text>
+<text x="175" y="232" text-anchor="middle" class="m">ไม่มีตัวกลาง → เร็ว ปลอดภัย</text><text x="175" y="254" text-anchor="middle" class="m">ใช้ใน Cloud และ data center</text>
+<text x="545" y="22" text-anchor="middle" class="b">Type 2 (Hosted)</text>
+<rect class="box" x="390" y="38" width="150" height="50" rx="8"/><text x="465" y="68" text-anchor="middle">VM A</text>
+<rect class="box" x="550" y="38" width="150" height="50" rx="8"/><text x="625" y="68" text-anchor="middle">VM B</text>
+<rect class="ba" x="390" y="96" width="310" height="40" rx="8"/><text x="545" y="122" text-anchor="middle" class="b">Hypervisor (เป็นโปรแกรม)</text>
+<rect class="box" x="390" y="142" width="310" height="40" rx="8"/><text x="545" y="168" text-anchor="middle">Host OS (Windows/macOS/Linux)</text>
+<rect class="bo" x="390" y="188" width="310" height="40" rx="8"/><text x="545" y="214" text-anchor="middle">Physical Hardware</text>
+<text x="545" y="254" text-anchor="middle" class="m">มี host OS คั่น → ช้ากว่า ใช้บนโน้ตบุ๊ก</text>
+</svg>
+</figure>
+<p>ในปัจจุบัน hypervisor ที่ครองตลาด Cloud คือ KVM ซึ่งเป็นส่วนหนึ่งของ Linux เหตุผลคือ KVM ได้ของที่ Linux มีอยู่แล้วมาใช้ฟรีทั้งหมด ทั้งระบบจัดเวลา CPU ระบบจัดการหน่วยความจำ และระบบความปลอดภัย ทุกครั้งที่ Linux ปรับปรุงส่วนเหล่านี้ KVM ก็ดีขึ้นตามไปด้วยโดยไม่ต้องเขียนเอง</p>
+
+<h3 id="s11">11. เงื่อนไขของ Popek และ Goldberg</h3>
+<p>Popek และ Goldberg เป็นนักวิจัยสองคนที่วางทฤษฎีพื้นฐานของ virtualization ทั้งคู่กำหนดว่า hypervisor ที่ถูกต้องต้องมีสามข้อ ซึ่งสไลด์เรียกว่า VMM requirements ข้อแรก <b>Equivalence</b> คือโปรแกรมใน VM ต้องได้ผลเหมือนรันบนเครื่องจริง ข้อสอง <b>Resource Control</b> คือ hypervisor ต้องคุมทรัพยากรจริงทั้งหมด VM ใช้เกินส่วนของตัวเองไม่ได้ และข้อสาม <b>Efficiency</b> คือคำสั่งส่วนใหญ่ต้องรันบน CPU จริงได้ตรง ๆ ไม่อย่างนั้นจะช้าจนใช้ไม่ได้</p>
+<p>ความยากอยู่ที่ระบบสิทธิ์ของ CPU ซึ่งแบ่งเป็นชั้นที่เรียกว่า <b>ring</b> Ring 0 มีสิทธิ์สูงสุด เป็นที่อยู่ของ kernel (แกนกลางของ OS ที่คุมฮาร์ดแวร์) ส่วนโปรแกรมทั่วไปอยู่ Ring 3 คำสั่งที่ทำได้เฉพาะใน Ring 0 เรียกว่า <b>privileged instruction</b> ถ้าเรียกจาก ring อื่น CPU จะหยุดแล้วส่งเรื่องไปให้ Ring 0 ตัดสิน เรียกว่า <b>trap</b></p>
+<p>ลองนึกภาพบริษัทหนึ่ง Ring 0 คือผู้จัดการที่ถือกุญแจห้องสำคัญทุกห้อง ส่วน Ring 3 คือพนักงานทั่วไป ถ้าพนักงานจะทำเรื่องสำคัญ เช่น เปิดห้องเก็บเงิน ระบบไม่ยอมให้ทำเอง แต่จะส่งเรื่องขึ้นไปให้ผู้จัดการตัดสิน การส่งเรื่องขึ้นไปนี้แหละคือ trap</p>
+<p>ปัญหาคือ guest OS ถูกเขียนมาให้อยู่ Ring 0 แต่ตำแหน่งนั้นต้องเป็นของ hypervisor วิธีดั้งเดิมจึงย้าย guest ไปอยู่ ring ที่มีสิทธิ์น้อยกว่า (Ring 1) เมื่อ guest เรียกคำสั่ง privileged ก็จะ trap แล้ว hypervisor รับไปทำแทน วิธีนี้เรียกว่า <b>trap-and-emulate</b> ในภาพบริษัทเดิม guest OS คือหัวหน้าแผนกที่ถูกผู้จัดการตัวจริง (hypervisor) แอบลดสิทธิ์เป็นพนักงานโดยไม่รู้ตัว พอทำเรื่องสำคัญ เรื่องก็ถูกส่งขึ้นไปให้ผู้จัดการตัวจริงจัดการแทน</p>
+<p>แต่วิธีนี้ได้ผลก็ต่อเมื่อคำสั่งอันตราย<b>ทุกตัว</b> trap จริง คำสั่งที่อ่านหรือเปลี่ยนสถานะสำคัญของเครื่องเรียกว่า <b>sensitive instruction</b> Popek และ Goldberg จึงพิสูจน์ต่อจากเงื่อนไขสามข้อว่า CPU จะ virtualize แบบดั้งเดิมได้ก็ต่อเมื่อ <b>sensitive instruction ทุกตัวเป็น privileged instruction ด้วย</b> ถ้ามีตัวไหนไม่ trap hypervisor ก็จะไม่รู้เลยว่า guest เรียกคำสั่งนั้น</p>
+<p><b>x86</b> คือตระกูล CPU ของ Intel และ AMD ที่ใช้ในคอมพิวเตอร์และ server ส่วนใหญ่ รุ่นเก่าของตระกูลนี้ไม่ผ่านเงื่อนไขข้างต้น เพราะมีคำสั่ง sensitive บางตัวที่รันนอก Ring 0 แล้วไม่ trap แต่ทำงานผิดไปเงียบ ๆ ไม่มี error ใด ๆ hypervisor จึงดักไม่ได้ เหมือนพนักงานกดปุ่มปิดสัญญาณเตือนของตึก ปุ่มไม่ทำงานเพราะสิทธิ์ไม่พอแต่ไม่มีอะไรบอก พนักงานจึงทำงานต่อโดยเข้าใจผิดว่าปิดไปแล้ว ข้อนี้ออกสอบบ่อย และเป็นที่มาของวิธีแก้สามแบบในข้อถัดไป</p>
+<figure><svg viewBox="0 0 720 320" role="img" aria-label="sensitive instruction กับ privileged instruction">
+<text x="180" y="24" text-anchor="middle" class="b">CPU ที่ virtualize แบบดั้งเดิมได้</text>
+<ellipse class="ba" cx="180" cy="150" rx="150" ry="100"/>
+<text x="180" y="82" text-anchor="middle" class="b">privileged</text><text x="180" y="100" text-anchor="middle" class="m">รันนอก Ring 0 แล้ว trap</text>
+<ellipse class="bo" cx="180" cy="175" rx="85" ry="52"/>
+<text x="180" y="172" text-anchor="middle" class="b">sensitive</text><text x="180" y="190" text-anchor="middle" class="m">hypervisor ต้องคุม</text>
+<text x="180" y="284" text-anchor="middle" class="m">sensitive ทุกตัวอยู่ใน privileged</text>
+<text x="180" y="306" text-anchor="middle" class="gt">ทุกคำสั่งอันตรายโดนดักได้ ✓</text>
+<text x="540" y="24" text-anchor="middle" class="b">x86 รุ่นเก่า (ก่อนมีส่วนช่วยจากฮาร์ดแวร์)</text>
+<ellipse class="ba" cx="490" cy="150" rx="125" ry="100"/>
+<text x="460" y="82" text-anchor="middle" class="b">privileged</text><text x="460" y="100" text-anchor="middle" class="m">รันนอก Ring 0 แล้ว trap</text>
+<ellipse class="bo" cx="600" cy="175" rx="98" ry="55"/>
+<ellipse cx="490" cy="150" rx="125" ry="100" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="560" y="172" text-anchor="middle" class="b">sensitive</text>
+<text x="660" y="196" text-anchor="middle" class="rt">ไม่ trap</text>
+<text x="540" y="284" text-anchor="middle" class="m">มี sensitive บางตัวอยู่นอก privileged</text>
+<text x="540" y="306" text-anchor="middle" class="rt">คำสั่งนั้นไม่ trap hypervisor ดักไม่ได้ ✕</text>
+</svg>
+<figcaption>วงสีฟ้าคือคำสั่งที่ trap เมื่อรันนอก Ring 0 วงสีส้มคือคำสั่งที่ hypervisor ต้องคุม ถ้าวงส้มอยู่ในวงฟ้าทั้งวง ทุกคำสั่งอันตรายจะเด้งไปหา hypervisor เสมอ แต่ x86 รุ่นเก่ามีส่วนที่ล้นออกมา</figcaption>
+</figure>
+
+<h3 id="s12">12. สามวิธีแก้ปัญหาของ x86</h3>
+<p><b>Full virtualization</b> ไม่แก้ guest OS เลย แต่ให้ hypervisor ตรวจโค้ดของ guest ก่อนรัน เจอคำสั่ง sensitive ที่ไม่ trap ก็เขียนใหม่ให้กลายเป็นการเรียก hypervisor เรียกว่า <b>binary translation</b> ข้อดีคือรัน OS ได้ทุกตัว ข้อเสียคือช้าลงเพราะต้องตรวจและแปลง</p>
+<figure>
+<svg viewBox="0 0 720 190" role="img" aria-label="Full virtualization ย้าย guest OS ไป Ring 1 แล้ว trap ไป hypervisor">
+<text x="10" y="44" class="b">Ring 0</text><rect class="ba" x="90" y="16" width="380" height="44" rx="8"/><text x="280" y="44" text-anchor="middle" class="b">Hypervisor (ตัวจริง)</text>
+<text x="10" y="102" class="b">Ring 1</text><rect class="box" x="90" y="74" width="380" height="44" rx="8"/><text x="280" y="102" text-anchor="middle">Guest OS (คิดว่าตัวเองอยู่ Ring 0)</text>
+<text x="10" y="160" class="b">Ring 3</text><rect class="box" x="90" y="132" width="380" height="44" rx="8"/><text x="280" y="160" text-anchor="middle">User Apps</text>
+<path class="ln" marker-end="url(#arw)" d="M470 96 C540 96 540 38 472 38"/>
+<text x="550" y="62">คำสั่ง privileged</text><text x="550" y="84" class="b">→ trap ไป hypervisor</text>
+</svg>
+<figcaption>Full virtualization: ย้าย guest ลงไป Ring 1 แล้วให้ hypervisor ดักคำสั่งอันตราย</figcaption>
+</figure>
+<p><b>Para-virtualization</b> แก้ kernel ของ guest ให้รู้ตัวว่าอยู่บน hypervisor เมื่อต้องใช้สิทธิ์สูงก็เรียก hypervisor ตรง ๆ ด้วย <b>hypercall</b> แทนการรอให้ถูกดัก จึงเร็วเกือบเท่าเครื่องจริง แต่ต้องแก้ kernel ของ guest ได้ Linux มีส่วนนี้ติดมาใน kernel อยู่แล้ว ส่วน OS ที่คนนอกแก้ kernel เองไม่ได้อย่าง Windows ต้องลง driver พิเศษเพิ่มแทน (driver คือโปรแกรมที่ OS ใช้คุยกับอุปกรณ์) Xen เป็นผู้บุกเบิกวิธีนี้</p>
+<p><b>Hardware-assisted virtualization</b> แก้ที่ตัว CPU (Intel VT-x, AMD-V) โดยเพิ่มโหมดให้ hypervisor กับ guest อยู่คนละโหมด guest จึงได้อยู่ Ring 0 ของตัวเองจริง แต่เมื่อเรียกคำสั่งอันตราย CPU จะสลับไปให้ hypervisor จัดการเองอัตโนมัติ (สลับออกเรียกว่า VMEXIT สลับกลับเรียกว่า VMENTER) วิธีนี้ไม่ต้องแก้ guest และยังเร็ว จึงเป็นวิธีที่ใช้กันในปัจจุบัน</p>
+<div class="tw"><table>
+<tr><th></th><th>Full virtualization</th><th>Para-virtualization</th><th>Hardware-assisted</th></tr>
+<tr><td>ต้องแก้ guest OS ไหม</td><td>ไม่ต้อง</td><td>ต้องแก้ kernel</td><td>ไม่ต้อง</td></tr>
+<tr><td>กลไกหลัก</td><td>binary translation</td><td>hypercall</td><td>CPU สลับโหมดให้เอง</td></tr>
+<tr><td>ข้อดี</td><td>รันได้ทุก OS</td><td>เร็วเกือบเท่าเครื่องจริง</td><td>ได้ทั้งสองข้อ</td></tr>
+<tr><td>ข้อเสีย</td><td>ช้าลงจากการแปลง</td><td>ต้องแก้ kernel ของทุก OS ที่จะใช้</td><td>ต้องใช้ CPU รุ่นที่รองรับ</td></tr>
+</table></div>
+<p>สไลด์ยังมีอีกชุดที่จัดเฉพาะเทคนิคของ CPU virtualization เป็นสามแบบ คือ trap-and-emulate (วิธีดั้งเดิมในข้อ 11 เร็วปานกลาง), binary translation (เร็วปานกลางถึงสูง) และ hardware-assisted (เร็วที่สุด) ชุดนี้ต่างจากชุดแรกตรงที่มี trap-and-emulate แทน para-virtualization ถ้าโจทย์ถามถึงเทคนิค CPU virtualization สามแบบ ให้ตอบชุดนี้</p>
+
+<h3 id="s13">13. Virtualization มีหลายระดับ</h3>
+<p>นอกจากจำลองเครื่องทั้งเครื่อง ยังเลือกจำลองได้หลายระดับ หลักคือ<b>ยิ่งต้องใช้ซอฟต์แวร์ทำงานแทนของจริงมาก ยิ่งช้า</b> ระดับ ISA (Instruction Set Architecture) จำลองชุดคำสั่งของ CPU ทั้งชุดเพื่อรันโปรแกรมของ CPU อีกแบบ จึงช้าที่สุดเพราะต้องแปลทีละคำสั่ง ระดับ HAL (Hardware Abstraction Layer) จำลองฮาร์ดแวร์ทั้งเครื่องให้รัน OS ได้ ซึ่งก็คือ VM ส่วนระดับ OS ไม่จำลองฮาร์ดแวร์เลย แต่ให้หลายโปรแกรมใช้ kernel ร่วมกันโดยแยกพื้นที่ ซึ่งก็คือ container (ข้อ 17) จึงแทบไม่ช้าลง</p>
+<p>สองระดับบนสุดจำลองแค่สิ่งที่โปรแกรมเรียกใช้ ระดับ library จำลอง API (Application Programming Interface ชุดฟังก์ชันที่ OS เปิดให้โปรแกรมเรียกใช้) ของ OS อีกตัว เช่น ทำให้โปรแกรมของ Windows รันบน Linux ได้ ส่วนระดับ application จำลอง runtime ของภาษา เช่น JVM (Java Virtual Machine) ที่ทำให้โปรแกรม Java ตัวเดียวรันได้ทุกเครื่อง</p>
+<div class="tw"><table>
+<tr><th>ระดับ</th><th>จำลองอะไร</th><th>ช้าลงแค่ไหน</th><th>ตัวอย่าง</th></tr>
+<tr><td>ISA</td><td>ชุดคำสั่งของ CPU ทั้งชุด</td><td>ช้ามาก</td><td>รันโปรแกรมของ CPU อีกแบบ</td></tr>
+<tr><td>HAL</td><td>ฮาร์ดแวร์ทั้งเครื่อง</td><td>น้อยถึงปานกลาง</td><td>VM ซึ่งเป็นแกนของ IaaS</td></tr>
+<tr><td>OS</td><td>ไม่จำลองฮาร์ดแวร์ ใช้ kernel ร่วมกันแต่แยกพื้นที่</td><td>น้อยมาก</td><td>container</td></tr>
+<tr><td>Library</td><td>ชุดฟังก์ชัน (API) ที่โปรแกรมเรียกใช้</td><td>น้อย</td><td>รันโปรแกรม Windows บน Linux</td></tr>
+<tr><td>Application</td><td>runtime ของภาษา</td><td>ปานกลาง</td><td>JVM</td></tr>
+</table></div>
+<p>ระดับที่สำคัญต่อ Cloud คือระดับ HAL (VM) กับระดับ OS (container) ข้อสอบชอบถามว่า Docker (เครื่องมือสร้างและรัน container ที่นิยมที่สุด) อยู่ระดับไหน คำตอบคือ<b>ระดับ OS</b></p>
+
+<h3 id="s14">14. การจำลองหน่วยความจำ</h3>
+<p>โปรแกรมทั่วไปไม่เห็นตำแหน่งจริงใน RAM แต่เห็น<b>ที่อยู่เสมือน</b> (virtual address) ที่ OS แจกให้ ทุกโปรแกรมจึงรู้สึกเหมือนมีหน่วยความจำเป็นของตัวเองทั้งก้อน และไปเขียนทับของโปรแกรมอื่นไม่ได้ OS แบ่งหน่วยความจำเป็นก้อนขนาดเท่ากันที่เรียกว่า page แล้วใช้ตาราง <b>page table</b> จดว่าที่อยู่เสมือนแต่ละก้อนตรงกับตำแหน่งจริงตรงไหน ใน VM การแปลงต้องทำสองขั้น เพราะ "RAM จริง" ที่ guest เห็นก็ยังเป็นของปลอมที่ hypervisor สร้าง ขั้นแรก guest แปลงที่อยู่ของโปรแกรมเป็นตำแหน่งที่ guest คิดว่าจริง ขั้นที่สอง hypervisor แปลงต่อเป็นตำแหน่งบน RAM จริง</p>
+<p>เทียบได้กับบริษัทที่เช่าพื้นที่ในตึก คนในบริษัทเรียกห้องหนึ่งว่า "ห้องประชุม A" ผังของบริษัทบอกว่าห้องประชุม A คือห้องเช่าห้องที่ 3 ของบริษัท แต่ผังของตึกบอกว่าห้องเช่าห้องที่ 3 ของบริษัทนี้คือห้อง 1205 คนส่งของที่ได้แค่ชื่อ "ห้องประชุม A" จึงต้องเปิดผังสองฉบับต่อกันจึงจะถึงห้องจริง ผังของบริษัทคือ page table ของ guest ส่วนผังของตึกคือตารางของ hypervisor</p>
+<p>วิธีเก่าคือ <b>shadow page table</b> ซึ่ง hypervisor ทำตารางเงารวมสองขั้นไว้ แต่ต้องคอยอัปเดตทุกครั้งที่ guest แก้ตารางของตัวเอง จึงช้า วิธีใหม่คือ <b>EPT/NPT</b> (Extended Page Tables ของ Intel / Nested Page Tables ของ AMD) ซึ่งให้ CPU ค้นตารางทั้งสองขั้นเองโดยไม่ต้องเรียก hypervisor จึงเร็วกว่ามาก (เป็นแนวคิดเดียวกับ hardware-assisted ในข้อ 12 คือย้ายงานจากซอฟต์แวร์ไปให้ CPU) ในตัวอย่างตึก shadow page table คือยามที่ทำผังรวมไว้ให้ว่าห้องประชุม A คือห้อง 1205 แต่ต้องตามแก้ทุกครั้งที่บริษัทสลับห้อง ส่วน EPT/NPT คือให้คนส่งของ (CPU) เปิดผังสองฉบับเองได้เร็ว ๆ โดยไม่ต้องพึ่งยาม</p>
+<figure>
+<svg viewBox="0 0 720 140" role="img" aria-label="การแปลง address สองขั้น">
+<rect class="box" x="10" y="40" width="170" height="60" rx="10"/><text x="95" y="66" text-anchor="middle" class="b">Guest VA</text><text x="95" y="88" text-anchor="middle" class="m">ที่อยู่ที่แอปเห็น</text>
+<rect class="ba" x="275" y="40" width="170" height="60" rx="10"/><text x="360" y="66" text-anchor="middle" class="b">Guest PA</text><text x="360" y="88" text-anchor="middle" class="m">"RAM" ของ VM (ปลอม)</text>
+<rect class="bo" x="540" y="40" width="170" height="60" rx="10"/><text x="625" y="66" text-anchor="middle" class="b">Machine PA</text><text x="625" y="88" text-anchor="middle" class="m">RAM จริง</text>
+<path class="ln" marker-end="url(#arw)" d="M180 70 H273"/><path class="ln" marker-end="url(#arw)" d="M445 70 H538"/>
+<text x="227" y="30" text-anchor="middle" class="m">Guest page table</text><text x="492" y="30" text-anchor="middle" class="m">EPT / NPT</text>
+<text x="227" y="122" text-anchor="middle" class="m">guest OS แปลง</text><text x="492" y="122" text-anchor="middle" class="m">hypervisor / ฮาร์ดแวร์แปลง</text>
+</svg>
+<figcaption>VA (virtual address) คือที่อยู่เสมือน และ PA (physical address) คือที่อยู่จริงในหน่วยความจำ แต่ Guest PA ยังเป็น RAM ที่ hypervisor ทำปลอมให้ VM ตำแหน่งบน RAM จริงคือ Machine PA</figcaption>
+</figure>
+<p>ผู้ให้บริการยังขาย RAM ได้มากกว่าที่เครื่องมีจริง เรียกว่า <b>overcommit</b> เพราะ VM ส่วนใหญ่ไม่ได้ใช้ RAM เต็มที่ขอไว้ตลอดเวลา เทคนิคแรกคือ <b>memory ballooning</b> ซึ่งลง driver ตัวเล็ก ๆ ไว้ใน guest เมื่อ hypervisor ต้องการ RAM คืน driver จะ "พองลูกโป่ง" ขอจอง RAM จาก guest เพิ่ม guest จึงต้องย้ายข้อมูลที่ไม่ค่อยใช้ไปพักบนดิสก์ แล้ว hypervisor เอา RAM ส่วนนั้นไปให้ VM อื่น เทคนิคที่สองคือ KSM (Kernel Same-page Merging) ซึ่งรวมหน้าหน่วยความจำที่เหมือนกันในหลาย VM ไว้ชุดเดียว เช่น โค้ด OS ตัวเดียวกันที่อยู่ในทุก VM ถ้า VM ตัวไหนจะเขียนทับหน้านั้น hypervisor ก็แยกสำเนาให้ VM ตัวนั้นทันที (เรียกว่า copy-on-write) VM อื่นจึงไม่โดนผลกระทบ</p>
+<p>การคำนวณ overcommit คือ RAM ที่ขายไปทั้งหมดหารด้วย RAM จริง เช่น server มี RAM 256 GB รัน VM ขนาด 8 GB จำนวน 50 เครื่อง ขายไป 8 × 50 = 400 GB อัตราจึงเป็น 400 ÷ 256 ≈ 1.56 : 1</p>
+
+<h3 id="s15">15. การจำลอง I/O</h3>
+<p><b>I/O</b> คือการรับส่งข้อมูลกับอุปกรณ์อย่างดิสก์และการ์ดเครือข่าย เป็นจุดที่ช้าที่สุดของ virtualization เพราะ VM หลายตัวต้องใช้อุปกรณ์จริงชุดเดียวกัน วิธีจัดการมีสามแบบ และหลักเดิมยังใช้ได้ คือยิ่งใช้ซอฟต์แวร์จำลองฮาร์ดแวร์น้อย ยิ่งเร็ว</p>
+<p><b>Full emulation</b> ใช้ซอฟต์แวร์จำลองการ์ดรุ่นที่มีขายจริง guest ใช้ driver ปกติได้ แต่ทุกการรับส่งต้องผ่านการจำลองจึงช้า <b>virtio</b> (virtual I/O) ให้ guest ใช้ driver พิเศษที่รู้ตัวว่าอยู่ใน VM แล้วส่งข้อมูลกับ hypervisor ผ่านหน่วยความจำร่วมโดยตรง จึงเร็ว (เป็นแนวคิด para-virtualization แต่ใช้กับ I/O) <b>SR-IOV</b> (Single Root I/O Virtualization) ให้การ์ดจริงแบ่งตัวเองเป็นหลายการ์ดย่อยแล้วยกให้ VM ใช้ตรง ๆ โดยไม่ผ่าน hypervisor จึงเร็วใกล้เครื่องจริง วิธีที่คล้ายกันคือ passthrough ซึ่งยกอุปกรณ์จริงทั้งชิ้นให้ VM ตัวเดียวใช้ไปเลย</p>
+<figure>
+<svg viewBox="0 0 720 160" role="img" aria-label="ความเร็ว I/O emulation virtio SR-IOV">
+<text x="10" y="40" class="b">Full emulation</text><rect class="bb" x="190" y="20" width="140" height="30" rx="6"/><text x="345" y="41" class="m">จำลองการ์ดรุ่นจริง · ระบบเก่า</text>
+<text x="10" y="90" class="b">virtio (para-virt)</text><rect class="ba" x="190" y="70" width="340" height="30" rx="6"/><text x="545" y="91" class="m">ค่ามาตรฐานของ KVM</text>
+<text x="10" y="140" class="b">SR-IOV / Passthrough</text><rect class="bg" x="190" y="120" width="450" height="30" rx="6"/><text x="712" y="141" text-anchor="end" class="m">ใกล้เครื่องจริง</text>
+</svg>
+<figcaption>ความยาวแถบเปรียบเทียบความเร็วแบบคร่าว ๆ ไม่ใช่ตัวเลขจริง</figcaption>
+</figure>
+
+<h3 id="s16">16. Xen: Dom0 และ DomU</h3>
+<p>Xen ตั้งใจทำ hypervisor ให้เล็กที่สุด เพราะโค้ดยิ่งน้อยยิ่งมีจุดให้พังหรือถูกโจมตีน้อย ตัว hypervisor จึงทำแค่จัดเวลา CPU กับจัดการหน่วยความจำ ส่วน driver ของอุปกรณ์และเครื่องมือจัดการย้ายไปอยู่ใน VM พิเศษชื่อ <b>Dom0</b> (Domain 0 เพราะ Xen เรียก VM แต่ละตัวว่า domain) ซึ่งเป็น VM ตัวเดียวที่แตะฮาร์ดแวร์จริงได้ ส่วน VM ของลูกค้าเรียกว่า <b>DomU</b> (U ย่อมาจาก unprivileged คือไม่มีสิทธิ์พิเศษ)</p>
+<p>แนวคิดทำ hypervisor ให้เล็กแล้วย้ายงานอื่นออกไปไว้ข้างนอกแบบนี้เรียกว่า <b>microkernel</b> ตรงข้ามกับแบบ <b>monolithic</b> อย่าง VMware ESXi ที่รวม driver และงานจัดการทุกอย่างไว้ในตัว hypervisor เอง ข้อดีของ microkernel คือส่วนที่ต้องไว้ใจว่าไม่มีช่องโหว่ (เรียกว่า trusted computing base) เล็กกว่ามาก</p>
+<p>เมื่อ DomU จะใช้ดิสก์หรือเครือข่าย จะใช้ <b>split driver</b> คือ driver ที่ผ่าเป็นสองครึ่ง ครึ่งหน้าใน DomU วางข้อมูลลงหน่วยความจำร่วม แล้วครึ่งหลังใน Dom0 มาหยิบไปส่งให้อุปกรณ์จริง ตัว hypervisor ไม่ต้องอยู่บนเส้นทางของข้อมูลเลย</p>
+<figure>
+<svg viewBox="0 0 720 250" role="img" aria-label="Xen Dom0 DomU split driver">
+<rect class="bo" x="10" y="10" width="230" height="130" rx="10"/><text x="125" y="38" text-anchor="middle" class="b">Dom0 (สิทธิ์พิเศษ)</text><text x="125" y="62" text-anchor="middle" class="m">device driver จริง</text><text x="125" y="84" text-anchor="middle" class="m">เครื่องมือจัดการ</text>
+<rect class="box" x="40" y="96" width="170" height="34" rx="6"/><text x="125" y="119" text-anchor="middle">backend driver</text>
+<rect class="ba" x="290" y="10" width="130" height="130" rx="10"/><text x="355" y="38" text-anchor="middle" class="b">DomU 1</text><rect class="box" x="300" y="96" width="110" height="34" rx="6"/><text x="355" y="119" text-anchor="middle">frontend</text>
+<rect class="ba" x="435" y="10" width="130" height="130" rx="10"/><text x="500" y="38" text-anchor="middle" class="b">DomU 2</text><rect class="box" x="445" y="96" width="110" height="34" rx="6"/><text x="500" y="119" text-anchor="middle">frontend</text>
+<rect class="ba" x="580" y="10" width="130" height="130" rx="10"/><text x="645" y="38" text-anchor="middle" class="b">DomU 3</text><rect class="box" x="590" y="96" width="110" height="34" rx="6"/><text x="645" y="119" text-anchor="middle">frontend</text>
+<path class="ln" marker-end="url(#arw)" marker-start="url(#arw)" d="M212 113 H298"/>
+<text x="355" y="70" text-anchor="middle" class="m">VM ลูกค้า</text><text x="500" y="70" text-anchor="middle" class="m">VM ลูกค้า</text><text x="645" y="70" text-anchor="middle" class="m">VM ลูกค้า</text>
+<rect class="box" x="10" y="152" width="700" height="40" rx="8"/><text x="360" y="178" text-anchor="middle" class="b">Xen Hypervisor: จัดเวลา CPU + จัดการหน่วยความจำเท่านั้น</text>
+<rect class="box" x="10" y="200" width="700" height="40" rx="8"/><text x="360" y="226" text-anchor="middle">Physical Hardware</text>
+</svg>
+<figcaption>Split driver: ครึ่งหน้า (frontend) ใน DomU ส่งข้อมูลให้ครึ่งหลัง (backend) ใน Dom0 ผ่านหน่วยความจำร่วม</figcaption>
+</figure>
+
+<h3 id="s17">17. Container ต่างจาก VM ยังไง</h3>
+<p>VM ทุกตัวต้องมี guest OS ของตัวเอง ถ้ามีแอปเล็ก ๆ 100 ตัวแยกคนละ VM ก็ต้องมี OS 100 ชุด กิน RAM มากและเปิดเครื่องช้า <b>container</b> แก้ด้วยการให้ทุกแอปใช้ kernel ของเครื่องหลักตัวเดียวกัน แต่แยกพื้นที่ด้วยสองกลไกของ Linux คือ namespace กับ cgroups โดย <b>namespace</b> ทำให้แต่ละ container มองเห็นแค่ process (โปรแกรมที่กำลังรันอยู่) เครือข่าย และไฟล์ของตัวเอง เหมือนอยู่ในเครื่องแยก ส่วน <b>cgroups</b> (control groups) จำกัดว่าแต่ละ container ใช้ CPU และ RAM ได้ไม่เกินเท่าไร จำง่าย ๆ ว่า namespace คุม<b>สิ่งที่มองเห็น</b> cgroups คุม<b>ปริมาณที่ใช้ได้</b> Docker และ Kubernetes (ระบบจัดการ container จำนวนมาก) ทำงานด้วยกลไกนี้</p>
+<figure>
+<svg viewBox="0 0 720 280" role="img" aria-label="VM มี guest OS แยก container ใช้ kernel ร่วม">
+<text x="175" y="20" text-anchor="middle" class="b">Virtual Machine</text>
+<rect class="box" x="20" y="34" width="96" height="40" rx="6"/><text x="68" y="60" text-anchor="middle">App</text>
+<rect class="box" x="127" y="34" width="96" height="40" rx="6"/><text x="175" y="60" text-anchor="middle">App</text>
+<rect class="box" x="234" y="34" width="96" height="40" rx="6"/><text x="282" y="60" text-anchor="middle">App</text>
+<rect class="ba" x="20" y="80" width="96" height="40" rx="6"/><text x="68" y="106" text-anchor="middle">Guest OS</text>
+<rect class="ba" x="127" y="80" width="96" height="40" rx="6"/><text x="175" y="106" text-anchor="middle">Guest OS</text>
+<rect class="ba" x="234" y="80" width="96" height="40" rx="6"/><text x="282" y="106" text-anchor="middle">Guest OS</text>
+<rect class="box" x="20" y="126" width="310" height="40" rx="6"/><text x="175" y="152" text-anchor="middle">Hypervisor</text>
+<rect class="bo" x="20" y="172" width="310" height="40" rx="6"/><text x="175" y="198" text-anchor="middle">Hardware</text>
+<text x="175" y="240" text-anchor="middle" class="m">kernel แยกทุกตัว → ปลอดภัยกว่า</text><text x="175" y="262" text-anchor="middle" class="m">boot หลายนาที · ใช้ RAM หลาย GB</text>
+<text x="545" y="20" text-anchor="middle" class="b">Container</text>
+<rect class="box" x="390" y="34" width="96" height="40" rx="6"/><text x="438" y="60" text-anchor="middle">App</text>
+<rect class="box" x="497" y="34" width="96" height="40" rx="6"/><text x="545" y="60" text-anchor="middle">App</text>
+<rect class="box" x="604" y="34" width="96" height="40" rx="6"/><text x="652" y="60" text-anchor="middle">App</text>
+<rect class="box" x="390" y="80" width="310" height="40" rx="6"/><text x="545" y="106" text-anchor="middle">namespace + cgroups</text>
+<rect class="ba" x="390" y="126" width="310" height="40" rx="6"/><text x="545" y="152" text-anchor="middle" class="b">Host OS kernel ตัวเดียว (ใช้ร่วมกัน)</text>
+<rect class="bo" x="390" y="172" width="310" height="40" rx="6"/><text x="545" y="198" text-anchor="middle">Hardware</text>
+<text x="545" y="240" text-anchor="middle" class="m">kernel ร่วม → ช่องโหว่กระทบทุกตัว</text><text x="545" y="262" text-anchor="middle" class="m">เริ่มในมิลลิวินาที · ใช้ RAM หลาย MB</text>
+</svg>
+</figure>
+<div class="tw"><table>
+<tr><th></th><th>VM</th><th>Container</th></tr>
+<tr><td>แยกกันด้วย</td><td>kernel คนละตัว</td><td>namespace และ cgroups บน kernel เดียวกัน</td></tr>
+<tr><td>เวลาเริ่มทำงาน</td><td>หลายนาที</td><td>ระดับมิลลิวินาที</td></tr>
+<tr><td>จำนวนต่อเครื่อง</td><td>หลักสิบ</td><td>หลักพัน</td></tr>
+<tr><td>ความปลอดภัย</td><td>สูงกว่า</td><td>ต่ำกว่า เพราะใช้ kernel ร่วมกัน</td></tr>
+<tr><td>การย้ายไปรันที่อื่น</td><td>ไฟล์ VM ผูกกับ hypervisor แต่ละแบบ</td><td>image (ไฟล์ต้นแบบของ container) ใช้มาตรฐานกลางชื่อ OCI (Open Container Initiative) จึงรันได้ทุกที่ที่มี Docker</td></tr>
+</table></div>
+<p>ข้อสอบชอบหลอกว่า container ปลอดภัยกว่าเพราะใหม่กว่า ซึ่งไม่จริง container ใช้ kernel ร่วมกัน ถ้า kernel มีช่องโหว่ ผู้โจมตีอาจข้ามจาก container หนึ่งไปอีกตัวได้ ระบบจริงจึงมักใช้ซ้อนกัน คือใช้ VM แยกลูกค้าเพื่อความปลอดภัย แล้วรัน container หลายตัวในแต่ละ VM เพื่อใช้ทรัพยากรให้คุ้ม</p>
+
+<h3 id="s18">18. ประโยชน์ของ virtualization</h3>
+<p>ด้านค่าใช้จ่าย รวม VM หลายตัวไว้ในเครื่องจริงเครื่องเดียวได้ (<b>server consolidation</b>) ประหยัดทั้งฮาร์ดแวร์ ค่าไฟ และพื้นที่ ด้านความเสถียร ถ้า VM ตัวหนึ่งพังก็ไม่ลามไปตัวอื่น (<b>isolation</b>) และบันทึกสถานะเครื่องไว้แล้วย้อนกลับได้ (<b>snapshot</b>) ด้านความยืดหยุ่น ปรับ CPU หรือ RAM และโคลนเครื่องใหม่ได้ในไม่กี่นาที และเพราะ VM มองเห็นแต่ฮาร์ดแวร์เสมือน จึงไม่ผูกกับ CPU หรือการ์ดรุ่นใดรุ่นหนึ่ง (<b>hardware abstraction</b>) ย้ายไปรันบนเครื่องจริงต่างรุ่นได้</p>
+<p>ข้อที่สไลด์เน้นคือ <b>live migration</b> หมายถึงการย้าย VM ที่กำลังทำงานไปเครื่องจริงอีกเครื่องโดยระบบหยุดไปไม่ถึงวินาที ผู้ให้บริการใช้วิธีนี้ย้าย VM ออกไปก่อนเอาเครื่องจริงไปซ่อม ลูกค้าจึงไม่รู้ตัวเลย</p>
+<p>ประโยชน์เหล่านี้รวมกันทำให้ทั้ง data center สั่งงานด้วยซอฟต์แวร์ได้ (สไลด์เรียกว่า software-defined data center) เมื่อเครื่องจริงทุกเครื่องรัน hypervisor ระบบจัดการกลางก็ทำงานอัตโนมัติได้หลายอย่าง เช่น ย้าย VM จากเครื่องที่งานหนักไปเครื่องที่ว่าง (workload balancing) เปิด VM ชุดเดิมขึ้นใหม่บนเครื่องอื่นภายในไม่กี่วินาทีเมื่อเครื่องจริงพัง (high availability) ส่งสำเนา snapshot ไปเก็บอีก data center เผื่อเกิดภัย (disaster recovery) และสร้าง VM เพิ่มทีละมาก ๆ ช่วงคนใช้เยอะแล้วลบทิ้งเมื่องานลด (elastic scaling) นี่คือสะพานจาก virtualization สู่ Cloud ถ้าไม่มี virtualization ผู้ให้บริการก็ต้องติดตั้งเครื่องจริงด้วยมือทีละเครื่อง</p>
+<p>จุดที่ต้องแยกให้ออกคือ live migration ใช้ได้เฉพาะตอนที่เครื่องต้นทางยังทำงานอยู่ เพราะต้องคัดลอกสถานะของ VM ที่กำลังรันออกมา ถ้าเครื่องจริงพังไปแล้ว ระบบทำได้แค่เปิด VM ขึ้นใหม่บนเครื่องอื่น (restart) ซึ่งงานที่ค้างอยู่ใน RAM ตอนนั้นจะหายไป ไม่ใช่การย้ายแบบไม่สะดุด</p>
+
+<h3 id="s19">19. บริการ Compute และ Storage</h3>
+<p>บริการเช่า VM แต่ละเจ้าเรียกชื่อต่างกันแต่เป็นของอย่างเดียวกัน เช่น AWS (Amazon Web Services) เรียกว่า EC2 ส่วนที่เก็บข้อมูลมีสามแบบ ใช้ต่างกันตามลักษณะข้อมูล ให้นึกถึงร้านค้าออนไลน์ที่ต้องเก็บฐานข้อมูลคำสั่งซื้อ รูปสินค้า และโฟลเดอร์ที่ server หลายเครื่องต้องเปิดพร้อมกัน</p>
+<figure>
+<svg viewBox="0 0 720 210" role="img" aria-label="Block Object File storage">
+<text x="115" y="22" text-anchor="middle" class="b">Block (EBS)</text>
+<rect class="ba" x="40" y="40" width="150" height="50" rx="8"/><text x="115" y="70" text-anchor="middle">VM 1 เครื่อง</text>
+<rect class="bo" x="40" y="120" width="150" height="50" rx="8"/><text x="115" y="150" text-anchor="middle">ดิสก์ ext4/NTFS</text>
+<path class="ln" d="M115 90 V120"/><text x="115" y="196" text-anchor="middle" class="m">เหมือนฮาร์ดดิสก์เสียบเครื่อง</text>
+<text x="360" y="22" text-anchor="middle" class="b">Object (S3)</text>
+<rect class="ba" x="285" y="40" width="150" height="50" rx="8"/><text x="360" y="70" text-anchor="middle">Browser / แอป</text>
+<rect class="bo" x="285" y="120" width="150" height="50" rx="8"/><text x="360" y="150" text-anchor="middle">bucket ของ object</text>
+<path class="ln" marker-end="url(#arw)" d="M360 90 V118"/><text x="372" y="110" class="m">HTTP</text><text x="360" y="196" text-anchor="middle" class="m">เหมือนไฟล์ Drive ที่เปิดผ่านลิงก์</text>
+<text x="605" y="22" text-anchor="middle" class="b">File (EFS)</text>
+<rect class="ba" x="510" y="40" width="58" height="50" rx="8"/><text x="539" y="70" text-anchor="middle">VM</text>
+<rect class="ba" x="576" y="40" width="58" height="50" rx="8"/><text x="605" y="70" text-anchor="middle">VM</text>
+<rect class="ba" x="642" y="40" width="58" height="50" rx="8"/><text x="671" y="70" text-anchor="middle">VM</text>
+<rect class="bo" x="530" y="120" width="150" height="50" rx="8"/><text x="605" y="150" text-anchor="middle">shared folder</text>
+<path class="ln" d="M539 90 L580 120 M605 90 V120 M671 90 L630 120"/><text x="605" y="196" text-anchor="middle" class="m">หลายเครื่อง mount พร้อมกัน (NFS/SMB)</text>
+</svg>
+<figcaption>ext4 กับ NTFS คือรูปแบบการจัดเก็บไฟล์บนดิสก์ (filesystem) ของ Linux และ Windows ตามลำดับ bucket คือที่เก็บ object หนึ่งก้อนใหญ่ เทียบได้กับโฟลเดอร์ระดับบนสุด mount คือการต่อที่เก็บข้อมูลเข้ากับเครื่องให้เปิดใช้ได้เหมือนโฟลเดอร์ในเครื่อง ส่วน NFS กับ SMB คือ protocol สำหรับแชร์ไฟล์ผ่านเครือข่าย</figcaption>
+</figure>
+<div class="tw"><table>
+<tr><th>แบบ</th><th>ลักษณะ</th><th>ใช้กับ</th><th>ตัวอย่างบน AWS</th></tr>
+<tr><td>Block storage</td><td>ดิสก์ที่ต่อกับเครื่องเดียว เหมือนฮาร์ดดิสก์ในคอม เร็ว</td><td>ฐานข้อมูลบน VM</td><td>EBS</td></tr>
+<tr><td>Object storage</td><td>เก็บไฟล์เป็นก้อน เรียกผ่าน URL ได้จากทุกที่ ขยายไม่จำกัด</td><td>รูปภาพ วิดีโอ ไฟล์ที่เขียนครั้งเดียวอ่านบ่อย</td><td>S3</td></tr>
+<tr><td>File storage</td><td>โฟลเดอร์ที่หลายเครื่องเปิดพร้อมกันได้</td><td>โฟลเดอร์ที่ web server หลายเครื่องใช้ร่วมกัน</td><td>EFS</td></tr>
+</table></div>
+<p>วิธีแยกคือถามว่าใครใช้ข้อมูลและใช้ยังไง ถ้าโจทย์พูดถึงหลายเครื่องใช้โฟลเดอร์เดียวกัน ให้ตอบ File storage ไม่ใช่ Block storage เพราะ block ต่อได้ทีละเครื่อง</p>
+
+<h3 id="review">ทวนก่อนสอบ</h3>
+<p>ถ้าต้องเล่าช่วงนี้ให้จบในไม่กี่ประโยค เริ่มจากเครือข่าย ซึ่งแบ่งงานเป็นชั้นเพื่อให้เปลี่ยนชั้นหนึ่งได้โดยไม่กระทบชั้นอื่น ส่วน NAT ให้เครื่องข้างในเป็นฝ่ายเริ่มคุยได้ แต่ไม่ให้คนข้างนอกเริ่ม</p>
+<p>ต่อมาคือ Cloud ซึ่งเป็นการเช่าทรัพยากรแบบจ่ายตามใช้ แบ่งความรับผิดชอบตามชั้น (IaaS ดูแลเองมากสุด SaaS น้อยสุด) และกระจายระบบข้าม AZ เพื่อไม่ให้มี single point of failure</p>
+<p>สุดท้ายคือ virtualization ซึ่งทำให้ Cloud ขาย VM ได้ถูก x86 รุ่นเก่ามีคำสั่ง sensitive ที่ไม่ trap จึงเกิดวิธีแก้สามแบบ และแนวโน้มของทุกเรื่องคือย้ายงานจากซอฟต์แวร์ไปให้ฮาร์ดแวร์ (VT-x, EPT, SR-IOV) เมื่อทุกเครื่องรัน hypervisor ทั้ง data center ก็สั่งงานอัตโนมัติได้ ส่วน container เบาและเร็วกว่า VM เพราะใช้ kernel ร่วมกัน และด้วยเหตุผลเดียวกันจึงแยกกันได้ไม่เด็ดขาดเท่า</p>
+<p>กับดักที่เจอบ่อยมีไม่กี่เรื่อง ping ใช้ ICMP ไม่ใช่ TCP หรือ UDP ส่วน Docker อยู่ระดับ OS ไม่ใช่ HAL ถ้าหลายเครื่องใช้โฟลเดอร์เดียวกันให้ตอบ File storage คำว่า VMM หมายถึง hypervisor live migration ทำได้เฉพาะตอนเครื่องต้นทางยังไม่พัง และ overcommit คือ RAM ที่ขายไปทั้งหมดหารด้วย RAM จริง</p>
+
+<nav class="pager"><span></span><a href="summary2.html">ถัดไป: ช่วงที่ 2 Cloud Networking, สถาปัตยกรรม และแล็บ</a></nav>
+
+</main>
+</body>
+</html>

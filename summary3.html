@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>สรุปช่วงที่ 3 Cloud Security</title>
+<style>
+:root{--bg:#ffffff;--text:#1d1f23;--muted:#5d636b;--border:#d9d7cf;--soft:#f3f2ee;--accent:#2f6fd0;--surface2:#f3f2ee;--accent-soft:#e3ecfa;--orange:#c96a12;--orange-soft:#fbeedd;--good:#1f8a4c;--good-soft:#e2f3e8;--bad:#c23b3b;--bad-soft:#f8e3e3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.8 -apple-system,BlinkMacSystemFont,"Sukhumvit Set","Noto Sans Thai","Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px 80px}
+h1{font-size:28px;line-height:1.3;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 28px}
+nav{border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin-bottom:36px}
+nav b{display:block;margin-bottom:4px}
+nav a{color:var(--accent);text-decoration:none}
+nav ol{margin:0;padding-left:22px}
+h2{font-size:24px;line-height:1.35;margin:56px 0 4px;padding-top:12px;border-top:2px solid var(--text)}
+h2 small{display:block;font-size:15px;font-weight:400;color:var(--muted)}
+h3{font-size:19px;line-height:1.4;margin:34px 0 6px}
+p{margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:15.5px;margin:14px 0}
+th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--soft)}
+.tw{overflow-x:auto}
+.tw table{min-width:520px}
+.note{background:var(--soft);border-radius:8px;padding:10px 14px;margin:14px 0}
+code{background:var(--soft);border-radius:4px;padding:1px 5px;font-size:15px}
+pre{background:var(--soft);border-radius:8px;padding:12px 14px;margin:14px 0;overflow-x:auto;font-size:14px;line-height:1.55}
+pre code{background:none;padding:0;font-size:inherit}
+figure{margin:18px 0;overflow-x:auto}
+figure svg{display:block;width:100%;min-width:600px;height:auto}
+figcaption{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.6}
+svg text{font-family:inherit;fill:var(--text);font-size:15px}
+svg .m{fill:var(--muted);font-size:13px}
+svg .b{font-weight:700}
+svg .box{fill:var(--surface2);stroke:var(--border);stroke-width:1.5}
+svg .ba{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+svg .bo{fill:var(--orange-soft);stroke:var(--orange);stroke-width:1.5}
+svg .bg{fill:var(--good-soft);stroke:var(--good);stroke-width:1.5}
+svg .bb{fill:var(--bad-soft);stroke:var(--bad);stroke-width:1.5;stroke-dasharray:6 4}
+svg .frame{fill:none;stroke:var(--border);stroke-width:1.5;stroke-dasharray:5 4}
+svg .ln{stroke:var(--muted);stroke-width:2;fill:none}
+svg .la{stroke:var(--accent);stroke-width:2;fill:none}
+svg .lg{stroke:var(--good);stroke-width:2.5;fill:none}
+svg .lr{stroke:var(--bad);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+svg .ah{fill:var(--muted)} svg .aha{fill:var(--accent)} svg .ahg{fill:var(--good)} svg .ahr{fill:var(--bad)}
+svg .at{fill:var(--accent);font-weight:700}
+svg .gt{fill:var(--good);font-weight:700}
+svg .rt{fill:var(--bad);font-weight:700}
+.top{font-size:15px;margin:0 0 18px}
+.top a,.pager a{color:var(--accent);text-decoration:none}
+.pager{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--border);margin-top:48px;padding-top:16px;font-size:15px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahg" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahr" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="aha" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs></svg>
+<main>
+
+<p class="top"><a href="summary.html">กลับไปหน้าสารบัญ</a></p>
+
+<h1>ช่วงที่ 3 Cloud Security</h1>
+<p class="sub">สรุปจาก Cloud Security.pdf (Week 4) · ฉบับเตรียมสอบปิดตำรา ตัดตารางจับคู่ชื่อบริการ ตัวเลขความเร็วและราคา และชื่อเครื่องมือย่อยออกแล้ว</p>
+
+<div class="note">
+<p><b>ช่วงนี้ต้องเข้าใจอะไร</b></p>
+<p>ช่วงนี้ตอบคำถามสามข้อ ข้อแรก ใครรับผิดชอบส่วนไหน (shared responsibility) ข้อสอง packet ผ่านด่านได้หรือไม่ ซึ่งต้องเข้าใจความต่างระหว่าง Security Group ที่จำการเชื่อมต่อได้กับ NACL ที่จำไม่ได้ และไล่กฎของ NACL ตามเลขได้ ข้อสาม คนหรือโปรแกรมมีสิทธิ์ทำสิ่งนั้นไหม ซึ่งต้องไล่ตรรกะของ IAM ให้เป็น คือ Deny ชนะเสมอ และถ้าไม่มีกฎพูดถึงก็ถือว่าห้าม ที่เหลือคือการเชื่อมออฟฟิศเข้ากับ Cloud การป้องกันหลายชั้น (Defense in Depth) และหลักการออกแบบ 8 ข้อ ซึ่งข้อสอบมักให้สถานการณ์มาแล้วถามว่าตรงกับหลักข้อไหน</p>
+</div>
+
+<h3 id="s1">1. Shared Responsibility: ใครดูแลความปลอดภัยส่วนไหน</h3>
+<p>ความปลอดภัยบน Cloud เป็นงานของสองฝ่าย ผู้ให้บริการดูแลส่วนที่ลูกค้าแตะไม่ได้ เช่น อาคาร data center เครื่อง server ไฟฟ้า และ hypervisor (ซอฟต์แวร์ที่แบ่งเครื่องจริงหนึ่งเครื่องออกเป็นหลาย VM) เรียกว่า <b>Security OF the Cloud</b> ลูกค้าดูแลทุกอย่างที่ตัวเองตั้งค่า เช่น ข้อมูล สิทธิ์ผู้ใช้ OS และแอป กฎ firewall และการเข้ารหัส เรียกว่า <b>Security IN the Cloud</b></p>
+<p>หลักจำคือ <b>ใครเป็นคนตั้งค่าสิ่งไหน คนนั้นรับผิดชอบสิ่งนั้น</b> เช่น ถ้าบริษัทตั้งถังเก็บไฟล์ (S3 bucket) ให้ใครก็เปิดอ่านได้แล้วข้อมูลลูกค้ารั่ว ความผิดเป็นของบริษัท เพราะผู้ให้บริการไม่รู้ว่าบริษัทตั้งใจเปิดหรือเปล่า</p>
+<p>เส้นแบ่งเลื่อนตามประเภทบริการ ใน IaaS ลูกค้าดูแลตั้งแต่ OS ขึ้นไปรวมถึงลง patch (ตัวแก้ช่องโหว่) เอง ใน PaaS ผู้ให้บริการดูแล OS ให้ ลูกค้าดูแลแค่แอปกับข้อมูล ใน SaaS ลูกค้าดูแลน้อยที่สุด แต่เรื่องข้อมูลและสิทธิ์การเข้าถึงยังเป็นงานร่วมกัน เพราะการแชร์ไฟล์ให้ใคร การเปิด <b>MFA</b> (Multi-Factor Authentication การยืนยันตัวตนหลายขั้น เช่น รหัสผ่านบวกรหัสจากมือถือ) หรือการปิดบัญชีพนักงานที่ลาออก ล้วนเป็นการตัดสินใจของลูกค้า สองเรื่องที่ไม่เปลี่ยนเลยคือ เครื่องจริงกับ hypervisor เป็นหน้าที่ผู้ให้บริการเสมอ และข้อมูลของลูกค้าไม่เคยเป็นหน้าที่ของผู้ให้บริการฝ่ายเดียว</p>
+<figure>
+<svg viewBox="0 0 720 400" role="img" aria-label="ตาราง shared responsibility แยกตาม IaaS PaaS SaaS">
+<text x="20" y="32" class="b">ส่วนของระบบ</text>
+<text x="313" y="32" text-anchor="middle" class="b">IaaS</text>
+<text x="463" y="32" text-anchor="middle" class="b">PaaS</text>
+<text x="613" y="32" text-anchor="middle" class="b">SaaS</text>
+<text x="20" y="75" class="b">Data &amp; Access</text>
+<rect class="ba" x="240" y="50" width="146" height="38" rx="6"/><text x="313" y="75" text-anchor="middle">ลูกค้า</text>
+<rect class="ba" x="390" y="50" width="146" height="38" rx="6"/><text x="463" y="75" text-anchor="middle">ลูกค้า</text>
+<rect class="bg" x="540" y="50" width="146" height="38" rx="6"/><text x="613" y="75" text-anchor="middle">ร่วมกัน</text>
+<text x="20" y="119" class="b">Application Code</text>
+<rect class="ba" x="240" y="94" width="146" height="38" rx="6"/><text x="313" y="119" text-anchor="middle">ลูกค้า</text>
+<rect class="ba" x="390" y="94" width="146" height="38" rx="6"/><text x="463" y="119" text-anchor="middle">ลูกค้า</text>
+<rect class="bo" x="540" y="94" width="146" height="38" rx="6"/><text x="613" y="119" text-anchor="middle">ผู้ให้บริการ</text>
+<text x="20" y="163" class="b">OS / Runtime</text>
+<rect class="ba" x="240" y="138" width="146" height="38" rx="6"/><text x="313" y="163" text-anchor="middle">ลูกค้า</text>
+<rect class="bo" x="390" y="138" width="146" height="38" rx="6"/><text x="463" y="163" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="bo" x="540" y="138" width="146" height="38" rx="6"/><text x="613" y="163" text-anchor="middle">ผู้ให้บริการ</text>
+<text x="20" y="207" class="b">Middleware</text>
+<rect class="ba" x="240" y="182" width="146" height="38" rx="6"/><text x="313" y="207" text-anchor="middle">ลูกค้า</text>
+<rect class="bo" x="390" y="182" width="146" height="38" rx="6"/><text x="463" y="207" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="bo" x="540" y="182" width="146" height="38" rx="6"/><text x="613" y="207" text-anchor="middle">ผู้ให้บริการ</text>
+<text x="20" y="251" class="b">Network Controls</text>
+<rect class="bg" x="240" y="226" width="146" height="38" rx="6"/><text x="313" y="251" text-anchor="middle">ร่วมกัน</text>
+<rect class="bg" x="390" y="226" width="146" height="38" rx="6"/><text x="463" y="251" text-anchor="middle">ร่วมกัน</text>
+<rect class="bo" x="540" y="226" width="146" height="38" rx="6"/><text x="613" y="251" text-anchor="middle">ผู้ให้บริการ</text>
+<text x="20" y="295" class="b">Hypervisor</text>
+<rect class="bo" x="240" y="270" width="146" height="38" rx="6"/><text x="313" y="295" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="bo" x="390" y="270" width="146" height="38" rx="6"/><text x="463" y="295" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="bo" x="540" y="270" width="146" height="38" rx="6"/><text x="613" y="295" text-anchor="middle">ผู้ให้บริการ</text>
+<text x="20" y="339" class="b">Physical</text>
+<rect class="bo" x="240" y="314" width="146" height="38" rx="6"/><text x="313" y="339" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="bo" x="390" y="314" width="146" height="38" rx="6"/><text x="463" y="339" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="bo" x="540" y="314" width="146" height="38" rx="6"/><text x="613" y="339" text-anchor="middle">ผู้ให้บริการ</text>
+<rect class="ba" x="20" y="370" width="18" height="18" rx="4"/><text x="46" y="385" class="m">ลูกค้าดูแล (IN the Cloud)</text>
+<rect class="bo" x="250" y="370" width="18" height="18" rx="4"/><text x="276" y="385" class="m">ผู้ให้บริการดูแล (OF the Cloud)</text>
+<rect class="bg" x="510" y="370" width="18" height="18" rx="4"/><text x="536" y="385" class="m">ดูแลร่วมกัน (shared)</text>
+</svg>
+<figcaption>สีฟ้าคือลูกค้าดูแล สีส้มคือผู้ให้บริการดูแล สีเขียวคือดูแลร่วมกัน ยิ่งไปทางขวา สีส้มยิ่งกินพื้นที่ขึ้นมาสูง แต่แถวบนสุดไม่เคยเป็นสีส้มเลย</figcaption>
+</figure>
+<p>AWS กับ Azure มีเครื่องมือด้านความปลอดภัยครบเหมือนกัน ต่างกันแค่ชื่อ คู่ที่ควรรู้คือ Security Group ของ AWS ตรงกับ NSG (Network Security Group) ของ Azure, IAM ตรงกับ Entra ID และ Direct Connect ตรงกับ ExpressRoute</p>
+
+<h3 id="s2">2. Security Group และ Network ACL</h3>
+<p>AWS มี firewall ที่ตั้งค่าเองได้สองชนิด วางคนละตำแหน่ง <b>Security Group (SG)</b> ติดอยู่กับเครื่องแต่ละเครื่อง ส่วน <b>NACL</b> (Network Access Control List รายการควบคุมการเข้าถึงระดับเครือข่าย เรียกสั้น ๆ ว่า Network ACL) ตั้งอยู่ที่ขอบ subnet และตรวจทุกอย่างที่เข้าออก subnet นั้น packet จากอินเทอร์เน็ตจึงต้องผ่าน NACL ก่อน แล้วค่อยถึง SG ของเครื่องปลายทาง NACL คือยามที่ประตูหมู่บ้าน ส่วน SG คือกุญแจประตูของแต่ละบ้าน</p>
+<figure>
+<svg viewBox="0 0 720 396" role="img" aria-label="NACL อยู่ที่ขอบ subnet ส่วน SG อยู่รอบเครื่องแต่ละเครื่อง">
+<rect class="bo" x="40" y="6" width="160" height="36" rx="18"/><text x="120" y="30" text-anchor="middle" class="b">Internet</text>
+<rect class="frame" x="10" y="56" width="700" height="330" rx="12"/><text x="24" y="78" class="b">VPC 10.0.0.0/16</text>
+<rect x="30" y="100" width="320" height="230" rx="12" style="fill:none;stroke:var(--orange);stroke-width:4"/>
+<rect x="370" y="100" width="320" height="230" rx="12" style="fill:none;stroke:var(--orange);stroke-width:4"/>
+<rect class="bo" x="196" y="88" width="144" height="24" rx="6"/><text x="268" y="105" text-anchor="middle" class="m">NACL public-nacl</text>
+<rect class="bo" x="536" y="88" width="144" height="24" rx="6"/><text x="608" y="105" text-anchor="middle" class="m">NACL private-nacl</text>
+<text x="44" y="322" class="m">Public subnet 10.0.1.0/24</text>
+<text x="384" y="322" class="m">Private subnet 10.0.3.0/24</text>
+<rect x="48" y="146" width="136" height="160" rx="14" style="fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.5"/><text x="116" y="168" text-anchor="middle" class="at">SG: web-sg</text>
+<rect class="box" x="64" y="182" width="104" height="100" rx="8"/><text x="116" y="226" text-anchor="middle" class="b">web-1</text><text x="116" y="250" text-anchor="middle" class="m">10.0.1.10</text>
+<rect x="198" y="146" width="136" height="160" rx="14" style="fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.5"/><text x="266" y="168" text-anchor="middle" class="at">SG: web-sg</text>
+<rect class="box" x="214" y="182" width="104" height="100" rx="8"/><text x="266" y="226" text-anchor="middle" class="b">web-2</text><text x="266" y="250" text-anchor="middle" class="m">10.0.1.11</text>
+<rect x="388" y="146" width="136" height="160" rx="14" style="fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.5"/><text x="456" y="168" text-anchor="middle" class="at">SG: app-sg</text>
+<rect class="box" x="404" y="182" width="104" height="100" rx="8"/><text x="456" y="226" text-anchor="middle" class="b">app</text><text x="456" y="250" text-anchor="middle" class="m">10.0.3.20</text>
+<rect x="538" y="146" width="136" height="160" rx="14" style="fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.5"/><text x="606" y="168" text-anchor="middle" class="at">SG: db-sg</text>
+<rect class="box" x="554" y="182" width="104" height="100" rx="8"/><text x="606" y="226" text-anchor="middle" class="b">db (RDS)</text><text x="606" y="250" text-anchor="middle" class="m">10.0.3.30</text>
+<path class="la" marker-end="url(#arwa)" d="M116 42 V180"/>
+<text x="126" y="96" class="at">① NACL</text><text x="126" y="142" class="at">② SG</text>
+<path class="la" marker-end="url(#arwa)" d="M318 232 H402"/><text x="360" y="224" text-anchor="middle" class="at">③</text>
+<path class="la" marker-end="url(#arwa)" d="M508 232 H552"/><text x="530" y="224" text-anchor="middle" class="at">④</text>
+<text x="30" y="352" class="m">③ web-2 → app ข้าม subnet: ผ่าน NACL ขาออกของ public → NACL ขาเข้าของ private → SG ของ app</text>
+<text x="30" y="374" class="m">④ app → db อยู่ subnet เดียวกัน: ผ่านแค่ SG ของ db ไม่ผ่าน NACL เลย</text>
+</svg>
+<figcaption>เส้นส้มหนาคือขอบ subnet ที่ NACL ตรวจ วงสีฟ้ารอบเครื่องคือ SG คำขอจากอินเทอร์เน็ตต้องผ่าน ① NACL ก่อนแล้วจึงถึง ② SG ส่วน traffic ระหว่างเครื่องใน subnet เดียวกันผ่านแค่ SG ภาพนี้เป็นตัวอย่างย่อที่จับ app กับ db ไว้ subnet เดียวกันเพื่อให้เห็นกรณี ④ จึงต่างจากภาพเว็บสามชั้นด้านล่างที่แยก subnet ให้ทุกชั้น</figcaption>
+</figure>
+<p>ความต่างที่สำคัญที่สุดคือเรื่องความจำ SG เป็นแบบ <b>stateful</b> หมายถึงจดการเชื่อมต่อที่ปล่อยเข้ามาไว้ เมื่อเครื่องส่งคำตอบกลับออกไป SG รู้ว่าเป็นคำตอบของคำขอเดิมจึงปล่อยออกเองโดยไม่ต้องมีกฎขาออก เขียนแค่กฎขาเข้าก็พอ (เหมือนกฎ ESTABLISHED,RELATED ของ iptables ซึ่งเป็น firewall ในตัว Linux ที่ใช้ในแล็บ) ส่วน NACL เป็นแบบ <b>stateless</b> ไม่จำอะไรเลย มองทุก packet เป็นของใหม่ คำตอบขากลับจึงต้องมีกฎขาออกเปิดไว้แยกต่างหาก</p>
+<p>แล้วกฎขาออกต้องเปิด port อะไร คำตอบไม่ใช่ 80 หรือ 443 เพราะคำตอบไม่ได้วิ่งกลับไปที่ port ของบริการ แต่วิ่งกลับไปที่ <b>port เลขสูงที่เครื่องผู้ใช้สุ่มขึ้นมา</b>ตอนเปิดการเชื่อมต่อ เรียกว่า <b>ephemeral port</b> (port ชั่วคราว) เครื่องผู้ใช้ต้องสุ่มเลขนี้เพราะเปิดหลายการเชื่อมต่อพร้อมกัน เช่น เปิดเว็บหลายแท็บ แต่ละเส้นจึงต้องมีเลขของตัวเองไม่ซ้ำกัน คำตอบจะได้กลับมาถูกเส้น</p>
+<p>ลองไล่ตัวอย่าง เครื่องผู้ใช้สุ่มได้ port 50123 แล้วส่งคำขอไปที่ port 443 ของ server ขาเข้านี้ NACL ต้องเปิด 443 พอ server ตอบกลับ คำตอบจะออกจาก port 443 ไปที่ port 50123 ของผู้ใช้ ขาออกนี้ NACL จึงต้องเปิด 50123 ด้วย และเพราะผู้ใช้คนถัดไปอาจสุ่มได้เลขอื่น เราจึงต้องเปิดไว้ทั้งช่วงของ port เลขสูง ถ้าลืมเปิด คำขอไปถึง server ได้ แต่คำตอบกลับไม่ถึงผู้ใช้</p>
+<p>เรื่องเดียวกันเกิดได้ในทิศกลับ ถ้าเครื่องของเราเป็นฝ่ายเริ่มเชื่อมต่อออกไปเอง เช่น ออกไปโหลดอัปเดต เครื่องเราจะเป็นฝ่ายสุ่ม port และคำตอบจะวิ่งกลับเข้ามาที่ port เลขสูงของเรา NACL ก็ต้องเปิดช่วงนั้นในขาเข้าด้วย หลักจำคือ <b>กับ NACL ทุกการเชื่อมต่อต้องคิดสองขาเสมอ</b> ขาไปเปิด port ของบริการ ขากลับเปิดช่วง ephemeral port</p>
+<figure>
+<svg viewBox="0 0 720 300" role="img" aria-label="SG จำการเชื่อมต่อ คำตอบผ่านเอง ส่วน NACL ต้องมีกฎขาออกให้ ephemeral port">
+<rect class="frame" x="10" y="10" width="345" height="280" rx="12"/>
+<rect class="frame" x="365" y="10" width="345" height="280" rx="12"/>
+<text x="182" y="36" text-anchor="middle" class="b">Security Group (stateful)</text>
+<text x="537" y="36" text-anchor="middle" class="b">Network ACL (stateless)</text>
+<rect class="box" x="22" y="62" width="88" height="140" rx="8"/><text x="66" y="128" text-anchor="middle" class="b">Client</text><text x="66" y="150" text-anchor="middle" class="m">203.0.113.5</text>
+<rect class="box" x="252" y="62" width="90" height="140" rx="8"/><text x="297" y="128" text-anchor="middle" class="b">EC2</text><text x="297" y="150" text-anchor="middle" class="m">10.0.1.10</text>
+<path d="M228 60 V206" style="stroke:var(--accent);stroke-width:5"/><text x="228" y="56" text-anchor="middle" class="at">SG</text>
+<path class="lg" marker-end="url(#arwg)" d="M110 96 H250"/><text x="168" y="88" text-anchor="middle" class="m">คำขอ → :443 ✓</text>
+<path class="lg" marker-end="url(#arwg)" d="M252 168 H112"/><text x="168" y="160" text-anchor="middle" class="m">คำตอบ → :49152 ✓</text>
+<rect class="ba" x="22" y="220" width="320" height="58" rx="8"/><text x="182" y="243" text-anchor="middle" class="m">SG จดไว้ใน state table ตอนคำขอเข้ามา</text><text x="182" y="266" text-anchor="middle" class="m">203.0.113.5:49152 ↔ :443 ESTABLISHED</text>
+<rect class="box" x="377" y="62" width="88" height="140" rx="8"/><text x="421" y="128" text-anchor="middle" class="b">Client</text><text x="421" y="150" text-anchor="middle" class="m">203.0.113.5</text>
+<rect class="box" x="607" y="62" width="90" height="140" rx="8"/><text x="652" y="128" text-anchor="middle" class="b">EC2</text><text x="652" y="150" text-anchor="middle" class="m">10.0.1.10</text>
+<path d="M583 60 V206" style="stroke:var(--orange);stroke-width:5"/><text x="583" y="56" text-anchor="middle" style="fill:var(--orange);font-weight:700">NACL</text>
+<path class="lg" marker-end="url(#arwg)" d="M465 90 H605"/><text x="523" y="82" text-anchor="middle" class="m">คำขอ :443 ✓</text>
+<path class="lr" marker-end="url(#arwr)" d="M607 128 H590"/><text x="576" y="134" text-anchor="end" class="rt">✗ ไม่มีกฎขาออก</text>
+<path class="lg" marker-end="url(#arwg)" d="M607 172 H467"/><text x="523" y="164" text-anchor="middle" class="m">มีกฎขาออกแล้ว ✓</text>
+<rect class="bo" x="377" y="220" width="320" height="58" rx="8"/><text x="537" y="243" text-anchor="middle" class="m">ตรวจทีละ packet ไม่จำอะไรเลย</text><text x="537" y="266" text-anchor="middle" class="m">ต้องเพิ่ม Outbound TCP 32768–65535 เอง</text>
+</svg>
+<figcaption>ซ้าย: SG จดการเชื่อมต่อไว้ คำตอบจึงออกไปได้เอง ขวา: NACL ไม่จำอะไร คำตอบจะออกได้ก็ต่อเมื่อมีกฎขาออกเปิด port ปลายทางของคำตอบไว้ ถ้าไม่มีก็โดนทิ้ง (เส้นแดง)</figcaption>
+</figure>
+<div class="tw"><table>
+<tr><th></th><th>Security Group</th><th>Network ACL</th></tr>
+<tr><td>ติดอยู่ที่</td><td>เครื่องแต่ละเครื่อง</td><td>ขอบ subnet</td></tr>
+<tr><td>จำการเชื่อมต่อไหม</td><td>จำ (stateful) คำตอบผ่านกลับได้เอง</td><td>ไม่จำ (stateless) ต้องเปิดขากลับเอง</td></tr>
+<tr><td>ชนิดของกฎ</td><td>มีแต่กฎอนุญาต</td><td>มีทั้งอนุญาตและห้าม</td></tr>
+<tr><td>วิธีอ่านกฎ</td><td>ดูทุกกฎรวมกัน ตรงข้อไหนก็ผ่าน</td><td>ไล่ตามเลขจากน้อยไปมาก กฎแรกที่ตรงชนะ</td></tr>
+<tr><td>ค่าเริ่มต้น</td><td>ปิดขาเข้าทั้งหมด เปิดขาออกทั้งหมด</td><td>NACL ที่มากับ VPC เปิดหมด (ที่สร้างใหม่เองจะปิดหมด)</td></tr>
+<tr><td>ระบุต้นทางได้แบบไหน</td><td>ช่วง IP หรืออ้างถึง SG อีกตัว</td><td>ช่วง IP เท่านั้น</td></tr>
+</table></div>
+<p>NACL ไล่กฎแบบนี้ เริ่มจากกฎเลขน้อยที่สุด เจอกฎแรกที่ตรงก็ทำตามทันทีแล้วหยุด ไม่ว่าจะเป็นอนุญาตหรือห้าม ถ้าไม่ตรงข้อไหนเลยจะไปเจอกฎท้ายสุด (<code>*</code>) ที่ห้ามทุกอย่าง ผลคือ<b>ถ้ากฎห้ามไปอยู่หลังกฎอนุญาตที่กว้างกว่า กฎห้ามนั้นไม่มีผลเลย</b> เพราะ packet ไปตรงกฎอนุญาตก่อน กฎที่เจาะจงจึงต้องได้เลขน้อยกว่ากฎที่กว้าง และควรเว้นเลขกฎเป็นช่วง เช่น 50, 80, 100 ไม่ใช่ 1, 2, 3 จะได้แทรกกฎเจาะจงไว้หน้ากฎกว้างได้ภายหลัง อีกข้อคือ NACL ไม่ตรวจ traffic ที่คุยกันภายใน subnet เดียวกัน เพราะไม่ได้ข้ามขอบ subnet</p>
+<figure><svg viewBox="0 0 720 320" role="img" aria-label="การไล่กฎของ NACL">
+<rect class="ba" x="20" y="40" width="170" height="80" rx="8"/><text x="105" y="66" text-anchor="middle" class="b">packet ขาเข้า</text><text x="105" y="88" text-anchor="middle" class="m">TCP port 22</text><text x="105" y="108" text-anchor="middle" class="m">จาก 203.0.113.9</text>
+<text x="232" y="28" class="m">เลขกฎ</text><text x="285" y="28" class="m">ผล</text><text x="350" y="28" class="m">เงื่อนไข</text><text x="545" y="28" class="m">ตรวจแล้วเป็นยังไง</text>
+<rect class="box" x="220" y="40" width="480" height="42" rx="6"/><text x="232" y="66">100</text><text x="285" y="66">ALLOW</text><text x="350" y="66">TCP 80 จากทุกที่</text><text x="545" y="66" class="m">ไม่ตรง → ดูข้อถัดไป</text>
+<rect class="bg" x="220" y="92" width="480" height="42" rx="6"/><text x="232" y="118" class="b">110</text><text x="285" y="118" class="b">ALLOW</text><text x="350" y="118" class="b">TCP 22 จากทุกที่</text><text x="545" y="118" class="gt">ตรง → อนุญาต หยุด</text>
+<rect class="bb" x="220" y="144" width="480" height="42" rx="6"/><text x="232" y="170">120</text><text x="285" y="170">DENY</text><text x="350" y="170">TCP 22 จาก 203.0.113.0/24</text><text x="545" y="170" class="rt">ไม่ถูกตรวจเลย</text>
+<rect class="bb" x="220" y="196" width="480" height="42" rx="6"/><text x="232" y="222">*</text><text x="285" y="222">DENY</text><text x="350" y="222">ทุกอย่าง</text><text x="545" y="222" class="rt">ไม่ถูกตรวจเลย</text>
+<line class="la" x1="190" y1="61" x2="216" y2="61" marker-end="url(#arwa)"/>
+<line class="la" x1="206" y1="61" x2="206" y2="113"/><line class="la" x1="206" y1="113" x2="216" y2="113" marker-end="url(#arwa)"/>
+<text x="20" y="272" class="m">กฎ 120 ตั้งใจบล็อกช่วง 203.0.113.0/24 แต่ไม่มีผล เพราะกฎ 110 ซึ่งเลขน้อยกว่าและกว้างกว่าตรงก่อน</text>
+<text x="20" y="296" class="gt">ถ้าอยากบล็อกช่วงนี้จริง ต้องให้กฎ DENY มีเลขน้อยกว่า 110 เช่น 105</text>
+</svg>
+<figcaption>NACL ไล่กฎจากเลขน้อยไปมาก เจอข้อแรกที่ตรงก็ทำตามแล้วหยุด กฎที่อยู่ถัดลงไปไม่ถูกตรวจเลย ต่างจาก SG ที่ดูทุกกฎรวมกัน</figcaption>
+</figure>
+<p>ข้อดีของ SG ที่ NACL ไม่มีคือ <b>อ้างต้นทางเป็น SG อีกตัวได้</b> เช่น ให้ฐานข้อมูลรับเฉพาะจากเครื่องที่อยู่ใน SG ของกลุ่ม app แทนการเขียน IP ตรง ๆ ถ้าเครื่อง app เปลี่ยน IP หรือ Auto Scaling (ระบบเพิ่มลดเครื่องอัตโนมัติ) เพิ่มเครื่องใหม่ กฎก็ยังใช้ได้โดยไม่ต้องแก้ เพราะกฎดูว่าเครื่องอยู่ใน SG ไหน ไม่ได้ดู IP</p>
+<p>ทั้งสองด่านทำงานร่วมกันชัดที่สุดในเว็บแบบ three-tier ชั้นหน้าบ้านคือ ALB (Application Load Balancer ตัวรับคำขอแล้วกระจายไปยังเครื่อง app หลายเครื่อง) อยู่ใน public subnet ชั้นกลางคือเครื่อง app และชั้นในสุดคือฐานข้อมูล สองชั้นหลังอยู่ใน private subnet ฐานข้อมูลจึงไม่มีทางรับคำขอจากอินเทอร์เน็ตตรง ๆ ทุกชั้นมีทั้ง NACL ที่ตรวจจากช่วง IP ของ subnet ต้นทาง และ SG ที่ตรวจจาก SG ของต้นทาง คำขอต้องผ่านทั้งสองด่านในทุกชั้นที่วิ่งผ่าน (ในภาพ 0.0.0.0/0 หมายถึงทุก IP บนอินเทอร์เน็ต)</p>
+<figure>
+<svg viewBox="0 0 720 432" role="img" aria-label="three-tier ที่มี NACL ที่ขอบ subnet และ SG รอบ ALB App และ RDS">
+<rect class="bo" x="280" y="2" width="160" height="34" rx="17"/><text x="360" y="25" text-anchor="middle" class="b">ผู้ใช้ (Internet)</text>
+<path class="ln" marker-end="url(#arw)" d="M360 36 V54"/>
+<rect class="frame" x="10" y="72" width="700" height="352" rx="12"/><text x="24" y="94" class="b">VPC 10.0.0.0/16</text>
+<rect class="ba" x="280" y="56" width="160" height="34" rx="8"/><text x="360" y="79" text-anchor="middle" class="b">Internet Gateway</text>
+<rect x="30" y="104" width="660" height="92" rx="10" style="fill:none;stroke:var(--orange);stroke-width:4"/>
+<text x="48" y="130" class="b">Public subnet 10.0.1.0/24</text><text x="48" y="154" style="fill:var(--orange);font-weight:700">NACL: public-nacl</text><text x="48" y="178" class="m">In 80, 443 · Out 32768–65535</text>
+<rect x="420" y="116" width="252" height="68" rx="12" style="fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.5"/><text x="546" y="142" text-anchor="middle" class="b">ALB</text><text x="546" y="166" text-anchor="middle" class="m">alb-sg: In 80, 443 ← 0.0.0.0/0</text>
+<rect x="30" y="220" width="660" height="92" rx="10" style="fill:none;stroke:var(--orange);stroke-width:4"/>
+<text x="48" y="246" class="b">Private subnet A 10.0.3.0/24</text><text x="48" y="270" style="fill:var(--orange);font-weight:700">NACL: app-nacl</text><text x="48" y="294" class="m">In 8080 ← 10.0.1.0/24</text>
+<rect x="420" y="232" width="252" height="68" rx="12" style="fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.5"/><text x="546" y="258" text-anchor="middle" class="b">App (EC2)</text><text x="546" y="282" text-anchor="middle" class="m">app-sg: In 8080 ← alb-sg</text>
+<rect x="30" y="336" width="660" height="78" rx="10" style="fill:none;stroke:var(--orange);stroke-width:4"/>
+<text x="48" y="360" class="b">Private subnet B 10.0.4.0/24</text><text x="48" y="382" style="fill:var(--orange);font-weight:700">NACL: db-nacl</text><text x="48" y="404" class="m">In 3306 ← 10.0.3.0/24</text>
+<rect x="420" y="344" width="252" height="62" rx="12" style="fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.5"/><text x="546" y="368" text-anchor="middle" class="b">RDS (ฐานข้อมูล)</text><text x="546" y="390" text-anchor="middle" class="m">db-sg: In 3306 ← app-sg</text>
+<path class="la" marker-end="url(#arwa)" d="M410 90 L500 114"/><text x="464" y="96" class="at">1</text>
+<path class="la" marker-end="url(#arwa)" d="M546 184 V230"/><text x="556" y="212" class="at">2</text>
+<path class="la" marker-end="url(#arwa)" d="M546 300 V342"/><text x="556" y="326" class="at">3</text>
+</svg>
+<figcaption>แต่ละชั้นมีสองด่าน NACL (ตัวอักษรสีส้ม) ตรวจที่ขอบ subnet โดยดูจากช่วง IP ส่วน SG (กรอบสีฟ้า) ตรวจที่ตัวเครื่องโดยดูจาก SG ของต้นทาง เลข 1–3 คือลำดับของคำขอ</figcaption>
+</figure>
+
+<h3 id="s3">3. IAM: ใครทำอะไรได้บ้าง</h3>
+<p><b>IAM (Identity and Access Management)</b> คือระบบที่ตัดสินว่าใครทำอะไรกับทรัพยากรชิ้นไหนได้บ้าง ทุกอย่างที่ทำบน AWS ไม่ว่าจะกดปุ่มในหน้าเว็บหรือรันคำสั่ง สุดท้ายแล้วคือการเรียก API ของ AWS หนึ่งครั้ง (API หรือ Application Programming Interface คือช่องทางที่โปรแกรมใช้สั่งงานบริการ) และทุกครั้ง IAM จะดูสามส่วน คือ <b>Principal</b> (ใครเป็นคนขอ), <b>Policy</b> (เอกสารที่เขียนว่าทำอะไรได้หรือไม่ได้) และ <b>Resource</b> (ทำกับของชิ้นไหน)</p>
+<p>ทรัพยากรแต่ละชิ้นระบุด้วยชื่อเต็มที่ไม่ซ้ำกันเรียกว่า <b>ARN</b> (Amazon Resource Name) เช่น <code>arn:aws:s3:::my-app-bucket</code> หมายถึง bucket ชื่อ my-app-bucket ในบริการ S3</p>
+<p>ตัวตนมีสามแบบ <b>User</b> คือบัญชีของคนหรือโปรแกรม มีรหัสผ่านหรือ access key (คู่รหัสที่โปรแกรมใช้เรียก API แทนการ login) ที่ใช้ได้ถาวรจนกว่าจะลบ <b>Group</b> คือกลุ่มของ user มีไว้ผูก policy ทีเดียวให้ทุกคนในกลุ่ม <b>Role</b> คือตัวตนที่ไม่มีรหัสถาวร ผู้ที่ได้รับอนุญาตจะ "สวม" role ชั่วคราวแล้วได้ key ที่หมดอายุเอง ต่อให้ key หลุดก็ใช้ได้ไม่นาน role จึงเหมาะกับเครื่องหรือโปรแกรมที่ต้องเรียกบริการอื่น การให้คนจากบัญชี AWS อื่นเข้ามาใช้ และการ login ผ่านระบบขององค์กร</p>
+<p>แนวปฏิบัติที่ดีคือไม่ใช้บัญชี root (เจ้าของที่มีสิทธิ์ทุกอย่าง) ทำงานประจำวัน ไม่ฝัง access key ไว้ในโค้ด เปิด MFA ให้ทุกคน ผูก policy ผ่าน group แทนการผูกกับ user ทีละคน และให้ EC2 (บริการเช่า VM ของ AWS) หรือ Lambda (บริการรันโค้ดโดยไม่ต้องดูแลเครื่อง) ใช้ role แทนการเก็บ access key ไว้ในเครื่อง</p>
+<p>Policy เขียนเป็น JSON (รูปแบบข้อความที่เก็บข้อมูลเป็นคู่ของชื่อกับค่า เช่น <code>"Effect": "Allow"</code>) ข้อสอบอาจยก policy มาให้อ่าน จึงต้องอ่านให้ออก ดูตัวอย่างจากสไลด์ (ตัดบางบรรทัดออก)</p>
+<pre><code>"Statement": [
+  {
+    "Effect": "Allow",
+    "Action": ["s3:GetObject", "s3:ListBucket"],
+    "Resource": ["arn:aws:s3:::my-app-bucket", "arn:aws:s3:::my-app-bucket/*"]
+  },
+  {
+    "Effect": "Deny",
+    "Action": "rds:*",
+    "Resource": "arn:aws:rds:*:*:db:prod-*"
+  }
+]</code></pre>
+<p>แต่ละกฎมี <b>Effect</b> (Allow หรือ Deny), <b>Action</b> (ทำอะไร เขียนเป็น บริการ:การกระทำ), <b>Resource</b> (มีผลกับอะไร) และอาจมี Condition (เงื่อนไขเพิ่ม เช่น ต้อง login ด้วย MFA) กฎแรกอนุญาตให้ดูรายชื่อไฟล์และอ่านไฟล์ใน bucket ชื่อ my-app-bucket ที่ Resource มีสองตัวเพราะการดูรายชื่อเป็นการกระทำกับตัว bucket ส่วนการอ่านไฟล์เป็นการกระทำกับไฟล์ข้างใน (<code>bucket/*</code>) กฎที่สองห้ามทุกการกระทำกับฐานข้อมูลที่ชื่อขึ้นต้นด้วย prod- (rds คือบริการฐานข้อมูลของ AWS และ * แปลว่าอะไรก็ได้)</p>
+<p>IAM ตัดสินด้วยสามขั้น ซึ่งเป็นเรื่องที่ออกสอบบ่อยที่สุดของหัวข้อนี้ ขั้นแรก ถ้ามี Deny ที่ตรงกับคำขอ ห้ามทันทีไม่ว่าจะมี Allow ด้วยหรือไม่ เรียกว่า <b>explicit deny</b> ขั้นที่สอง ถ้าไม่มี Deny แต่มี Allow ที่ตรง จึงอนุญาต ขั้นที่สาม ถ้าไม่มีกฎไหนพูดถึงคำขอนี้เลยก็ห้าม เรียกว่า <b>implicit deny</b> ผลที่ตามมาคือ<b>ลำดับการเขียนกฎไม่มีผล</b> (ต่างจาก NACL ที่ไล่ตามเลข) และ user ที่เพิ่งสร้างยังไม่มี policy จะทำอะไรไม่ได้สักอย่าง</p>
+<figure>
+<svg viewBox="0 0 720 356" role="img" aria-label="Principal ผูกกับ Policy ที่ชี้ไปยัง Resource และขั้นตอนตัดสินของ IAM">
+<rect class="ba" x="20" y="20" width="200" height="130" rx="10"/>
+<text x="120" y="46" text-anchor="middle" class="b">ใคร (Principal)</text>
+<text x="120" y="78" text-anchor="middle">User</text><text x="120" y="104" text-anchor="middle">Group</text><text x="120" y="130" text-anchor="middle">Role / Service</text>
+<rect class="bo" x="260" y="20" width="200" height="130" rx="10"/>
+<text x="360" y="46" text-anchor="middle" class="b">ทำอะไรได้ (Policy)</text>
+<text x="360" y="80" text-anchor="middle" class="m">"Effect": "Allow"</text>
+<text x="360" y="104" text-anchor="middle" class="m">"Action": "s3:GetObject"</text>
+<text x="360" y="128" text-anchor="middle" class="m">เอกสาร JSON</text>
+<rect class="bg" x="500" y="20" width="200" height="130" rx="10"/>
+<text x="600" y="46" text-anchor="middle" class="b">กับอะไร (Resource)</text>
+<text x="600" y="88" text-anchor="middle" class="m">arn:aws:s3:::my-bucket/*</text>
+<text x="600" y="114" text-anchor="middle" class="m">ระบุด้วย ARN</text>
+<path class="ln" marker-end="url(#arw)" d="M220 85 H258"/>
+<path class="ln" marker-end="url(#arw)" d="M460 85 H498"/>
+<text x="20" y="186" class="b">IAM ตัดสินทุกคำขอแบบนี้</text>
+<rect class="box" x="20" y="200" width="130" height="50" rx="8"/><text x="85" y="230" text-anchor="middle">คำขอ API</text>
+<rect class="box" x="180" y="200" width="180" height="50" rx="8"/><text x="270" y="230" text-anchor="middle">① มี Deny ที่ตรงไหม</text>
+<rect class="box" x="400" y="200" width="180" height="50" rx="8"/><text x="490" y="230" text-anchor="middle">② มี Allow ที่ตรงไหม</text>
+<rect class="bb" x="610" y="196" width="100" height="58" rx="8"/><text x="660" y="221" text-anchor="middle" class="rt">DENY</text><text x="660" y="243" text-anchor="middle" class="m">implicit</text>
+<rect class="bb" x="180" y="290" width="180" height="56" rx="8"/><text x="270" y="314" text-anchor="middle" class="rt">DENY ทันที</text><text x="270" y="336" text-anchor="middle" class="m">explicit deny</text>
+<rect class="bg" x="400" y="290" width="180" height="56" rx="8"/><text x="490" y="314" text-anchor="middle" class="gt">ALLOW</text><text x="490" y="336" text-anchor="middle" class="m">อนุญาต ไม่มีใครห้าม</text>
+<path class="ln" marker-end="url(#arw)" d="M150 225 H178"/>
+<path class="ln" marker-end="url(#arw)" d="M360 225 H398"/><text x="379" y="216" text-anchor="middle" class="m">ไม่</text>
+<path class="ln" marker-end="url(#arw)" d="M580 225 H608"/><text x="594" y="216" text-anchor="middle" class="m">ไม่</text>
+<path class="ln" marker-end="url(#arw)" d="M270 250 V288"/><text x="282" y="274" class="m">ใช่</text>
+<path class="ln" marker-end="url(#arw)" d="M490 250 V288"/><text x="502" y="274" class="m">ใช่</text>
+</svg>
+<figcaption>บน: principal ได้สิทธิ์จาก policy ที่ผูกไว้ และ policy ชี้ไปที่ resource ล่าง: ทุกคำขอถูกถามเรื่อง Deny ก่อนเสมอ แล้วจึงดู Allow ถ้าไม่มีทั้งคู่ก็ห้าม</figcaption>
+</figure>
+<p><b>Least Privilege</b> คือให้สิทธิ์เท่าที่จำเป็นจริง ๆ เช่น แทนที่จะให้ policy สำเร็จรูป AmazonS3FullAccess ซึ่งอ่าน เขียน และลบได้ทุก bucket ในบัญชี ก็เขียน policy เองว่าอ่านได้แค่ my-app-bucket/images/* และเขียนได้แค่ my-app-bucket/logs/* ที่เหลือทั้งหมดถูก implicit deny ไปเอง วิธีหาสิทธิ์ขั้นต่ำคือเริ่มจากไม่ให้อะไรเลย ลองใช้งาน ติด error AccessDenied (ไม่มีสิทธิ์) ตรงไหนก็เพิ่มเฉพาะสิทธิ์นั้น วนจนใช้งานได้ครบ ห้ามใช้ <code>*:*</code> ซึ่งแปลว่าทำได้ทุกอย่างกับทุกอย่าง</p>
+<p>ฝั่ง Azure แยกเป็นสองส่วน <b>Entra ID</b> (ชื่อเดิม Azure AD) เก็บว่าใครเป็นใคร ส่วน <b>RBAC</b> (Role-Based Access Control การให้สิทธิ์ตามบทบาท) ให้สิทธิ์โดยจับคู่สามอย่าง คือ ใคร มีบทบาทอะไร และมีผลในขอบเขตไหน บทบาทสำเร็จรูปที่ใช้บ่อยคือ Owner (ทำได้ทุกอย่างรวมถึงแจกสิทธิ์), Contributor (แก้ไขได้แต่แจกสิทธิ์ไม่ได้) และ Reader (ดูได้อย่างเดียว) ซึ่งเอาไปผูกได้ในขอบเขตที่ซ้อนกันจากกว้างไปแคบสี่ระดับ คือ management group, subscription, resource group (กลุ่มทรัพยากร) และทรัพยากรชิ้นเดียว สิทธิ์ที่ให้ในขอบเขตกว้างจะมีผลกับทุกอย่างข้างใต้ เช่น ให้สิทธิ์อ่านที่ระดับกลุ่มทรัพยากร ก็อ่านได้ทุกชิ้นในกลุ่มนั้น ระวังว่าคำว่า role ของสองเจ้าไม่ใช่ของชนิดเดียวกัน role ของ AWS เป็นตัวตนที่สวมได้ ส่วน role ของ Azure เป็นชุดสิทธิ์ที่เอาไปผูกกับตัวตน</p>
+
+<h3 id="s4">4. เชื่อมเครือข่ายบริษัทเข้ากับ Cloud: VPN และ Direct Connect</h3>
+<p>ถ้าอยากให้เครื่องในออฟฟิศคุยกับเครื่องใน VPC เหมือนอยู่เครือข่ายเดียวกัน มีสองทาง ทางแรกคือ <b>Site-to-Site VPN</b> (Virtual Private Network เครือข่ายส่วนตัวเสมือน) สร้าง "อุโมงค์" ที่เข้ารหัสด้วย IPsec (IP Security มาตรฐานการเข้ารหัส packet ทุกตัวที่วิ่งผ่านอุโมงค์) ให้วิ่งผ่านอินเทอร์เน็ตธรรมดา คนที่ดักข้อมูลระหว่างทางก็อ่านไม่ออก อุโมงค์มีปลายสองฝั่ง ฝั่งบริษัทคือ <b>Customer Gateway (CGW)</b> หมายถึงอุปกรณ์ VPN หรือ router ของบริษัทที่มี public IP ฝั่ง VPC คือ <b>Virtual Private Gateway (VGW)</b> และ AWS ให้อุโมงค์สองเส้นเสมอ ถ้าเส้นหนึ่งล่ม อีกเส้นยังใช้ได้ นอกจากนี้ route table ของ VPC ต้องมีเส้นทางที่ชี้ไปยังเครือข่ายบริษัทผ่าน VGW ด้วย ไม่อย่างนั้น packet จะไม่รู้ว่าต้องเข้าอุโมงค์ (ดูเรื่อง route table ในช่วงที่ 2)</p>
+<p>ทางที่สองคือ <b>Direct Connect</b> (เรียกย่อว่า DX ส่วน Azure เรียกว่า <b>ExpressRoute</b>) ซึ่งเดินสายไฟเบอร์เฉพาะของบริษัทไปต่อกับเครือข่ายส่วนตัวของผู้ให้บริการ ข้อมูลจึงวิ่งไปถึง VPC โดยไม่แตะอินเทอร์เน็ตเลย</p>
+<div class="tw"><table>
+<tr><th></th><th>Site-to-Site VPN</th><th>Direct Connect / ExpressRoute</th></tr>
+<tr><td>วิ่งผ่าน</td><td>อินเทอร์เน็ตสาธารณะ (เข้ารหัส)</td><td>สายไฟเบอร์ส่วนตัว</td></tr>
+<tr><td>แบนด์วิดท์ (ปริมาณข้อมูลต่อวินาที)</td><td>ต่ำกว่า</td><td>สูงกว่ามาก</td></tr>
+<tr><td>ความหน่วง (latency)</td><td>ไม่แน่นอน แกว่งเพราะใช้เน็ตร่วมกับคนอื่น</td><td>ต่ำและคงที่</td></tr>
+<tr><td>สัญญารับประกันคุณภาพ (SLA, Service Level Agreement)</td><td>ไม่มี</td><td>มี</td></tr>
+<tr><td>เวลาติดตั้ง</td><td>ไม่กี่นาที</td><td>หลายสัปดาห์ เพราะต้องเดินสายจริง</td></tr>
+<tr><td>ราคา</td><td>ถูก</td><td>แพงกว่ามาก</td></tr>
+<tr><td>เข้ารหัสไหม</td><td>เข้ารหัส</td><td>ไม่เข้ารหัสให้เอง</td></tr>
+</table></div>
+<p>ทางเลือกที่ดีที่สุดสำหรับระบบจริงคือใช้ทั้งสองทาง ให้ Direct Connect เป็นเส้นหลักเพราะเร็วและนิ่ง ให้ VPN เป็นเส้นสำรองเพราะถูกและตั้งทิ้งไว้ได้ แล้วให้ BGP (กติกาที่ router ใช้บอกกันว่าไปทางไหนได้ จากช่วงที่ 2) สลับไปเส้นสำรองเองเมื่อเส้นหลักขาด กับดักที่ต้องจำคือ <b>Direct Connect ไม่ได้เข้ารหัสให้</b> แม้จะเป็นสายส่วนตัว ถ้าต้องการความลับต้องเข้ารหัสเพิ่มเอง</p>
+<figure>
+<svg viewBox="0 0 720 330" role="img" aria-label="VPN วิ่งผ่านอินเทอร์เน็ต ส่วน Direct Connect วิ่งบนสายส่วนตัว ทั้งสองไปถึง VGW ของ VPC">
+<rect class="frame" x="10" y="20" width="200" height="290" rx="12"/><text x="110" y="44" text-anchor="middle" class="b">On-premise</text><text x="110" y="64" text-anchor="middle" class="m">192.168.0.0/16</text>
+<rect class="box" x="26" y="86" width="168" height="60" rx="8"/><text x="110" y="112" text-anchor="middle" class="b">Customer Gateway</text><text x="110" y="134" text-anchor="middle" class="m">อุปกรณ์ VPN มี public IP</text>
+<rect class="box" x="26" y="214" width="168" height="60" rx="8"/><text x="110" y="240" text-anchor="middle" class="b">Router ของบริษัท</text><text x="110" y="262" text-anchor="middle" class="m">ต่อสาย Direct Connect</text>
+<rect class="frame" x="510" y="20" width="200" height="290" rx="12"/><text x="610" y="44" text-anchor="middle" class="b">AWS VPC</text><text x="610" y="64" text-anchor="middle" class="m">10.0.0.0/16</text>
+<rect class="ba" x="526" y="140" width="168" height="60" rx="8"/><text x="610" y="166" text-anchor="middle" class="b">VGW</text><text x="610" y="188" text-anchor="middle" class="m">Virtual Private Gateway</text>
+<rect class="box" x="526" y="238" width="168" height="54" rx="8"/><text x="610" y="270" text-anchor="middle" class="b">EC2 10.0.3.55</text>
+<path class="ln" marker-end="url(#arw)" d="M610 200 V236"/>
+<ellipse class="box" cx="360" cy="112" rx="100" ry="40"/><text x="360" y="100" text-anchor="middle" class="m">อินเทอร์เน็ตสาธารณะ</text>
+<path class="la" style="stroke-width:3" marker-end="url(#arwa)" d="M194 120 H440 L524 160"/>
+<text x="360" y="58" text-anchor="middle" class="at">VPN: อุโมงค์ IPsec เข้ารหัส · ตัวสำรอง</text>
+<rect class="bg" x="296" y="216" width="128" height="56" rx="8"/><text x="360" y="240" text-anchor="middle" class="b">DX location</text><text x="360" y="262" text-anchor="middle" class="m">อาคารจุดต่อสาย</text>
+<path class="lg" style="stroke-width:3" d="M194 244 H294"/>
+<path class="lg" style="stroke-width:3" marker-end="url(#arwg)" d="M424 244 L524 188"/>
+<text x="360" y="300" text-anchor="middle" class="gt">Direct Connect: ไฟเบอร์ส่วนตัว · ตัวหลัก</text>
+<text x="360" y="188" text-anchor="middle" class="m">BGP ใช้เส้นล่างก่อน ถ้าล่มสลับไปเส้นบน</text>
+</svg>
+<figcaption>เส้นบน (ฟ้า): VPN วิ่งเป็นอุโมงค์เข้ารหัสผ่านอินเทอร์เน็ต เส้นล่าง (เขียว): Direct Connect วิ่งบนสายไฟเบอร์ส่วนตัว ระบบ hybrid ใช้เส้นล่างเป็นตัวหลักและเส้นบนเป็นตัวสำรอง</figcaption>
+</figure>
+
+<h3 id="s5">5. Defense in Depth: ป้องกันหลายชั้น</h3>
+<p>ไม่มีด่านไหนกันได้ร้อยเปอร์เซ็นต์ firewall อาจตั้งพลาด รหัสผ่านอาจหลุด โค้ดอาจมีช่องโหว่ <b>Defense in Depth</b> จึงวางด่านหลายชั้นที่ทำงานแยกจากกัน ถ้าชั้นหนึ่งพลาด ชั้นถัดไปยังรับไว้ได้ เหมือนบ้านที่มีทั้งรั้ว ประตูล็อก กล้องวงจรปิด และตู้เซฟ สไลด์แบ่งไว้เจ็ดชั้น</p>
+<div class="tw"><table>
+<tr><th>ชั้น</th><th>ปกป้องอะไร</th><th>ตัวอย่าง</th></tr>
+<tr><td>1 Perimeter</td><td>ขอบของเครือข่าย</td><td>NACL, ระบบกัน DDoS (Distributed Denial of Service การระดมยิงคำขอจากหลายเครื่องพร้อมกันให้ระบบล่ม)</td></tr>
+<tr><td>2 Resource</td><td>ตัวเครื่องและบริการแต่ละตัว</td><td>Security Group, WAF (Web Application Firewall ตัวอ่านเนื้อหาคำขอ HTTP เพื่อกรองคำขอที่โจมตีเว็บ)</td></tr>
+<tr><td>3 Identity</td><td>ตัวตนและสิทธิ์</td><td>IAM, MFA, SSO (Single Sign-On ล็อกอินครั้งเดียวใช้ได้หลายระบบ)</td></tr>
+<tr><td>4 Data</td><td>ต่อให้ข้อมูลหลุดก็อ่านไม่ออก</td><td>เข้ารหัสข้อมูลที่เก็บด้วยกุญแจจาก KMS (Key Management Service บริการจัดการกุญแจเข้ารหัส) และเข้ารหัสระหว่างส่งด้วย TLS (Transport Layer Security โปรโตคอลที่ทำให้ https ปลอดภัย)</td></tr>
+<tr><td>5 Application</td><td>โค้ดของเราเอง</td><td>ตรวจข้อมูลที่ผู้ใช้ส่งเข้ามา และใช้ parameterized query (ส่งค่าที่ผู้ใช้กรอกแยกจากตัวคำสั่ง) กันการแอบใส่คำสั่งฐานข้อมูลมาในช่องกรอก (SQL injection)</td></tr>
+<tr><td>6 Monitoring</td><td>รู้ตัวว่ากำลังโดนโจมตี</td><td>CloudTrail บันทึกทุกการเรียก API, GuardDuty ตรวจจับพฤติกรรมน่าสงสัย, Security Hub รวมผลตรวจไว้ที่เดียว</td></tr>
+<tr><td>7 Incident</td><td>รับมือและกู้คืนเมื่อโดนแล้ว</td><td>ตอบสนองอัตโนมัติ, backup</td></tr>
+</table></div>
+<p>ระวังเรื่อง WAF เพราะสไลด์วางไว้ไม่ตรงกันสามที่ คือชั้น Resource ในรายการเจ็ดชั้น ชั้น Perimeter ในภาพที่มีผู้โจมตี และแถว Application ในตารางรายการตรวจ ที่เป็นแบบนี้เพราะ WAF ตั้งอยู่หน้าเว็บเหมือนด่านขอบนอก แต่สิ่งที่ตรวจคือเนื้อหาคำขอ HTTP ซึ่งเป็นเรื่องของแอป ถ้าข้อสอบถามตามรายการเจ็ดชั้นให้ตอบชั้น Resource คู่กับ SG และถ้าถามว่า WAF กันอะไร ให้ตอบว่ากันการโจมตีระดับแอป เช่น SQL injection</p>
+<figure>
+<svg viewBox="0 0 720 440" role="img" aria-label="ผู้โจมตีต้องผ่านเจ็ดชั้นก่อนถึงข้อมูล">
+<text x="50" y="30" text-anchor="middle" class="rt">ผู้โจมตี</text>
+<path class="lr" marker-end="url(#arwr)" d="M50 42 V408 H96"/>
+<rect class="ba" x="100" y="50" width="600" height="40" rx="8"/><text x="116" y="76" class="b">1 Perimeter</text><text x="250" y="76" class="m">NACL, DDoS Protection</text><text x="688" y="76" text-anchor="end">เข้าเครือข่ายได้ไหม?</text>
+<rect class="ba" x="100" y="96" width="600" height="40" rx="8"/><text x="116" y="122" class="b">2 Resource</text><text x="250" y="122" class="m">Security Group, WAF</text><text x="688" y="122" text-anchor="end">เข้าถึงเครื่องได้ไหม?</text>
+<rect class="ba" x="100" y="142" width="600" height="40" rx="8"/><text x="116" y="168" class="b">3 Identity</text><text x="250" y="168" class="m">IAM, MFA, SSO</text><text x="688" y="168" text-anchor="end">เป็นตัวจริงไหม?</text>
+<rect class="ba" x="100" y="188" width="600" height="40" rx="8"/><text x="116" y="214" class="b">4 Data</text><text x="250" y="214" class="m">KMS (at rest), TLS (in transit)</text><text x="688" y="214" text-anchor="end">ได้ข้อมูลไปแล้วอ่านออกไหม?</text>
+<rect class="ba" x="100" y="234" width="600" height="40" rx="8"/><text x="116" y="260" class="b">5 Application</text><text x="250" y="260" class="m">validation, parameterized query</text><text x="688" y="260" text-anchor="end">เจาะช่องโหว่ในแอปได้ไหม?</text>
+<rect class="bo" x="100" y="280" width="600" height="40" rx="8"/><text x="116" y="306" class="b">6 Monitoring</text><text x="250" y="306" class="m">GuardDuty, CloudTrail, Security Hub</text><text x="688" y="306" text-anchor="end">เราเห็นการโจมตีไหม?</text>
+<rect class="bo" x="100" y="326" width="600" height="40" rx="8"/><text x="116" y="352" class="b">7 Incident</text><text x="250" y="352" class="m">auto response, backup</text><text x="688" y="352" text-anchor="end">กู้คืนระบบได้ไหม?</text>
+<rect class="bg" x="100" y="388" width="600" height="40" rx="8"/><text x="400" y="414" text-anchor="middle" class="b">ข้อมูลและระบบของเรา</text>
+</svg>
+<figcaption>เส้นแดงคือเส้นทางของผู้โจมตีจากชั้นนอกเข้าหาข้อมูล ชั้นสีฟ้าและสีส้มต่างกันตามที่อธิบายด้านล่าง</figcaption>
+</figure>
+<p>สังเกตว่าห้าชั้นแรก (สีฟ้า) มีไว้<b>กัน</b> ส่วนสองชั้นหลัง (สีส้ม) มีไว้<b>รู้ตัวและกู้คืน</b> ถ้าทำแค่ห้าชั้นแรก วันที่ถูกเจาะสำเร็จจะไม่มีใครรู้และไม่มีแผนรับมือ</p>
+
+<h3 id="s6">6. หลักการออกแบบด้านความปลอดภัย 8 ข้อ</h3>
+<p>เครื่องมือเปลี่ยนไปตามยุค แต่หลักคิดเบื้องหลังแทบไม่เปลี่ยน และเพราะโจทย์มักเล่าเป็นสถานการณ์ จึงควรเข้าใจความหมายมากกว่าจำชื่อ</p>
+<div class="tw"><table>
+<tr><th>หลักการ</th><th>ความหมาย</th><th>ตัวอย่าง</th></tr>
+<tr><td>Least Privilege</td><td>ให้สิทธิ์เท่าที่จำเป็น ถ้าโดนเจาะ ความเสียหายจำกัดอยู่แค่สิทธิ์นั้น</td><td>role ของแอปอ่านได้แค่ bucket เดียว</td></tr>
+<tr><td>Defense in Depth</td><td>ป้องกันหลายชั้นที่แยกจากกัน</td><td>NACL + SG + IAM + เข้ารหัส + monitoring</td></tr>
+<tr><td>Fail-Safe Defaults</td><td>ค่าเริ่มต้นต้องเป็นการห้าม แล้วเปิดเฉพาะที่ระบุ</td><td>SG ปิดขาเข้าทั้งหมดตั้งแต่สร้าง</td></tr>
+<tr><td>Separation of Duties</td><td>ไม่ให้ใครคนเดียวมีอำนาจครบทุกขั้น</td><td>นักพัฒนา deploy (นำโค้ดขึ้นระบบจริง) ได้ แต่แก้สิทธิ์ต้องให้ทีม security อนุมัติ</td></tr>
+<tr><td>Economy of Mechanism</td><td>ออกแบบให้เรียบง่าย ยิ่งซับซ้อนยิ่งมีช่องโหว่</td><td>หนึ่ง SG ต่อหนึ่งชั้นของระบบ ตั้งชื่อให้รู้ทันทีว่าใช้กับอะไร</td></tr>
+<tr><td>Complete Mediation</td><td>ตรวจสิทธิ์ทุกครั้งที่เข้าถึง ไม่จำผลครั้งก่อน สิทธิ์ที่ถอนจึงมีผลทันที</td><td>IAM ประเมิน policy ใหม่ทุกครั้งที่เรียก API</td></tr>
+<tr><td>Open Design</td><td>ปลอดภัยแม้คนอื่นรู้วิธีออกแบบ ความลับอยู่ที่กุญแจ ไม่ใช่การปิดบังวิธีทำ</td><td>อัลกอริทึมเข้ารหัสเป็นมาตรฐานเปิด แต่กุญแจเป็นความลับ</td></tr>
+<tr><td>Psychological Acceptability</td><td>มาตรการต้องไม่ยุ่งยากจนคนหาทางเลี่ยง</td><td>ใช้ SSO แทนการให้จำรหัสห้าชุดจนคนจดรหัสแปะจอ</td></tr>
+</table></div>
+<p>คู่ที่สับสนบ่อยคือ Least Privilege กับ Fail-Safe Defaults ข้อแรกพูดถึง<b>ปริมาณ</b>สิทธิ์ที่ให้ ข้อหลังพูดถึง<b>จุดเริ่มต้น</b> คืออะไรที่ไม่ได้ระบุไว้ให้ถือว่าห้ามก่อน ส่วน Open Design บอกว่าการซ่อนวิธีทำงานไม่ใช่ความปลอดภัยที่แท้จริง เพราะสักวันก็รั่วได้ ความปลอดภัยจึงต้องฝากไว้กับกุญแจ ซึ่งเปลี่ยนใหม่ได้ง่ายเมื่อหลุด</p>
+
+<h3 id="s7">7. โยงกลับไปที่แล็บ iptables</h3>
+<p>สิ่งที่ทำในแล็บ Build VPC ตรงกับหลักการในช่วงนี้หลายข้อ การตั้ง policy ของ INPUT (ชุดกฎขาเข้า) เป็น DROP (ทิ้ง packet ที่ไม่ตรงกฎไหนเลย) คือ Fail-Safe Defaults กฎ ESTABLISHED,RELATED คือการจำการเชื่อมต่อแบบ stateful เหมือน SG การเปิดเฉพาะ port ที่จำเป็นและการสร้าง user ฐานข้อมูลที่มีสิทธิ์จำกัดคือ Least Privilege และการที่ทั้ง bastion (เครื่องตัวกลางที่ต้อง SSH ผ่านก่อนเข้าเครื่องอื่น) และ DB ต่างมีกฎของตัวเองกันไม่ให้ bastion ต่อ MySQL ได้ คือ Defense in Depth ขนาดย่อม</p>
+<p>ถ้าเทียบ iptables กับ firewall สองชนิดของ AWS จะเห็นว่ามีลักษณะของทั้งสองปนกัน ด้านหนึ่งเหมือน SG คือติดกับตัวเครื่องและจำการเชื่อมต่อได้ อีกด้านเหมือน NACL คือเขียนกฎห้ามได้และตรวจตามลำดับโดยกฎแรกที่ตรงเป็นตัวตัดสิน</p>
+
+<h3 id="review">ทวนก่อนสอบ</h3>
+<p>โจทย์ของช่วงนี้ส่วนใหญ่ตอบได้ด้วยการไล่ทีละด่าน ถ้าถามว่า packet ผ่านไหม ให้ไล่ NACL ตามเลขจากน้อยไปมากจนเจอกฎแรกที่ตรง แล้วถามต่อว่าขากลับเปิด ephemeral port ไว้หรือยัง ส่วน SG ดูแค่กฎขาเข้า เพราะขากลับผ่านเอง ถ้าถามในมุม IAM ให้หา Deny ก่อนเสมอ เจอ Deny คือห้าม เจอแค่ Allow คืออนุญาต ไม่เจออะไรเลยก็ห้าม ส่วนโจทย์แบบสถานการณ์ ให้นึกว่าใครเป็นคนตั้งค่าสิ่งนั้น และหลักข้อไหนอธิบายได้ตรงที่สุด</p>
+<p>กับดักของครึ่งหลังคือ Direct Connect เร็วและนิ่งกว่า VPN แต่ติดตั้งนานและไม่ได้เข้ารหัสให้เอง ระบบจริงจึงใช้ Direct Connect เป็นเส้นหลัก ใช้ VPN (อุโมงค์ IPsec ระหว่าง Customer Gateway กับ VGW) เป็นเส้นสำรอง และให้ BGP สลับเส้นให้อัตโนมัติ ใน Defense in Depth ห้าชั้นแรกมีไว้กัน ส่วน Monitoring กับ Incident มีไว้รู้ตัวและกู้คืน และ WAF ตามรายการเจ็ดชั้นอยู่ชั้น Resource</p>
+<p>คู่หลักการที่ชอบหลอกคือ Least Privilege กับ Fail-Safe Defaults ถ้าโจทย์เล่าว่าให้สิทธิ์แค่ bucket เดียว นั่นคือ Least Privilege (ปริมาณสิทธิ์) แต่ถ้าเล่าว่าสร้าง SG ใหม่แล้วขาเข้าถูกปิดหมด นั่นคือ Fail-Safe Defaults (ค่าเริ่มต้นต้องเป็นการห้าม)</p>
+
+<nav class="pager"><a href="summary2.html">ก่อนหน้า: ช่วงที่ 2 Cloud Networking, สถาปัตยกรรม และแล็บ</a><a href="summary4.html">ถัดไป: ช่วงที่ 4 AI Services และโครงสร้างพื้นฐาน</a></nav>
+
+</main>
+</body>
+</html>

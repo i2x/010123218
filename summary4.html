@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>สรุปช่วงที่ 4 AI Services และโครงสร้างพื้นฐาน</title>
+<style>
+:root{--bg:#ffffff;--text:#1d1f23;--muted:#5d636b;--border:#d9d7cf;--soft:#f3f2ee;--accent:#2f6fd0;--surface2:#f3f2ee;--accent-soft:#e3ecfa;--orange:#c96a12;--orange-soft:#fbeedd;--good:#1f8a4c;--good-soft:#e2f3e8;--bad:#c23b3b;--bad-soft:#f8e3e3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.8 -apple-system,BlinkMacSystemFont,"Sukhumvit Set","Noto Sans Thai","Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px 80px}
+h1{font-size:28px;line-height:1.3;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 28px}
+nav{border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin-bottom:36px}
+nav b{display:block;margin-bottom:4px}
+nav a{color:var(--accent);text-decoration:none}
+nav ol{margin:0;padding-left:22px}
+h2{font-size:24px;line-height:1.35;margin:56px 0 4px;padding-top:12px;border-top:2px solid var(--text)}
+h2 small{display:block;font-size:15px;font-weight:400;color:var(--muted)}
+h3{font-size:19px;line-height:1.4;margin:34px 0 6px}
+p{margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:15.5px;margin:14px 0}
+th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--soft)}
+.tw{overflow-x:auto}
+.tw table{min-width:520px}
+.note{background:var(--soft);border-radius:8px;padding:10px 14px;margin:14px 0}
+code{background:var(--soft);border-radius:4px;padding:1px 5px;font-size:15px}
+pre{background:var(--soft);border-radius:8px;padding:12px 14px;margin:14px 0;overflow-x:auto;font-size:14px;line-height:1.55}
+pre code{background:none;padding:0;font-size:inherit}
+figure{margin:18px 0;overflow-x:auto}
+figure svg{display:block;width:100%;min-width:600px;height:auto}
+figcaption{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.6}
+svg text{font-family:inherit;fill:var(--text);font-size:15px}
+svg .m{fill:var(--muted);font-size:13px}
+svg .b{font-weight:700}
+svg .box{fill:var(--surface2);stroke:var(--border);stroke-width:1.5}
+svg .ba{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+svg .bo{fill:var(--orange-soft);stroke:var(--orange);stroke-width:1.5}
+svg .bg{fill:var(--good-soft);stroke:var(--good);stroke-width:1.5}
+svg .bb{fill:var(--bad-soft);stroke:var(--bad);stroke-width:1.5;stroke-dasharray:6 4}
+svg .frame{fill:none;stroke:var(--border);stroke-width:1.5;stroke-dasharray:5 4}
+svg .ln{stroke:var(--muted);stroke-width:2;fill:none}
+svg .la{stroke:var(--accent);stroke-width:2;fill:none}
+svg .lg{stroke:var(--good);stroke-width:2.5;fill:none}
+svg .lr{stroke:var(--bad);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+svg .ah{fill:var(--muted)} svg .aha{fill:var(--accent)} svg .ahg{fill:var(--good)} svg .ahr{fill:var(--bad)}
+svg .at{fill:var(--accent);font-weight:700}
+svg .gt{fill:var(--good);font-weight:700}
+svg .rt{fill:var(--bad);font-weight:700}
+.top{font-size:15px;margin:0 0 18px}
+.top a,.pager a{color:var(--accent);text-decoration:none}
+.pager{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--border);margin-top:48px;padding-top:16px;font-size:15px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahg" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahr" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="arwa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="aha" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs></svg>
+<main>
+
+<p class="top"><a href="summary.html">กลับไปหน้าสารบัญ</a></p>
+
+<h1>ช่วงที่ 4 AI Services, สถาปัตยกรรม และโครงสร้างพื้นฐานของ AI</h1>
+<p class="sub">สรุปจาก AI Service_Infra.pdf · ฉบับเตรียมสอบปิดตำรา ตัดชื่อรุ่นโมเดล ราคาของแต่ละเจ้า สเปก GPU และประวัติที่เป็นปีกับชื่อออกแล้ว เหลือแนวคิดและสูตรที่ใช้คำนวณ</p>
+
+<div class="note">
+<p><b>ช่วงนี้ต้องเข้าใจอะไร</b></p>
+<p>มองช่วงนี้จากมุมของ Cloud Engineer ซึ่งไม่ได้สร้างโมเดล แต่ต้องทำให้ AI ทำงานในระบบจริงได้ในราคาที่รับไหว เรื่องจึงแบ่งเป็นสามก้อน ก้อนแรกคือโมเดลทำงานยังไงและคิดเงินยังไง (token, context, thinking token, cache) ซึ่งมีโจทย์คำนวณค่าใช้จ่าย ก้อนที่สองคือการต่อโมเดลเข้ากับระบบ (function calling, MCP, agent, RAG) ซึ่งต้องเข้าใจว่าใครทำอะไรและทำไม ก้อนที่สามคือโครงสร้างพื้นฐาน (GPU, VRAM, training กับ inference, quantization, self-host กับ API) ซึ่งมีโจทย์คำนวณหน่วยความจำและการเลือกทางที่คุ้มกว่า</p>
+</div>
+
+<h3 id="s1">1. ทำไม Cloud Engineer ต้องรู้เรื่อง AI</h3>
+<p>Cloud Engineer ไม่ได้เป็นคน train โมเดล (สอนโมเดลด้วยข้อมูลมหาศาล) แต่เป็นคนทำให้ AI ทำงานได้ใน <b>production</b> คือระบบจริงที่ลูกค้าใช้อยู่ เมื่อ AI มีปัญหา คนที่ต้องลงมือแก้คือทีมของบริษัทเอง ไม่ใช่บริษัทที่สร้างโมเดล</p>
+<p>สไลด์จับคู่อาการเสียกับประเภทของปัญหาไว้ห้าแบบ ถ้าโมเดลตอบช้า มักเป็นเรื่องโครงสร้างพื้นฐาน เช่น GPU ไม่พอ (GPU หรือ Graphics Processing Unit คือชิปที่มีแกนประมวลผลเล็ก ๆ หลายพันแกนทำงานพร้อมกัน อธิบายในข้อ 10) ถ้า API ล่ม เป็นเรื่องของบริการหรือเครือข่าย (API หรือ Application Programming Interface คือช่องทางที่โปรแกรมใช้เรียกบริการ) ถ้าค่าใช้จ่ายพุ่ง เป็นงานลดต้นทุน ถ้าข้อมูลรั่ว เป็นเรื่องความปลอดภัย และถ้าคำตอบผิด มักแก้ที่ prompt ซึ่งคือข้อความที่ส่งให้โมเดล หรือแก้ที่ RAG ซึ่งคือการค้นเอกสารมาให้โมเดลอ่านก่อนตอบ (ข้อ 9)</p>
+
+<h3 id="s2">2. LLM มาจากไหน</h3>
+<p><b>LLM</b> (Large Language Model) คือโมเดลภาษาขนาดใหญ่ที่เรียนจากข้อความมหาศาลจนเขียนและตอบได้เหมือนคน วงการนี้เริ่มจากให้คนเขียนกฎเอง (ใช้ได้เฉพาะเมื่อข้อความตรงกฎ) ต่อมาให้เครื่องนับสถิติจากข้อมูลจริง แล้วจึงมาเป็นโครงข่ายประสาทเทียม (neural network) ซึ่งเป็นโมเดลที่เรียนรู้จากตัวอย่างด้วยการปรับตัวเลขจำนวนมากข้างใน โครงข่ายประสาทเทียมรุ่นแรกที่ใช้กับภาษา เช่น RNN (Recurrent Neural Network) และ LSTM (Long Short-Term Memory) อ่านข้อความทีละคำตามลำดับ จึงมีปัญหาสองข้อ คือลืมคำต้นประโยคเมื่อประโยคยาว และแบ่งงานให้คำนวณพร้อมกันไม่ได้</p>
+<p>จุดเปลี่ยนคือ <b>Transformer</b> ซึ่งก็เป็นโครงข่ายประสาทเทียมเหมือนกัน แต่ใช้กลไก <b>attention</b> ให้ทุกคำในประโยคมองทุกคำอื่นได้พร้อมกัน จึงแก้ได้ทั้งสองปัญหา คือเข้าใจความสัมพันธ์ของคำที่อยู่ไกลกัน และคำนวณพร้อมกันบน GPU ได้ เมื่อรวมกับข้อมูลจำนวนมากและ GPU ที่แรงขึ้น LLM จึงเกิดขึ้น ต่อมายังพบว่ายิ่งเพิ่มขนาดโมเดล ข้อมูล และกำลังประมวลผล โมเดลก็ยิ่งเก่งขึ้นอย่างคาดการณ์ได้ (Scaling Laws)</p>
+<p>บทเรียนจากการเทียบโมเดลแถวหน้าในสไลด์คือ ความฉลาดของแต่ละตัวห่างกันไม่มาก แต่ราคาต่างกันเป็นสิบเท่า <b>โมเดลที่แพงที่สุดจึงไม่ใช่ตัวเลือกที่ดีที่สุดเสมอ</b> ต้องเลือกให้เหมาะกับงาน</p>
+
+<h3 id="s3">3. Token และ Context Window</h3>
+<p>LLM ทำงานเป็นสามขั้น ขั้นแรกคือ <b>tokenization</b> ซึ่งหั่นข้อความเป็นชิ้นเล็กเรียกว่า token แล้วแปลงเป็นเลข ขั้นที่สองส่งเลขเหล่านั้นเข้า Transformer เพื่อหาความน่าจะเป็นของ token ตัวถัดไป ขั้นสุดท้ายคือ <b>decoding</b> ซึ่งเลือก token มาหนึ่งตัว ต่อท้ายข้อความเดิม และวนกลับไปหาตัวถัดไปอีก <b>โมเดลจึงสร้างคำตอบได้ทีละ token</b></p>
+<figure>
+<svg viewBox="0 0 720 270" role="img" aria-label="ข้อความถูกแปลงเป็น token ผ่าน transformer แล้วออกมาทีละ token และวนกลับเข้าไปใหม่">
+<rect class="box" x="20" y="70" width="150" height="90" rx="8"/>
+<text x="95" y="96" text-anchor="middle" class="b">1 Tokenization</text>
+<text x="95" y="122" text-anchor="middle">"Explain" → 1234</text>
+<text x="95" y="146" text-anchor="middle">" VPC" → 5678</text>
+<line class="ln" x1="170" y1="115" x2="232" y2="115" marker-end="url(#arw)"/>
+<rect class="ba" x="236" y="50" width="200" height="130" rx="8"/>
+<text x="336" y="78" text-anchor="middle" class="b">2 Transformer</text>
+<text x="336" y="104" text-anchor="middle">Attention Layers</text>
+<text x="336" y="128" text-anchor="middle" class="m">96+ ชั้น</text>
+<text x="336" y="160" text-anchor="middle" class="m">ได้ความน่าจะเป็นของ token ถัดไป</text>
+<line class="ln" x1="436" y1="115" x2="498" y2="115" marker-end="url(#arw)"/>
+<rect class="box" x="502" y="70" width="198" height="90" rx="8"/>
+<text x="601" y="96" text-anchor="middle" class="b">3 Decoding</text>
+<text x="601" y="122" text-anchor="middle">เลือกมา 1 token</text>
+<text x="601" y="146" text-anchor="middle" class="m">"Virtual"</text>
+<path class="la" d="M601,160 L601,215 L336,215 L336,184" marker-end="url(#arwa)"/>
+<text x="468" y="236" text-anchor="middle" class="at">ต่อ token ใหม่ท้ายข้อความ แล้ววนใหม่</text>
+<text x="468" y="258" text-anchor="middle" class="m">"Virtual" → "Private" → "Cloud" → ...</text>
+<rect class="frame" x="230" y="20" width="212" height="172" rx="10"/>
+<text x="336" y="14" text-anchor="middle" class="m">ทั้งหมดต้องอยู่ใน context window</text>
+</svg>
+<figcaption>โมเดลออกคำตอบทีละ token เส้นสีฟ้าคือการเอา token ที่เพิ่งได้ไปต่อท้ายข้อความ แล้วส่งเข้าโมเดลอีกรอบเพื่อหาตัวถัดไป</figcaption>
+</figure>
+<p>token ไม่เท่ากับคำ เครื่องหมายวรรคตอนก็นับ และคำหนึ่งอาจถูกหั่นเป็นหลายชิ้น วิธีหั่นที่ใช้กันเรียกว่า <b>BPE</b> (Byte Pair Encoding) ซึ่งเริ่มจากตัวอักษรเดี่ยวแล้วรวมคู่ที่เจอบ่อยเข้าด้วยกันไปเรื่อย ๆ คำที่เจอบ่อยจึงเป็นชิ้นเดียว คำที่เจอน้อยแตกเป็นหลายชิ้น</p>
+<p>token คือหน่วยที่ใช้คิดเงิน โดยแยกราคาขาเข้า (input) กับขาออก (output) และ<b>ขาออกแพงกว่า</b> เพราะขาเข้าคำนวณพร้อมกันได้ในรอบเดียว แต่ขาออกต้องสร้างทีละตัว สูตรคือ จำนวน token × ราคาต่อล้าน ÷ 1,000,000 แยกคิดขาเข้ากับขาออกแล้วรวมกัน เช่น โมเดลราคา $10 / $50 ต่อล้าน token คำขอที่ส่งเข้า 2,000 token และได้คำตอบ 500 token จะเสีย 2,000 × 10 ÷ 1,000,000 + 500 × 50 ÷ 1,000,000 = 0.02 + 0.025 = $0.045 ถ้ามีคนใช้วันละแสนครั้งก็เป็นวันละ $4,500</p>
+<p><b>Context window</b> คือจำนวน token สูงสุดที่โมเดลรับได้ในคำขอเดียว รวมขาเข้าและขาออก จุดสำคัญคือ<b>โมเดลไม่จำอะไรข้ามคำขอ</b> แอปแชตที่ดูเหมือนจำได้คือแอปส่งประวัติการคุยทั้งหมดกลับเข้าไปทุกครั้ง context ที่ยาวขึ้นจึงทั้งแพงขึ้นและช้าลง สไลด์จึงแนะนำให้ใช้ RAG ดึงเฉพาะส่วนที่เกี่ยวข้อง แทนการยัดข้อมูลทั้งหมดลงใน prompt</p>
+
+<h3 id="s4">4. Temperature และพารามิเตอร์ที่ใช้คุมคำตอบ</h3>
+<p>ในขั้น decoding โมเดลมีความน่าจะเป็นของ token ทุกตัว พารามิเตอร์เหล่านี้กำหนดว่าจะเลือกตัวไหน <b>Temperature</b> ค่า 0 เลือกตัวที่โอกาสสูงสุดเสมอ ถามซ้ำได้คำตอบเดิม เหมาะกับเขียนโค้ด ตอบข้อเท็จจริง และงานที่ต้องทำตามระเบียบ ค่ากลาง ๆ (ราว 0.7) เหมาะกับแชตทั่วไป ค่าสูง (1.0 ขึ้นไป) ทำให้ตัวที่โอกาสน้อยถูกเลือกบ่อยขึ้น เหมาะกับงานสร้างสรรค์</p>
+<p><b>Top-p</b> เรียง token จากโอกาสมากไปน้อย แล้วเก็บเฉพาะกลุ่มบนที่โอกาสรวมกันถึงค่า p ก่อนสุ่ม ค่าน้อยให้คำตอบแคบและแม่น ค่ามากให้คำตอบหลากหลาย <b>Max tokens</b> คือเพดานความยาวคำตอบ ใช้คุมค่าใช้จ่าย และ <b>reasoning effort</b> บอกโมเดลประเภทคิดก่อนตอบ (อธิบายในข้อ 5) ว่าให้คิดหนักแค่ไหน</p>
+<figure>
+<svg viewBox="0 0 720 300" role="img" aria-label="ความน่าจะเป็นของ token ถัดไป และขอบเขตของ top-p 0.9">
+<text x="20" y="26" class="b">ข้อความ: "Cloud computing is ___"</text>
+<text x="20" y="66">" a"</text><rect class="ba" x="130" y="50" width="315" height="24" rx="4"/><text x="455" y="68">0.45</text>
+<text x="20" y="102">" the"</text><rect class="ba" x="130" y="86" width="175" height="24" rx="4"/><text x="315" y="104">0.25</text>
+<text x="20" y="138">" an"</text><rect class="ba" x="130" y="122" width="84" height="24" rx="4"/><text x="224" y="140">0.12</text>
+<text x="20" y="174">" becoming"</text><rect class="ba" x="130" y="158" width="56" height="24" rx="4"/><text x="196" y="176">0.08</text>
+<text x="20" y="210">" not"</text><rect class="box" x="130" y="194" width="35" height="24" rx="4"/><text x="175" y="212" class="m">0.05</text>
+<text x="20" y="246">" delicious"</text><rect class="box" x="130" y="230" width="7" height="24" rx="4"/><text x="147" y="248" class="m">0.01</text>
+<line x1="20" y1="186" x2="560" y2="186" class="lr"/>
+<text x="510" y="62" class="at">top-p 0.1 → เหลือแค่ " a"</text>
+<text x="560" y="128" class="b">top-p 0.9</text>
+<text x="560" y="150" class="m">สี่ตัวบนรวมกันได้ 0.90</text>
+<text x="560" y="172" class="m">ตัวที่อยู่ใต้เส้นถูกตัดทิ้ง</text>
+<text x="20" y="286" class="m">Temperature 0 → เลือก " a" ทุกครั้ง · Temperature สูง → ตัวที่โอกาสน้อยมีโอกาสถูกเลือกมากขึ้น</text>
+</svg>
+<figcaption>ตัวเลขเป็นตัวอย่างสมมติ แท่งสีฟ้าคือ token ที่อยู่ในกลุ่มของ top-p 0.9 เส้นประสีแดงคือจุดที่ตัดทิ้ง</figcaption>
+</figure>
+
+<h3 id="s5">5. Reasoning Model: โมเดลที่คิดก่อนตอบ</h3>
+<p>LLM แบบเดิมตอบทันที ส่วน <b>reasoning model</b> เขียนลำดับความคิด (chain-of-thought) ออกมาภายในก่อนแล้วจึงตอบ ผลลัพธ์ระหว่างทางกลายเป็นข้อมูลที่ใช้คิดขั้นถัดไป เหมือนคนที่จดเลขลงกระดาษทด แทนที่จะคิดในหัว ตัวอย่างในสไลด์คือเสื้อ $50 ลด 20% แล้วบวกภาษี 7% คำตอบที่ถูกคือ $50 × 0.80 = $40 แล้ว $40 × 1.07 = $42.80 ถ้าตอบทันทีมักผิดเพราะเอาเปอร์เซ็นต์มารวมกันก่อน</p>
+<figure>
+<svg viewBox="0 0 720 330" role="img" aria-label="standard LLM ตอบทันทีและผิด ส่วน reasoning LLM คิดทีละขั้นก่อนตอบและถูก">
+<rect class="box" x="20" y="20" width="680" height="44" rx="8"/>
+<text x="360" y="48" text-anchor="middle">เสื้อ $50 ลด 20% แล้วบวกภาษี 7% ราคาสุดท้ายเท่าไร?</text>
+<line class="ln" x1="185" y1="64" x2="185" y2="96" marker-end="url(#arw)"/>
+<line class="ln" x1="535" y1="64" x2="535" y2="96" marker-end="url(#arw)"/>
+<text x="185" y="118" text-anchor="middle" class="b">Standard LLM</text>
+<rect class="bb" x="60" y="134" width="250" height="88" rx="8"/>
+<text x="185" y="162" text-anchor="middle">ตอบทันที</text>
+<text x="185" y="188" text-anchor="middle" class="rt">$43.50 ✗</text>
+<text x="185" y="210" text-anchor="middle" class="m">(−20% + 7% = −13% → $50 × 0.87)</text>
+<text x="535" y="118" text-anchor="middle" class="b">Reasoning LLM</text>
+<rect class="ba" x="400" y="134" width="270" height="116" rx="8"/>
+<text x="535" y="158" text-anchor="middle" class="at">ความคิดภายใน (thinking tokens)</text>
+<text x="535" y="184" text-anchor="middle">ลดก่อน: $50 × 0.80 = $40</text>
+<text x="535" y="208" text-anchor="middle">แล้วบวกภาษี: $40 × 1.07 = $42.80</text>
+<text x="535" y="234" text-anchor="middle" class="m">ผู้ใช้มักไม่เห็นส่วนนี้ แต่ต้องจ่ายเงิน</text>
+<line class="ln" x1="535" y1="250" x2="535" y2="276" marker-end="url(#arw)"/>
+<rect class="bg" x="440" y="280" width="190" height="38" rx="8"/>
+<text x="535" y="305" text-anchor="middle" class="gt">$42.80 ✓</text>
+</svg>
+<figcaption>ฝั่งซ้ายตอบทันทีแล้วผิด ฝั่งขวาเขียนขั้นกลางออกมาก่อน แล้วใช้ผลของขั้นก่อนหน้าคำนวณขั้นถัดไป</figcaption>
+</figure>
+<p>จุดที่ออกสอบคือ <b>thinking token คิดเงินในราคา token ขาออก</b> แม้ผู้ใช้จะมองไม่เห็นก็ตาม ถ้าโมเดลคิด 5,000 token ในราคาขาออก $50 ต่อล้าน ค่าความคิดอย่างเดียวคือ 5,000 × 50 ÷ 1,000,000 = $0.25 ซึ่งมักแพงกว่าตัวคำตอบหลายเท่า ผู้ให้บริการบางเจ้าจึงให้ตั้ง <b>thinking budget</b> คือเพดานจำนวน thinking token ต่อคำขอ ใช้คุมทั้งเวลาและค่าใช้จ่าย</p>
+<p>สไลด์ยกตัวอย่างว่าคำขอแบบมีการคิดแพงกว่าแบบไม่คิด 578 เท่า ($0.2605 กับ $0.00045) แต่ตัวเลขนี้เอาโมเดลราคาถูกมาเทียบกับโมเดลราคาแพง จึงรวมผลของสองเรื่องไว้ด้วยกัน ถ้าเทียบในโมเดลเดียวกันที่ราคา $10 / $50 แบบไม่คิดจะเสีย 50 × 10 ÷ 1,000,000 + 200 × 50 ÷ 1,000,000 = $0.0105 แบบคิดเสีย $0.2605 ต่างกันราว 25 เท่า ซึ่งเป็นผลของ thinking token ล้วน ๆ</p>
+<p>เพราะการคิดทั้งแพงและช้า ระบบที่ดีจึงแยกส่งตามความยาก (route by difficulty) งานง่ายอย่างแยกอีเมลสแปมหรือสรุปเอกสารใช้โมเดลทั่วไป งานปานกลางอย่างเขียน SQL (ภาษาที่ใช้สั่งฐานข้อมูล) ใช้การคิดระดับต่ำถึงกลาง งานที่ต้องไล่หลายขั้นอย่างหาสาเหตุบั๊กหรือออกแบบสถาปัตยกรรมใช้การคิดระดับสูง และงานพิสูจน์ทฤษฎีบทใช้ระดับสูงสุด (max)</p>
+
+<h3 id="s6">6. Multimodal AI</h3>
+<p><b>Multimodal</b> คือโมเดลที่รับข้อมูลได้หลายรูปแบบ ทั้งข้อความ ภาพ เสียง วิดีโอ และเอกสาร โมเดลแถวหน้าส่วนใหญ่เป็นแบบนี้แล้ว แต่ความสามารถไม่เท่ากัน บางตัวรับภาพได้แต่สร้างภาพไม่ได้ จึงต้องแยกดูว่ารับเข้าได้อะไรและสร้างออกได้อะไร เวลาเรียกผ่าน API ข้อความหนึ่งชิ้นอาจมีหลายส่วนปนกัน เช่น ส่วนหนึ่งเป็นคำสั่ง อีกส่วนเป็นภาพ สิ่งที่ Cloud Engineer ต้องคิดคือภาพและเสียงมีขนาดใหญ่กว่าข้อความมาก จึงกินทั้ง bandwidth (ปริมาณข้อมูลที่ส่งผ่านเครือข่ายได้ต่อวินาที) พื้นที่ใน context และค่าใช้จ่ายมากกว่า</p>
+
+<h3 id="s7">7. เรียกใช้ LLM ผ่าน API</h3>
+<p>ผู้ให้บริการ LLM แต่ละเจ้าเด่นคนละด้าน สำหรับองค์กร บริการ AI ของผู้ให้บริการ Cloud อย่าง AWS และ Azure มักเหมาะกว่า เพราะใช้ IAM (Identity and Access Management ระบบจัดการตัวตนและสิทธิ์ ช่วงที่ 3), VPC และมาตรฐานความปลอดภัยที่บริษัทมีอยู่แล้วได้ เกือบทุกเจ้ารองรับรูปแบบคำขอแบบเดียวกับ OpenAI (<b>OpenAI-compatible</b>) การย้ายเจ้าจึงเปลี่ยนแค่ที่อยู่ของ API กับ key ไม่ต้องเขียนโค้ดใหม่ ช่วยลดการผูกติดกับเจ้าเดียว (vendor lock-in) และทำระบบสำรองได้ง่ายเมื่อเจ้าหลักล่ม</p>
+<pre><code>POST /v1/chat/completions
+Authorization: Bearer $API_KEY
+{
+  "model": "...",
+  "messages": [
+    {"role": "system", "content": "You are a cloud computing expert."},
+    {"role": "user",   "content": "Explain VPC in 3 sentences."}
+  ],
+  "temperature": 0.7
+}</code></pre>
+<p>คำขอหนึ่งครั้งเป็น HTTP POST ที่แนบ API key มาใน header และส่ง JSON ที่มีชื่อโมเดล พารามิเตอร์ และรายการข้อความ ข้อความแต่ละชิ้นมี role บอกว่าใครพูด <b>system</b> คือคำสั่งตั้งต้นที่กำหนดบทบาทของโมเดล <b>user</b> คือข้อความของผู้ใช้ และ <b>assistant</b> คือคำตอบเก่าของโมเดล ที่ต้องส่งคำตอบเก่ากลับเข้าไปทุกครั้งเมื่อคุยหลายรอบ ก็เพราะ API แบบนี้เป็น <b>stateless</b> คือไม่จำอะไรระหว่างคำขอเลย ส่วน key ห้ามฝังไว้ในโค้ดเพราะโค้ดอาจหลุด ให้เก็บในตัวแปรสภาพแวดล้อม (ค่าที่ตั้งไว้ในระบบ แยกจากตัวโค้ด) หรือในบริการเก็บรหัสลับแทน</p>
+<p>อีกเรื่องที่ช่วยลดค่าใช้จ่ายได้มากคือ <b>prompt cache</b> ทุกครั้งที่โมเดลอ่านข้อความ โมเดลต้องคำนวณค่ากลางของ token ทุกตัวเก็บไว้ (เรียกว่า <b>KV cache</b>) ถ้าข้อความส่วนต้นของคำขอเหมือนคำขอก่อนหน้าทุกตัวอักษร ค่ากลางของส่วนนั้นก็เหมือนเดิม ผู้ให้บริการจึงหยิบมาใช้ซ้ำได้โดยไม่ต้องคำนวณใหม่ และคิดราคาส่วนนั้นถูกลงราวสิบเท่า แต่ถ้าเปลี่ยนแม้คำเดียว cache จะใช้ไม่ได้ตั้งแต่จุดที่เปลี่ยนเป็นต้นไป ระบบจึงควร<b>วางส่วนที่ไม่เปลี่ยนไว้ต้นข้อความ</b> เช่น system prompt และคู่มือที่แนบทุกครั้ง แล้ววางคำถามที่เปลี่ยนไว้ท้าย ตัวชี้วัดสำคัญใน production จึงเป็น <b>KV-cache hit rate</b> คือสัดส่วนของ token ที่ใช้ cache ได้</p>
+
+<h3 id="s8">8. Function Calling, MCP และ AI Agent</h3>
+<p>แนวคิดเรื่องการใช้โมเดลพัฒนามาเป็นสามชั้นที่ซ้อนกัน ไม่ได้มาแทนกัน ชั้นในสุดคือ <b>Prompt Engineering</b> (ควรพูดกับโมเดลว่าอะไร) ครอบด้วย <b>Context Engineering</b> (ควรให้ข้อมูลอะไรกับโมเดล) และชั้นนอกสุดคือ <b>Harness Engineering</b> (ควรสร้างระบบอะไรรอบโมเดล) prompt engineering จึงยังสำคัญอยู่ เพียงแต่เป็นแค่ส่วนหนึ่งของระบบที่ใหญ่กว่า สไลด์ใช้สูตร <b>Agent = Model + Harness</b> โมเดลเหมือน CPU ที่คิดและตัดสินใจ context เหมือน RAM คือพื้นที่ทำงานที่โมเดลมองเห็นในขณะนั้น ส่วน harness คือระบบที่ครอบโมเดลไว้ ได้แก่การคุมรอบการทำงาน เครื่องมือและสิทธิ์ การจัดการความจำ การรับมือข้อผิดพลาด และการตรวจผล</p>
+<p><b>Function calling</b> (tool use) ให้โมเดลใช้ API จริงได้ เราบอกโมเดลล่วงหน้าว่ามีเครื่องมืออะไร แต่ละตัวมีชื่อ คำอธิบาย (โมเดลอ่านช่องนี้เพื่อตัดสินว่าจะใช้เมื่อไร) และพารามิเตอร์ จุดที่ต้องเข้าใจคือ<b>โมเดลไม่ได้เรียก API เอง</b> โมเดลแค่ตอบกลับมาว่าอยากให้เรียกฟังก์ชันไหนด้วยค่าอะไร แอปของเราเป็นคนเรียกจริงแล้วส่งผลกลับให้โมเดลเขียนคำตอบ สิทธิ์จึงอยู่ที่แอป และต้องให้น้อยที่สุดตามหลัก least privilege ในช่วงที่ 3</p>
+<figure>
+<svg viewBox="0 0 720 360" role="img" aria-label="ขั้นตอน function calling ระหว่างผู้ใช้ แอปของเรา LLM และ AWS API">
+<rect class="box" x="20" y="16" width="120" height="40" rx="8"/><text x="80" y="42" text-anchor="middle" class="b">ผู้ใช้</text>
+<rect class="bg" x="200" y="16" width="150" height="40" rx="8"/><text x="275" y="42" text-anchor="middle" class="b">แอปของเรา</text>
+<rect class="ba" x="410" y="16" width="120" height="40" rx="8"/><text x="470" y="42" text-anchor="middle" class="b">LLM</text>
+<rect class="bo" x="580" y="16" width="120" height="40" rx="8"/><text x="640" y="42" text-anchor="middle" class="b">AWS API</text>
+<line class="frame" x1="80" y1="56" x2="80" y2="345"/><line class="frame" x1="275" y1="56" x2="275" y2="345"/><line class="frame" x1="470" y1="56" x2="470" y2="345"/><line class="frame" x1="640" y1="56" x2="640" y2="345"/>
+<line class="ln" x1="80" y1="88" x2="271" y2="88" marker-end="url(#arw)"/><text x="88" y="80" class="m">"i-0abc123 สถานะเป็นไง?"</text>
+<line class="ln" x1="275" y1="128" x2="466" y2="128" marker-end="url(#arw)"/><text x="283" y="120" class="m">คำถาม + รายการ tools</text>
+<line class="la" x1="470" y1="170" x2="279" y2="170" marker-end="url(#arwa)"/><text x="300" y="162" class="at" style="font-size:13px">ขอเรียก get_server_status(...)</text>
+<line class="lg" x1="275" y1="212" x2="636" y2="212" marker-end="url(#arwg)"/><text x="482" y="204" class="gt" style="font-size:13px">แอปเรียก API เอง</text>
+<line class="ln" x1="640" y1="250" x2="279" y2="250" marker-end="url(#arw)"/><text x="482" y="242" class="m">{"status":"running","cpu":"45%"}</text>
+<line class="ln" x1="275" y1="288" x2="466" y2="288" marker-end="url(#arw)"/><text x="283" y="280" class="m">ส่งผลลัพธ์กลับให้ LLM</text>
+<line class="ln" x1="470" y1="326" x2="84" y2="326" marker-end="url(#arw)"/><text x="100" y="318" class="m">"เครื่องทำงานอยู่ ใช้ CPU 45%"</text>
+</svg>
+<figcaption>เส้นสีฟ้าคือจุดที่ LLM ตัดสินใจ แต่ LLM แค่ส่งคำขอกลับมา คนที่เรียก AWS API จริงคือแอปของเรา (เส้นสีเขียว)</figcaption>
+</figure>
+<p><b>MCP</b> (Model Context Protocol) คือมาตรฐานเปิดสำหรับต่อ AI กับเครื่องมือและข้อมูล เปรียบว่าเป็น "USB-C ของ AI" ถ้าไม่มีมาตรฐานกลาง แอป AI M ตัวกับเครื่องมือ N ตัวต้องเขียนตัวเชื่อม <b>M × N</b> ชุด แต่ถ้าใช้ MCP เครื่องมือเขียนเป็น MCP server ครั้งเดียว แอปรองรับ MCP ครั้งเดียว รวมเป็น <b>M + N</b> ชุด เช่น 3 แอปกับ 4 เครื่องมือ จาก 12 ชุดเหลือ 7 ชุด และใช้กับโมเดลของเจ้าไหนก็ได้ สไลด์แนะนำ function calling สำหรับงานง่าย และ MCP สำหรับการเชื่อมต่อระดับ production</p>
+<figure>
+<svg viewBox="0 0 720 300" role="img" aria-label="ถ้าไม่มี MCP ต้องเขียนตัวเชื่อมทุกคู่ ถ้ามี MCP แต่ละฝั่งเขียนครั้งเดียว">
+<text x="170" y="24" text-anchor="middle" class="b">ไม่มีมาตรฐานกลาง: 3 × 4 = 12 ชุด</text>
+<rect class="ba" x="20" y="50" width="90" height="34" rx="6"/><text x="65" y="72" text-anchor="middle">แอป A</text>
+<rect class="ba" x="20" y="130" width="90" height="34" rx="6"/><text x="65" y="152" text-anchor="middle">แอป B</text>
+<rect class="ba" x="20" y="210" width="90" height="34" rx="6"/><text x="65" y="232" text-anchor="middle">แอป C</text>
+<rect class="bo" x="230" y="40" width="90" height="30" rx="6"/><text x="275" y="60" text-anchor="middle">DB</text>
+<rect class="bo" x="230" y="100" width="90" height="30" rx="6"/><text x="275" y="120" text-anchor="middle">คลังโค้ด</text>
+<rect class="bo" x="230" y="160" width="90" height="30" rx="6"/><text x="275" y="180" text-anchor="middle">แชตทีม</text>
+<rect class="bo" x="230" y="220" width="90" height="30" rx="6"/><text x="275" y="240" text-anchor="middle">AWS</text>
+<g class="lr" style="stroke-dasharray:none;stroke-width:1.2">
+<line x1="110" y1="67" x2="230" y2="55"/><line x1="110" y1="67" x2="230" y2="115"/><line x1="110" y1="67" x2="230" y2="175"/><line x1="110" y1="67" x2="230" y2="235"/>
+<line x1="110" y1="147" x2="230" y2="55"/><line x1="110" y1="147" x2="230" y2="115"/><line x1="110" y1="147" x2="230" y2="175"/><line x1="110" y1="147" x2="230" y2="235"/>
+<line x1="110" y1="227" x2="230" y2="55"/><line x1="110" y1="227" x2="230" y2="115"/><line x1="110" y1="227" x2="230" y2="175"/><line x1="110" y1="227" x2="230" y2="235"/>
+</g>
+<text x="170" y="284" text-anchor="middle" class="m">เพิ่มแอปหรือเครื่องมือหนึ่งตัว ต้องเขียนเพิ่มหลายชุด</text>
+<line x1="360" y1="20" x2="360" y2="280" class="frame"/>
+<text x="545" y="24" text-anchor="middle" class="b">มี MCP: 3 + 4 = 7 ชุด</text>
+<rect class="ba" x="380" y="50" width="90" height="34" rx="6"/><text x="425" y="72" text-anchor="middle">แอป A</text>
+<rect class="ba" x="380" y="130" width="90" height="34" rx="6"/><text x="425" y="152" text-anchor="middle">แอป B</text>
+<rect class="ba" x="380" y="210" width="90" height="34" rx="6"/><text x="425" y="232" text-anchor="middle">แอป C</text>
+<rect class="bg" x="500" y="60" width="64" height="170" rx="8"/><text x="532" y="140" text-anchor="middle" class="gt">MCP</text><text x="532" y="162" text-anchor="middle" class="m">มาตรฐาน</text>
+<rect class="bo" x="610" y="40" width="90" height="30" rx="6"/><text x="655" y="60" text-anchor="middle">DB</text>
+<rect class="bo" x="610" y="100" width="90" height="30" rx="6"/><text x="655" y="120" text-anchor="middle">คลังโค้ด</text>
+<rect class="bo" x="610" y="160" width="90" height="30" rx="6"/><text x="655" y="180" text-anchor="middle">แชตทีม</text>
+<rect class="bo" x="610" y="220" width="90" height="30" rx="6"/><text x="655" y="240" text-anchor="middle">AWS</text>
+<g class="lg" style="stroke-width:1.5"><line x1="470" y1="67" x2="500" y2="90"/><line x1="470" y1="147" x2="500" y2="145"/><line x1="470" y1="227" x2="500" y2="200"/>
+<line x1="564" y1="80" x2="610" y2="55"/><line x1="564" y1="120" x2="610" y2="115"/><line x1="564" y1="170" x2="610" y2="175"/><line x1="564" y1="210" x2="610" y2="235"/></g>
+<text x="545" y="284" text-anchor="middle" class="m">แอปรองรับ MCP ครั้งเดียว เครื่องมือเขียน MCP server ครั้งเดียว</text>
+</svg>
+<figcaption>ฝั่งซ้ายทุกคู่ต้องมีตัวเชื่อมของตัวเอง ฝั่งขวาทุกตัวคุยผ่านมาตรฐานเดียว จำนวนงานจึงเปลี่ยนจากคูณเป็นบวก</figcaption>
+</figure>
+<p><b>AI agent</b> ประกอบด้วย LLM ที่เป็นสมอง เครื่องมือที่เป็นมือ และความจำซึ่งก็คือ context ทำงานเป็นวงจรสี่ขั้น <b>Plan</b> วิเคราะห์งานและเลือกวิธี <b>Act</b> เรียกเครื่องมือทีละขั้น <b>Verify</b> ตรวจผลและแก้เองถ้าผิด และ <b>Loop</b> ตัดสินว่าจะลองใหม่ ส่งต่อให้คน หรือจบงาน ต่างจากแชตบอตที่ถามครั้งเดียวตอบครั้งเดียว agent ที่ใช้กันอยู่แบ่งได้สี่แบบตามงาน คือ <b>coding agent</b> ที่เขียน แก้ และรีวิวโค้ด <b>chat agent</b> ที่ถามตอบ วิเคราะห์ และช่วยเขียน <b>workflow agent</b> ที่ทำขั้นตอนงานธุรกิจให้อัตโนมัติ และ <b>computer-use agent</b> ที่ควบคุมหน้าจอและท่องเว็บแทนคน</p>
+<figure>
+<svg viewBox="0 0 720 300" role="img" aria-label="วงจรของ agent วางแผน ลงมือ ตรวจสอบ แล้ววนซ้ำ">
+<rect class="ba" x="270" y="20" width="180" height="56" rx="10"/><text x="360" y="44" text-anchor="middle" class="b">1 Plan</text><text x="360" y="66" text-anchor="middle" class="m">วิเคราะห์งาน เลือกวิธี</text>
+<rect class="bo" x="510" y="122" width="190" height="56" rx="10"/><text x="605" y="146" text-anchor="middle" class="b">2 Act</text><text x="605" y="168" text-anchor="middle" class="m">เรียก tools ทำทีละขั้น</text>
+<rect class="bg" x="270" y="224" width="180" height="56" rx="10"/><text x="360" y="248" text-anchor="middle" class="b">3 Verify</text><text x="360" y="270" text-anchor="middle" class="m">ตรวจผล แก้เองถ้าผิด</text>
+<rect class="box" x="20" y="122" width="190" height="56" rx="10"/><text x="115" y="146" text-anchor="middle" class="b">4 Loop</text><text x="115" y="168" text-anchor="middle" class="m">ลองใหม่ / ส่งต่อคน / จบ</text>
+<path class="ln" d="M450,52 Q600,52 605,118" marker-end="url(#arw)"/>
+<path class="ln" d="M605,178 Q600,252 454,252" marker-end="url(#arw)"/>
+<path class="ln" d="M270,252 Q120,252 115,182" marker-end="url(#arw)"/>
+<path class="ln" d="M115,122 Q120,52 266,48" marker-end="url(#arw)"/>
+<text x="360" y="150" text-anchor="middle" class="b">Harness</text>
+<text x="360" y="172" text-anchor="middle" class="m">วงจรที่ขับ agent</text>
+</svg>
+<figcaption>วงจรสี่ขั้นที่ harness ขับให้ agent ทำงาน ขั้น Loop เป็นตัวตัดสินว่าจะวนรอบใหม่หรือจบ</figcaption>
+</figure>
+<p>เมื่อใช้หลาย agent ร่วมกัน (multi-agent) มีสามรูปแบบ <b>Orchestrator-Worker</b> มีหัวหน้าแตกงานแล้วแจกให้ลูกทีมทำพร้อมกัน <b>Pipeline</b> ส่งงานต่อกันเป็นทอด เช่น เขียนโค้ด ส่งรีวิว แล้วส่งทดสอบ และ <b>Debate</b> ให้ตัวหนึ่งเสนอ อีกตัวหาจุดอ่อนมาแย้ง ส่วนหน้าที่ของ Cloud Engineer คือ deploy (นำขึ้นระบบจริง) และดูแลโครงสร้างพื้นฐานที่ agent ทำงานอยู่ ไม่ใช่สร้าง agent เอง</p>
+
+<h3 id="s9">9. Embedding, Vector Database และ RAG</h3>
+<p>LLM รู้แค่สิ่งที่อยู่ใน context และไม่เคยเห็นเอกสารภายในของบริษัท ส่วนการค้นแบบจับคำตรงกันก็หาข้อความที่ความหมายเหมือนแต่เขียนต่างกันไม่เจอ เช่น "ไม่สบายหยุดงาน" กับ "sick leave" จึงต้องค้นด้วยความหมาย</p>
+<p><b>Embedding</b> คือการแปลงข้อความเป็น <b>vector</b> (รายการตัวเลขหลายร้อยตัวขึ้นไป) ด้วยโมเดลที่ฝึกมาให้ข้อความที่ความหมายคล้ายกันได้ vector ใกล้กัน แม้จะต่างภาษา ความใกล้วัดด้วย <b>cosine similarity</b> = (A · B) / (|A| × |B|) โดย A · B คือผลรวมของผลคูณตัวเลขตำแหน่งเดียวกัน และ |A| คือความยาวของ vector (รากที่สองของผลรวมกำลังสอง) ค่านี้ดูแค่<b>มุม</b>ระหว่าง vector ไม่สนความยาว ค่า 1 คือทิศเดียวกัน 0 คือไม่เกี่ยวกัน เช่น A = [1, 2] กับ B = [2, 4] ได้ (1×2 + 2×4) ÷ (√(1²+2²) × √(2²+4²)) = 10 ÷ (√5 × √20) = 10 ÷ √100 = 10 ÷ 10 = 1 เพราะ B คือ A ที่ยาวขึ้นสองเท่า ชี้ไปทางเดียวกัน</p>
+<figure>
+<svg viewBox="0 0 720 320" role="img" aria-label="vector ของข้อความที่ความหมายคล้ายกันชี้ไปทางเดียวกัน ส่วนข้อความที่ไม่เกี่ยวชี้ไปอีกทาง">
+<line class="ln" x1="60" y1="290" x2="420" y2="290" marker-end="url(#arw)"/>
+<line class="ln" x1="60" y1="290" x2="60" y2="24" marker-end="url(#arw)"/>
+<line class="la" x1="60" y1="290" x2="160" y2="60" marker-end="url(#arwa)"/>
+<line class="la" x1="60" y1="290" x2="190" y2="72" marker-end="url(#arwa)"/>
+<line class="lr" x1="60" y1="290" x2="380" y2="200"/>
+<circle cx="380" cy="200" r="5" class="bb"/>
+<text x="100" y="50" class="at">"Cloud computing"</text>
+<text x="196" y="90" class="at">"クラウドコンピューティング"</text>
+<text x="300" y="188" class="rt">"Cat"</text>
+<path class="ln" d="M120,152 Q130,152 137,161" style="stroke-width:1.5"/>
+<text x="146" y="156" class="m">มุมแคบ</text>
+<path class="ln" d="M137,268 Q128,236 104,222" style="stroke-width:1.5"/>
+<text x="140" y="246" class="m">มุมกว้าง</text>
+<rect class="box" x="450" y="40" width="250" height="230" rx="10"/>
+<text x="575" y="68" text-anchor="middle" class="b">Cosine Similarity</text>
+<text x="575" y="96" text-anchor="middle">cos(θ) = (A · B) / (|A| × |B|)</text>
+<text x="470" y="134">1.0</text><text x="530" y="134">ทิศเดียวกัน (เหมือนกัน)</text>
+<text x="470" y="164">0.8</text><text x="530" y="164">คล้ายกันมาก</text>
+<text x="470" y="194">0.0</text><text x="530" y="194">ตั้งฉาก (ไม่เกี่ยวกัน)</text>
+<text x="470" y="236" class="m">วัดจากมุมระหว่างลูกศร</text>
+<text x="470" y="256" class="m">ไม่สนใจความยาวของลูกศร</text>
+</svg>
+<figcaption>ภาพย่อจากหลายร้อยมิติเหลือสองมิติให้ดูง่าย ลูกศรสีฟ้าสองเส้นชี้ไปทางเดียวกันเพราะความหมายเหมือนกัน ส่วนเส้นประสีแดงของ "Cat" ทำมุมกว้างกับสองเส้นนั้น</figcaption>
+</figure>
+<p><b>Vector database</b> เก็บ vector และค้นหารายการที่คล้ายที่สุด (similarity search) ต่างจากฐานข้อมูลแบบเดิมที่ค้นแบบตรงเป๊ะ</p>
+<p><b>RAG</b> (Retrieval-Augmented Generation) มีสามขั้น <b>Retrieve</b> ค้นเอกสารที่เกี่ยวข้องจาก vector database <b>Augment</b> ใส่เอกสารนั้นลงใน prompt คู่กับคำถาม และ <b>Generate</b> ให้โมเดลตอบจากเอกสาร ไม่ใช่จากความจำ ผลคือลด <b>hallucination</b> (โมเดลแต่งข้อมูลที่ไม่มีจริง) บอกแหล่งที่มาได้ และอัปเดตความรู้ได้ด้วยการอัปเดตเอกสาร โดยไม่ต้อง train โมเดลใหม่</p>
+<p>ขั้นตอนเต็มแบ่งเป็นสองช่วง ช่วงเตรียมเอกสารทำล่วงหน้า คือโหลดเอกสาร (Ingest) หั่นเป็นชิ้น (Chunk) แปลงเป็น vector (Embed) แล้วเก็บลง vector database (Store) ขนาดชิ้นต้องพอดี ใหญ่เกินไปความหมายจะปนกัน เล็กเกินไปจะขาดบริบท ช่วงตอบคำถามทำทุกครั้งที่มีคนถาม คือแปลงคำถามเป็น vector ค้นหาชิ้นที่ใกล้ที่สุด แล้วให้ LLM เขียนคำตอบ กับดักคือ<b>ทั้งสองช่วงต้องใช้ embedding model ตัวเดียวกัน</b> ไม่อย่างนั้น vector จะเทียบกันไม่ได้</p>
+<figure>
+<svg viewBox="0 0 720 300" role="img" aria-label="ขั้นตอน RAG ช่วงเตรียมเอกสาร ingest chunk embed store และช่วงตอบคำถาม query retrieve generate">
+<text x="20" y="24" class="b">ช่วงเตรียมเอกสาร (ทำล่วงหน้า ทำใหม่เมื่อเอกสารเปลี่ยน)</text>
+<rect class="box" x="20" y="40" width="140" height="58" rx="8"/><text x="90" y="64" text-anchor="middle" class="b">1 Ingest</text><text x="90" y="86" text-anchor="middle" class="m">โหลด PDF, MD, HTML</text>
+<rect class="box" x="195" y="40" width="140" height="58" rx="8"/><text x="265" y="64" text-anchor="middle" class="b">2 Chunk</text><text x="265" y="86" text-anchor="middle" class="m">หั่น 500–1000 ตัวอักษร</text>
+<rect class="box" x="370" y="40" width="140" height="58" rx="8"/><text x="440" y="64" text-anchor="middle" class="b">3 Embed</text><text x="440" y="86" text-anchor="middle" class="m">แปลงเป็น vector</text>
+<rect class="bg" x="545" y="40" width="155" height="58" rx="8"/><text x="622" y="64" text-anchor="middle" class="b">4 Store</text><text x="622" y="86" text-anchor="middle" class="m">เก็บใน Vector DB</text>
+<line class="ln" x1="160" y1="69" x2="191" y2="69" marker-end="url(#arw)"/><line class="ln" x1="335" y1="69" x2="366" y2="69" marker-end="url(#arw)"/><line class="ln" x1="510" y1="69" x2="541" y2="69" marker-end="url(#arw)"/>
+<text x="20" y="150" class="b">ช่วงตอบคำถาม (ทำทุกครั้งที่มีคนถาม)</text>
+<rect class="box" x="20" y="166" width="140" height="58" rx="8"/><text x="90" y="190" text-anchor="middle" class="b">คำถาม</text><text x="90" y="212" text-anchor="middle" class="m">จากผู้ใช้</text>
+<rect class="ba" x="195" y="166" width="140" height="58" rx="8"/><text x="265" y="190" text-anchor="middle" class="b">Query Embed</text><text x="265" y="212" text-anchor="middle" class="m">คำถาม → vector</text>
+<rect class="ba" x="370" y="166" width="140" height="58" rx="8"/><text x="440" y="190" text-anchor="middle" class="b">5 Retrieve</text><text x="440" y="212" text-anchor="middle" class="m">หา chunk ที่ใกล้สุด</text>
+<rect class="bo" x="545" y="166" width="155" height="58" rx="8"/><text x="622" y="190" text-anchor="middle" class="b">6 Generate</text><text x="622" y="212" text-anchor="middle" class="m">LLM ตอบจาก chunk</text>
+<line class="ln" x1="160" y1="195" x2="191" y2="195" marker-end="url(#arw)"/><line class="ln" x1="335" y1="195" x2="366" y2="195" marker-end="url(#arw)"/><line class="ln" x1="510" y1="195" x2="541" y2="195" marker-end="url(#arw)"/>
+<path class="la" d="M622,98 L622,128 L440,128 L440,162" marker-end="url(#arwa)"/>
+<text x="531" y="122" text-anchor="middle" class="at" style="font-size:13px">ค้นใน Vector DB</text>
+<text x="20" y="262" class="m">ต้องใช้ embedding model ตัวเดียวกันทั้งตอนแปลงเอกสาร (ขั้น 3) และตอนแปลงคำถาม (Query Embed)</text>
+<text x="20" y="284" class="m">ไม่อย่างนั้นตัวเลขของสองฝั่งจะอยู่คนละระบบ เทียบกันไม่ได้</text>
+</svg>
+<figcaption>แถวบนทำล่วงหน้าครั้งเดียว แถวล่างทำทุกครั้งที่มีคนถาม ลูกศรสีฟ้าคือจุดที่สองช่วงมาเจอกันที่ vector database</figcaption>
+</figure>
+
+<h3 id="s10">10. งาน AI ต่างจากงานเว็บ และทำไมต้องใช้ GPU</h3>
+<p>งานเว็บใช้ CPU เป็นหลัก เป็น stateless (เครื่องไม่ต้องจำอะไรไว้ เครื่องไหนรับคำขอก็ได้) ย้ายข้อมูลน้อย และขยายด้วยการเพิ่มเครื่อง ส่วนงาน AI ใช้ GPU เป็นหลัก เป็น stateful (ต้องโหลดโมเดลขนาดใหญ่ไว้ในหน่วยความจำ) ย้ายข้อมูลมหาศาล เน้น throughput (ปริมาณงานที่ทำเสร็จต่อหน่วยเวลา ต่างจาก latency ซึ่งคือเวลาที่รอตั้งแต่ส่งคำขอจนได้คำตอบ) และขยายด้วยการเพิ่ม GPU พร้อมเครือข่ายระหว่าง GPU</p>
+<p>การคำนวณของ LLM แทบทั้งหมดคือการคูณเมทริกซ์ (ตารางตัวเลขขนาดใหญ่) ซึ่งแตกเป็นการคูณบวกเล็ก ๆ จำนวนมากที่ทำพร้อมกันได้ <b>GPU มีแกนเล็กจำนวนมหาศาลจึงเหมาะกว่า CPU ที่มีแกนเก่งแต่น้อย</b> แกนทั่วไปของ GPU เรียกว่า <b>CUDA core</b> ใช้คำนวณแบบขนานทั่วไป ส่วน GPU รุ่นใหม่ยังมี <b>Tensor core</b> ซึ่งเป็นแกนที่ทำมาเพื่อคูณเมทริกซ์โดยเฉพาะ และใช้หน่วยความจำแบบ <b>HBM</b> (High Bandwidth Memory) ที่ส่งข้อมูลให้แกนได้เร็วมาก เพราะแกนจำนวนมากจะไร้ประโยชน์ถ้าป้อนข้อมูลไม่ทัน</p>
+<p>หน่วยความจำของ GPU (<b>VRAM</b>) คือข้อจำกัดหลักของขนาดโมเดล คำนวณคร่าว ๆ ได้จาก <b>จำนวน parameter × byte ต่อ parameter</b> โดย parameter คือตัวเลขแต่ละตัวที่โมเดลเรียนรู้มา (B = พันล้าน) ถ้าเก็บแบบ FP16 (floating point 16 บิต เลขทศนิยมขนาด 16 บิต) แต่ละตัวจะใช้ 2 byte (1 byte = 8 บิต) โมเดล 70B จึงใช้ 70 × 2 = 140 GB และโมเดล 405B ใช้ 810 GB เกินความจุของ GPU ตัวเดียวหลายเท่า ต้องแบ่งไปหลาย GPU และหลายเครื่อง</p>
+<p>เมื่อต้องใช้หลาย GPU ความเร็วของสายที่ต่อระหว่างกันจึงสำคัญ GPU ในเครื่องเดียวกันต่อกันด้วย <b>NVLink</b> ซึ่งเร็วมาก โดยมี <b>NVSwitch</b> เป็นตัวสลับกลางที่ทำให้ GPU ทุกตัวในเครื่องคุยกันผ่าน NVLink ได้พร้อมกัน ส่วน GPU ต่างเครื่องต่อกันด้วย <b>InfiniBand</b> ซึ่งช้ากว่าหลายเท่า ระวังหน่วยตอนเทียบ InfiniBand บอกความเร็วเป็น Gb/s (bit) ต้องหารด้วย 8 ก่อนจึงเทียบกับ GB/s (byte) ได้ หลักที่ได้คือ<b>งานที่ต้องคุยกันถี่ควรอยู่ในเครื่องเดียวกัน</b></p>
+<figure>
+<svg viewBox="0 0 720 300" role="img" aria-label="GPU ในเครื่องเดียวกันต่อกันด้วย NVLink ส่วนเครื่องต่างกันต่อด้วย InfiniBand">
+<rect class="frame" x="20" y="20" width="270" height="230" rx="12"/>
+<text x="155" y="44" text-anchor="middle" class="b">Node 0 (8 GPU)</text>
+<rect class="ba" x="44" y="64" width="80" height="44" rx="6"/><text x="84" y="91" text-anchor="middle">GPU0</text>
+<rect class="ba" x="186" y="64" width="80" height="44" rx="6"/><text x="226" y="91" text-anchor="middle">GPU1</text>
+<rect class="ba" x="44" y="180" width="80" height="44" rx="6"/><text x="84" y="207" text-anchor="middle">GPU2</text>
+<rect class="ba" x="186" y="180" width="80" height="44" rx="6"/><text x="226" y="207" text-anchor="middle">GPU3</text>
+<rect class="box" x="115" y="128" width="80" height="32" rx="6"/><text x="155" y="149" text-anchor="middle" class="m">NVSwitch</text>
+<g class="lg"><line x1="124" y1="86" x2="186" y2="86"/><line x1="124" y1="202" x2="186" y2="202"/><line x1="100" y1="108" x2="130" y2="128"/><line x1="210" y1="108" x2="180" y2="128"/><line x1="100" y1="180" x2="130" y2="160"/><line x1="210" y1="180" x2="180" y2="160"/></g>
+<text x="155" y="78" text-anchor="middle" class="gt" style="font-size:13px">NVLink</text>
+<rect class="frame" x="430" y="20" width="270" height="230" rx="12"/>
+<text x="565" y="44" text-anchor="middle" class="b">Node 1 (8 GPU)</text>
+<rect class="ba" x="454" y="64" width="80" height="44" rx="6"/><text x="494" y="91" text-anchor="middle">GPU0</text>
+<rect class="ba" x="596" y="64" width="80" height="44" rx="6"/><text x="636" y="91" text-anchor="middle">GPU1</text>
+<rect class="ba" x="454" y="180" width="80" height="44" rx="6"/><text x="494" y="207" text-anchor="middle">GPU2</text>
+<rect class="ba" x="596" y="180" width="80" height="44" rx="6"/><text x="636" y="207" text-anchor="middle">GPU3</text>
+<rect class="box" x="525" y="128" width="80" height="32" rx="6"/><text x="565" y="149" text-anchor="middle" class="m">NVSwitch</text>
+<g class="lg"><line x1="534" y1="86" x2="596" y2="86"/><line x1="534" y1="202" x2="596" y2="202"/><line x1="510" y1="108" x2="540" y2="128"/><line x1="620" y1="108" x2="590" y2="128"/><line x1="510" y1="180" x2="540" y2="160"/><line x1="620" y1="180" x2="590" y2="160"/></g>
+<text x="565" y="78" text-anchor="middle" class="gt" style="font-size:13px">NVLink</text>
+<line class="lo" x1="290" y1="144" x2="430" y2="144" style="stroke:var(--orange);stroke-width:3"/>
+<text x="360" y="132" text-anchor="middle" class="b">InfiniBand</text>
+<text x="360" y="166" text-anchor="middle" class="m">400 Gb/s</text>
+<text x="360" y="186" text-anchor="middle" class="m">≈ 50 GB/s</text>
+<text x="20" y="278" class="gt">ภายในเครื่อง: NVLink 900 GB/s</text>
+<text x="700" y="278" text-anchor="end" style="fill:var(--orange);font-weight:700">ข้ามเครื่อง: ช้ากว่าราว 18 เท่า</text>
+</svg>
+<figcaption>เส้นสีเขียวคือ NVLink ภายในเครื่อง เส้นสีส้มคือ InfiniBand ระหว่างเครื่อง</figcaption>
+</figure>
+
+<h3 id="s11">11. Training กับ Inference และ Quantization</h3>
+<p><b>Training</b> คือการสอนโมเดลจากข้อมูลมหาศาลจนได้ไฟล์ weights (ค่าของ parameter ทั้งหมดที่โมเดลเรียนรู้มา) ส่วน <b>inference</b> คือการใช้โมเดลที่สอนเสร็จแล้วตอบคำถาม ทุกครั้งที่เรียก API ก็คือ inference สองงานนี้ต้องการโครงสร้างพื้นฐานต่างกันมาก</p>
+<div class="tw"><table>
+<tr><th>ด้าน</th><th>Inference</th><th>Training</th></tr>
+<tr><td>VRAM</td><td>แค่ตัวโมเดลกับ KV cache</td><td>3–4 เท่าของโมเดล</td></tr>
+<tr><td>จำนวน GPU</td><td>ไม่กี่ตัว</td><td>หลักสิบถึงหลักหมื่น</td></tr>
+<tr><td>ความละเอียดตัวเลข</td><td>ลดเป็น INT8 หรือ INT4 ได้</td><td>ต้อง FP16 หรือ BF16 (เลข 16 บิตอีกแบบที่ออกแบบมาเพื่องาน AI)</td></tr>
+<tr><td>เครือข่ายระหว่าง GPU</td><td>ไม่จำเป็น</td><td>สำคัญมาก</td></tr>
+<tr><td>ระยะเวลา</td><td>เสี้ยววินาทีต่อคำขอ</td><td>หลายสัปดาห์ถึงหลายเดือน</td></tr>
+<tr><td>เมื่อเครื่องพังกลางทาง</td><td>ส่งคำขอใหม่</td><td>ต้องมี checkpoint</td></tr>
+</table></div>
+<p>ตารางนี้ไม่ต้องท่อง เพราะทุกแถวไล่เหตุผลได้ training ต้องเก็บ <b>gradient</b> (ตัวเลขที่บอกว่า weight แต่ละตัวควรปรับเท่าไร) และสถานะของ <b>optimizer</b> (อัลกอริทึมที่ใช้ gradient ไปปรับ weights) เพิ่ม จึงใช้หน่วยความจำหลายเท่า ต้องใช้ตัวเลขละเอียดเพราะการปรับแต่ละครั้งเล็กมาก ถ้าตัวเลขหยาบไปจะถูกปัดทิ้ง ต้องใช้เครือข่ายเร็วเพราะ GPU ทุกตัวต้องแลก gradient กันทุกรอบ และต้องมี <b>checkpoint</b> (บันทึกสถานะเป็นระยะ) เพราะเมื่อใช้ GPU หลายพันตัวนานหลายสัปดาห์ แทบแน่นอนว่าจะมีเครื่องพังระหว่างทาง จะได้ไม่ต้องเริ่มใหม่จากศูนย์</p>
+<p><b>Quantization</b> คือการเก็บ weights ด้วยจำนวน bit ที่น้อยลง ใช้กับ inference โมเดล 70B ที่ FP16 (2 byte) ใช้ 140 GB ถ้าลดเป็น <b>INT8</b> (เลขจำนวนเต็ม 8 บิต = 1 byte) เหลือ 70 GB และถ้าลดเป็น <b>INT4</b> (4 บิต = ครึ่ง byte) เหลือ 35 GB คุณภาพลดลงเพียงเล็กน้อย แต่ได้ทั้งใช้ GPU น้อยลงและตอบเร็วขึ้น ที่เร็วขึ้นเพราะทุก token ที่สร้างต้องอ่าน weights ทั้งหมดผ่านหน่วยความจำ ตัวเลขยิ่งเล็ก ข้อมูลที่ต้องอ่านก็ยิ่งน้อย</p>
+<figure>
+<svg viewBox="0 0 720 300" role="img" aria-label="VRAM ของโมเดล 70B ที่ FP16 INT8 INT4 เทียบกับความจุของ GPU">
+<text x="20" y="26" class="b">โมเดล 70B ใช้ VRAM เท่าไร</text>
+<text x="20" y="74">FP16 (2 byte)</text><rect class="bb" x="180" y="56" width="497" height="28" rx="4" style="stroke-dasharray:none"/><text x="190" y="76" class="b">140 GB</text>
+<text x="20" y="124">INT8 (1 byte)</text><rect class="bo" x="180" y="106" width="248" height="28" rx="4"/><text x="190" y="126" class="b">70 GB</text>
+<text x="20" y="174">INT4 (0.5 byte)</text><rect class="bg" x="180" y="156" width="124" height="28" rx="4"/><text x="190" y="176" class="b">35 GB</text>
+<line x1="265" y1="40" x2="265" y2="210" class="la" style="stroke-dasharray:5 4"/>
+<line x1="464" y1="40" x2="464" y2="210" class="la" style="stroke-dasharray:5 4"/>
+<line x1="680" y1="40" x2="680" y2="210" class="la" style="stroke-dasharray:5 4"/>
+<text x="265" y="228" text-anchor="middle" class="at" style="font-size:13px">GPU ทั่วไป</text><text x="265" y="246" text-anchor="middle" class="m">24 GB</text>
+<text x="464" y="228" text-anchor="middle" class="at" style="font-size:13px">GPU ศูนย์ข้อมูล</text><text x="464" y="246" text-anchor="middle" class="m">80 GB</text>
+<text x="680" y="228" text-anchor="end" class="at" style="font-size:13px">GPU รุ่นใหญ่</text><text x="680" y="246" text-anchor="end" class="m">141 GB</text>
+<text x="20" y="282" class="m">FP16: คุณภาพดีสุด ช้าสุด · INT8: คุณภาพลด ~1% เร็วขึ้น 2× · INT4: คุณภาพลด ~3% เร็วขึ้น 4×</text>
+</svg>
+<figcaption>เส้นประสีฟ้าคือความจุของ GPU แต่ละรุ่น แท่งที่สั้นกว่าเส้นแปลว่าใส่ใน GPU ตัวนั้นได้ (ยังไม่นับ KV cache) ตัวเลขความจุไว้เทียบเท่านั้น ไม่ต้องจำ</figcaption>
+</figure>
+
+<h3 id="s12">12. รันโมเดลเองหรือใช้ API</h3>
+<p>การใช้ API เริ่มได้ทันที ไม่ต้องดูแลฮาร์ดแวร์ ได้โมเดลรุ่นล่าสุด และขยายรับปริมาณงานได้เอง แต่ค่า token สะสมจนแพง ข้อมูลต้องออกนอกเครือข่ายของเรา มีเพดานจำนวนคำขอ (rate limit) และผู้ให้บริการเปลี่ยนราคาได้ ส่วนการรันเอง (self-host) ข้อมูลไม่ออกนอกองค์กร ไม่มีค่า token ทำ <b>fine-tuning</b> ได้ (สอนโมเดลต่อด้วยข้อมูลของเราให้เก่งงานเฉพาะทาง ต่างจาก RAG ที่ไม่แตะตัวโมเดล) และไม่ผูกกับผู้ให้บริการ แต่ต้องลงทุนฮาร์ดแวร์ ดูแลเอง โมเดลอาจตามหลังรุ่นแถวหน้า และต้องมีคนเชี่ยวชาญ</p>
+<p>สรุปเป็นหลักเลือกได้ว่า ควรเลือก <b>self-host</b> เมื่อข้อมูลห้ามออกนอกองค์กร ปริมาณใช้งานสูงมากและสม่ำเสมอ ต้อง fine-tune ต้องการงบที่คาดการณ์ได้ ต้องการ latency ต่ำมากเพราะไม่ต้องส่งคำขอออกไปนอกเครือข่าย หรือต้องทำตาม <b>compliance</b> คือกฎระเบียบที่บังคับให้ข้อมูลต้องอยู่ในที่ของเราเอง ควรเลือก <b>API</b> เมื่อต้องการเริ่มเร็ว ปริมาณน้อยหรือขึ้นลงไม่แน่นอน ทีมไม่มีคนเชี่ยวชาญ หรือต้องการโมเดลล่าสุด</p>
+<p>เหตุผลเบื้องหลังคือรูปแบบของค่าใช้จ่าย ค่า API เป็น<b>ค่าใช้จ่ายผันแปร</b> ใช้มากจ่ายมาก ส่วน self-host เป็น<b>ค่าใช้จ่ายเกือบคงที่</b>สำหรับจำนวน GPU ที่เช่าไว้ เพราะต้องจ่ายค่า GPU ทุกชั่วโมงไม่ว่าจะมีคนใช้หรือไม่ และเพิ่มเป็นขั้นเมื่อปริมาณงานโตจนต้องเช่า GPU เพิ่ม ซึ่งยังโตช้ากว่าค่า API มาก ตอนปริมาณน้อย API จึงถูกกว่ามาก แต่เมื่อปริมาณเพิ่มขึ้นถึงจุดหนึ่ง เส้นทั้งสองจะตัดกัน (จุดคุ้มทุน) และหลังจากนั้น self-host ถูกกว่า</p>
+<figure>
+<svg viewBox="0 0 720 330" role="img" aria-label="ค่าใช้จ่าย API เพิ่มตามปริมาณ token ส่วน self-host ค่อนข้างคงที่ สองเส้นตัดกันราว 100M token ต่อวัน">
+<line class="ln" x1="80" y1="270" x2="690" y2="270"/>
+<line class="ln" x1="80" y1="270" x2="80" y2="20"/>
+<text x="70" y="274" text-anchor="end" class="m">$10</text>
+<text x="70" y="214" text-anchor="end" class="m">$100</text>
+<text x="70" y="154" text-anchor="end" class="m">$1K</text>
+<text x="70" y="94" text-anchor="end" class="m">$10K</text>
+<text x="70" y="34" text-anchor="end" class="m">$100K</text>
+<line x1="80" y1="210" x2="690" y2="210" class="frame"/><line x1="80" y1="150" x2="690" y2="150" class="frame"/><line x1="80" y1="90" x2="690" y2="90" class="frame"/><line x1="80" y1="30" x2="690" y2="30" class="frame"/>
+<text x="120" y="292" text-anchor="middle">1M</text><text x="300" y="292" text-anchor="middle">10M</text><text x="480" y="292" text-anchor="middle">100M</text><text x="660" y="292" text-anchor="middle">1B</text>
+<text x="385" y="318" text-anchor="middle" class="m">token ต่อวัน (สเกลแบบ log ทั้งสองแกน)</text>
+<polygon points="120,241 300,181 480,121 660,61 660,30 480,90 300,150 120,210" style="fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5;fill-opacity:.8"/>
+<polygon points="120,139 300,139 480,121 660,96 660,72 480,96 300,121 120,121" style="fill:var(--orange-soft);stroke:var(--orange);stroke-width:1.5;fill-opacity:.8"/>
+<text x="200" y="232" class="at">API: จ่ายตาม token</text>
+<text x="130" y="112" style="fill:var(--orange);font-weight:700">Self-host: ค่าเช่า GPU เกือบคงที่</text>
+<circle cx="480" cy="108" r="22" class="frame" style="stroke:var(--bad);stroke-dasharray:none;stroke-width:2"/>
+<text x="508" y="140" class="rt">จุดคุ้มทุน</text>
+</svg>
+<figcaption>แถบสีฟ้าคือช่วงค่าใช้จ่ายของ API แถบสีส้มคือช่วงค่าใช้จ่ายของ self-host ตามตารางในสไลด์ สองแถบมาซ้อนกันที่ปริมาณสูง หลังจากนั้น API แพงกว่า</figcaption>
+</figure>
+<p class="note">ตัวเลขจุดคุ้มทุนในสไลด์ไม่ตรงกันเอง กฎสั้น ๆ บอกราว 10M (สิบล้าน) token ต่อวัน แต่ตารางแสดงที่ราว 100M token ต่อวัน ถ้าโจทย์ให้ตัวเลขมา ให้ตอบตามที่โจทย์อ้าง สิ่งที่ต้องเข้าใจจริงคือเหตุผลว่าทำไมปริมาณสูงจึงคุ้มกับ self-host</p>
+
+<h3 id="s13">13. Managed AI และชิป AI ของผู้ให้บริการ Cloud</h3>
+<p>ทางเลือกตรงกลางระหว่างใช้ API กับซื้อเครื่องเอง คือเช่า GPU ผ่านบริการที่ดูแลเครื่องให้ (managed service ของ AWS หรือ Google) ได้ควบคุมโมเดลเองโดยไม่ต้องซื้อฮาร์ดแวร์ ผู้ให้บริการบางรายเน้น <b>spot instance</b> คือเครื่องที่ปล่อยเช่าจากกำลังที่ว่างอยู่ ราคาถูกแต่ถูกเรียกคืนได้ทุกเมื่อ จึงเหมาะกับงานที่หยุดแล้วทำต่อจาก checkpoint ได้ เช่น training</p>
+<p>ผู้ให้บริการ Cloud ยังออกแบบชิป AI ของตัวเอง เช่น AWS มี <b>Trainium</b> สำหรับ training และ <b>Inferentia</b> สำหรับ inference (จำจากชื่อได้เลย) ส่วน Google มี <b>TPU</b> (Tensor Processing Unit) ที่ใช้ได้ทั้ง training และ inference ชิปเหล่านี้มักถูกกว่า GPU เพราะออกแบบมาทำเฉพาะงาน AI แต่ใช้ได้แค่บน Cloud ของเจ้านั้น และอาจต้องปรับโค้ดให้เข้ากัน ซึ่งก็คือการแลกราคากับการผูกติดผู้ให้บริการ</p>
+
+<h3 id="s14">14. แผนผังเลือกบริการ</h3>
+<p>แชตหรือถามตอบทั่วไปใช้ LLM API ถ้าต้องใช้ข้อมูลภายในให้เพิ่ม RAG งานที่เป็นขั้นตอนอัตโนมัติใช้ agent ร่วมกับ MCP การ train โมเดลเองใช้ managed service และเพิ่มกลุ่ม GPU ที่ต่อกันด้วยเครือข่ายเร็วเมื่องานใหญ่ inference ที่ต้องเร็วและถูกใช้ชิปเฉพาะทางหรือโมเดลที่ผ่าน quantization และถ้าต้องการ latency ต่ำที่สุด ให้รันที่ edge ซึ่งอยู่ใกล้ผู้ใช้มากที่สุด เช่น จุดให้บริการของ Cloud ใกล้ผู้ใช้ ในเครือข่ายมือถือ 5G หรือบนตัวอุปกรณ์เลย</p>
+<figure>
+<svg viewBox="0 0 720 420" role="img" aria-label="แผนผังเลือกบริการ AI ตามความต้องการห้าแบบ">
+<rect class="ba" x="20" y="16" width="220" height="40" rx="8"/><text x="130" y="42" text-anchor="middle" class="b">ระบบต้องการ AI?</text>
+<line class="ln" x1="50" y1="56" x2="50" y2="376"/>
+<line class="ln" x1="50" y1="88" x2="76" y2="88" marker-end="url(#arw)"/>
+<rect class="box" x="80" y="70" width="230" height="36" rx="8"/><text x="195" y="93" text-anchor="middle">แค่แชต / ถามตอบ</text>
+<line class="ln" x1="310" y1="88" x2="356" y2="88" marker-end="url(#arw)"/>
+<rect class="bg" x="360" y="70" width="340" height="36" rx="8"/><text x="530" y="93" text-anchor="middle">API ของผู้ให้บริการ LLM</text>
+<line class="ln" x1="530" y1="106" x2="530" y2="120" marker-end="url(#arw)"/>
+<rect class="bo" x="360" y="124" width="340" height="32" rx="8"/><text x="530" y="145" text-anchor="middle">ต้องใช้ข้อมูลภายใน → + RAG Pipeline</text>
+<line class="ln" x1="50" y1="190" x2="76" y2="190" marker-end="url(#arw)"/>
+<rect class="box" x="80" y="172" width="230" height="36" rx="8"/><text x="195" y="195" text-anchor="middle">ทำ workflow อัตโนมัติ</text>
+<line class="ln" x1="310" y1="190" x2="356" y2="190" marker-end="url(#arw)"/>
+<rect class="bg" x="360" y="172" width="340" height="36" rx="8"/><text x="530" y="195" text-anchor="middle">เครื่องมือต่อขั้นตอนอัตโนมัติ + agent + MCP</text>
+<line class="ln" x1="50" y1="246" x2="76" y2="246" marker-end="url(#arw)"/>
+<rect class="box" x="80" y="228" width="230" height="36" rx="8"/><text x="195" y="251" text-anchor="middle">train โมเดลของตัวเอง</text>
+<line class="ln" x1="310" y1="246" x2="356" y2="246" marker-end="url(#arw)"/>
+<rect class="bg" x="360" y="228" width="340" height="36" rx="8"/><text x="530" y="251" text-anchor="middle">บริการ AI แบบ managed (เช่า GPU)</text>
+<line class="ln" x1="530" y1="264" x2="530" y2="278" marker-end="url(#arw)"/>
+<rect class="bo" x="360" y="282" width="340" height="32" rx="8"/><text x="530" y="303" text-anchor="middle">ข้อมูลใหญ่มาก → + กลุ่ม GPU ขนาดใหญ่</text>
+<line class="ln" x1="50" y1="342" x2="76" y2="342" marker-end="url(#arw)"/>
+<rect class="box" x="80" y="324" width="230" height="36" rx="8"/><text x="195" y="347" text-anchor="middle">inference ที่เร็วและถูก</text>
+<line class="ln" x1="310" y1="342" x2="356" y2="342" marker-end="url(#arw)"/>
+<rect class="bg" x="360" y="324" width="340" height="36" rx="8"/><text x="530" y="347" text-anchor="middle">ชิป AI เฉพาะทาง (เช่น TPU) / โมเดลที่ quantize แล้ว</text>
+<line class="ln" x1="50" y1="376" x2="50" y2="394"/>
+<line class="ln" x1="50" y1="394" x2="76" y2="394" marker-end="url(#arw)"/>
+<rect class="box" x="80" y="376" width="230" height="36" rx="8"/><text x="195" y="399" text-anchor="middle">ใช้ AI ที่ edge</text>
+<line class="ln" x1="310" y1="394" x2="356" y2="394" marker-end="url(#arw)"/>
+<rect class="bg" x="360" y="376" width="340" height="36" rx="8"/><text x="530" y="399" text-anchor="middle">จุดให้บริการใกล้ผู้ใช้ / ในเครือข่าย 5G / อุปกรณ์</text>
+</svg>
+<figcaption>กล่องสีเทาคือความต้องการ กล่องสีเขียวคือบริการที่ควรใช้ กล่องสีส้มคือสิ่งที่ต้องเพิ่มเมื่อมีเงื่อนไขเพิ่มเติม</figcaption>
+</figure>
+
+<h3 id="review">ทวนก่อนสอบ</h3>
+<p>โจทย์คำนวณของช่วงนี้มีไม่กี่แบบ ค่าใช้จ่ายคือ token × ราคาต่อล้าน ÷ ล้าน แยกขาเข้ากับขาออกแล้วรวมกัน โดย thinking token คิดราคาขาออกเสมอ หน่วยความจำคือ parameter × byte ต่อ parameter (FP16 = 2, INT8 = 1, INT4 = 0.5) และ training ใช้หลายเท่าของนั้น MCP เปลี่ยนจำนวนตัวเชื่อมจาก M × N เป็น M + N ส่วน cosine similarity ดูแค่มุมระหว่าง vector ถ้าเทียบ NVLink กับ InfiniBand ให้แปลง Gb/s เป็น GB/s ก่อน (หารด้วย 8) และจุดคุ้มทุนของ self-host ให้ตอบตามตัวเลขที่โจทย์ใช้</p>
+<p>โจทย์แนวคิดให้จำว่าโมเดลไม่จำอะไรข้ามคำขอ และไม่ได้เรียก API เอง แอปเป็นคนเรียก RAG ลด hallucination ได้โดยไม่ต้อง train ใหม่ แต่ทั้งสองช่วงของ RAG ต้องใช้ embedding model ตัวเดียวกัน prompt cache ได้ผลเมื่อวางส่วนที่ไม่เปลี่ยนไว้ต้นข้อความ และ self-host คุ้มเมื่อปริมาณสูงเพราะต้นทุนเกือบคงที่ ส่วน API คุ้มเมื่อปริมาณน้อยเพราะจ่ายตามที่ใช้</p>
+
+<nav class="pager"><a href="summary3.html">ก่อนหน้า: ช่วงที่ 3 Cloud Security</a><a href="summary.html">กลับหน้าสารบัญ</a></nav>
+
+</main>
+</body>
+</html>
